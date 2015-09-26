@@ -104,8 +104,14 @@ private:
 		Node::Color GetColor() { return m_color; }
 
 		Node * GetParent() { return m_pParent; }
-		Node * GetLeft() { return m_pLeft; }
-		Node * GetRight() { return m_pRight; }
+		Node * GetLeft()   { return m_pLeft;   }
+		Node * GetRight()  { return m_pRight;  }
+
+		void SetColor( Node::Color _c ) { m_color = _c; }
+
+		void SetParent( Node * _p ) { m_pParent = _p; }
+		void SetLeft  ( Node * _l ) { m_pLeft   = _l; }
+		void SetRight ( Node * _r ) { m_pRight  = _r; }
 
 		Node * FindMinChild();
 		Node * FindMaxChild();

@@ -114,10 +114,53 @@ RBTree::Node * RBTree::DeleteFixup( Node * _n ) { }
 
 RBTree::Node * RBTree::CreateNode( int _key ) { }
 
-void RBTree::LeftRotate( Node * _l ) { }
-
-void RBTree::RightRotate( Node * _r ) { }
 */
+
+void RBTree::LeftRotate( Node * _l ) {
+	Node * r = _l->GetRight();
+	if( ! r )
+		return;
+
+	_l->SetRight( _l->GetLeft() );
+	if( _l->GetRight())
+		_l->GetRight()->SetParent( _l );
+
+	r->SetParent( _l->GetParent());
+	if( ! r->GetParent() )
+		m_pRoot = r;
+	else if( _l == _l->GetParent()->GetLeft() )
+		_l->GetParent()->SetLeft( r );
+	else if( _l == _l->GetParent()->GetRight() )
+		_l->GetParent()->SetRight( r );
+	else
+		assert( ! "Error in rotation, you must not be here" );
+
+	r->SetLeft( _l );
+	_l->SetParent( r );
+}
+
+void RBTree::RightRotate( Node * _r ) {
+	Node * l = _r->GetLeft();
+	if( ! l )
+		return;
+
+	_r->SetLeft( l->GetRight() );
+	if( _r->GetLeft())
+		_r->GetLeft()->SetParent( _r );
+
+	l->SetParent( _r->GetParent());
+	if( ! l->GetParent() )
+		m_pRoot = l;
+	else if( _r == _r->GetParent()->GetLeft() )
+		_r->GetParent()->SetLeft( l );
+	else if( _r == _r->GetParent()->GetRight() )
+		_r->GetParent()->SetRight( l );
+	else
+		assert( ! "Error in rotation, you must not be here" );
+
+	l->SetRight( _r );
+	_r->SetParent( l );
+}
 
 RBTree::Node * RBTree::FindKeyNode( const int _key ) const {
 	Node * pCurrent = m_pRoot;
