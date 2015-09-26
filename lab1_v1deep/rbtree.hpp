@@ -68,7 +68,7 @@ private:
 	void DestroySubtree( Node * _pRoot );
 
 	Node * InsertBase ( int _key );
-	Node * InsertFixup( Node * _n );
+	void   InsertFixup( Node * _n );
 	Node * DeleteBase ( int _key );
 	Node * DeleteFixup( Node * _n );
 

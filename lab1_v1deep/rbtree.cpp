@@ -6,6 +6,7 @@
 #include "rbtree.hpp"
 
 #include <stdexcept>
+#include <cassert>
 
 /*****************************************************************************/
 
@@ -64,6 +65,15 @@ int RBTree::Maximum() const {
 	return m_pRoot->FindMaxChild()->GetValue();
 }
 
+void RBTree::operator += ( int _key ) {
+	Node * x = InsertBase( _key );
+
+	if( ! x )
+		throw std::logic_error( "Failed to insert key" );
+
+	DeleteFixup( x );
+}
+
 bool RBTree::operator == ( const RBTree & _t ) const {
 	Iterator pThisTree  = this->begin();
 	Iterator pOtherTree = _t.begin();
@@ -75,7 +85,7 @@ bool RBTree::operator == ( const RBTree & _t ) const {
 		if( pThisTree != this->begin() || pOtherTree != _t.end() )
 			return false;
 
-		//
+		// Если хоть один элемент не совпадает - выходим
 		if( *pThisTree != *pOtherTree )
 			return false;
 
@@ -83,12 +93,46 @@ bool RBTree::operator == ( const RBTree & _t ) const {
 		++ pOtherTree;
 	}
 
-
-
+	// Если мы не вышли из цикла досрочно - деревья равны
+	return true;
 }
 
 bool RBTree::operator != ( const RBTree & _t ) const {
 	return !( *this == _t );
+}
+
+/*****************************************************************************/
+
+/*
+RBTree::Node * RBTree::InsertBase( int _key ) { }
+
+void RBTree::InsertFixup( Node * _n ) { }
+
+RBTree::Node * RBTree::DeleteBase( int _key ) { }
+
+RBTree::Node * RBTree::DeleteFixup( Node * _n ) { }
+
+RBTree::Node * RBTree::CreateNode( int _key ) { }
+
+void RBTree::LeftRotate( Node * _l ) { }
+
+void RBTree::RightRotate( Node * _r ) { }
+*/
+
+RBTree::Node * RBTree::FindKeyNode( const int _key ) const {
+	Node * pCurrent = m_pRoot;
+	while( pCurrent ) {
+		if( _key == pCurrent->GetValue() )
+			return pCurrent;
+
+		else if( _key < pCurrent->GetValue())
+			pCurrent = pCurrent->GetLeft();
+
+		else
+			pCurrent = pCurrent->GetRight();
+	}
+
+	return nullptr;
 }
 
 /*****************************************************************************/
@@ -170,6 +214,5 @@ RBTree::Iterator  RBTree::Iterator::operator ++ ( int ) {
 
 	return copy;
 }
-
 
 /*****************************************************************************/
