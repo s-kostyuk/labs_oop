@@ -1,5 +1,6 @@
 //
 // Created by srg on 21.09.15.
+// Using UTF-8
 //
 
 #ifndef RBTREE_HPP
@@ -91,9 +92,14 @@ private:
 		Node * GetLeft() { return m_pLeft; }
 		Node * GetRight() { return m_pRight; }
 
-		Node * FindMinChild() const;
-		Node * FindMaxChild() const;
-		Node * FindRightParent() const;
+		Node * FindMinChild();
+		Node * FindMaxChild();
+		Node * FindRightParent();
+
+		/* Лишние функции в классах откровенно раздражают
+		 * (используется буквально один раз, но повышает читабельность)
+		 */
+		bool IsLeftChild() { return this == m_pParent->m_pLeft; }
 	};
 
 	void DestroySubtree( Node * _pRoot );

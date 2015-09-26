@@ -1,14 +1,11 @@
 //
 // Created by betatester on 26.09.15.
+// Using UTF-8
 //
 
 #include "rbtree.hpp"
 
 #include <stdexcept>
-
-/*****************************************************************************/
-
-
 
 /*****************************************************************************/
 
@@ -69,9 +66,47 @@ int RBTree::Maximum() const {
 
 /*****************************************************************************/
 
+RBTree::Node * RBTree::Node::FindMinChild() {
+	Node * pCurrent = this;
+
+	while( pCurrent && pCurrent->GetLeft() )
+		pCurrent = pCurrent->GetLeft();
+
+	return pCurrent;
+}
+
+RBTree::Node * RBTree::Node::FindMaxChild() {
+	Node * pCurrent = this;
+
+	while( pCurrent && pCurrent->GetRight() )
+		pCurrent = pCurrent->GetRight();
+
+	return pCurrent;
+}
+
+RBTree::Node * RBTree::Node::FindRightParent() {
+	Node * pCurrent = this;
+
+	while( pCurrent && pCurrent->GetParent() ) {
+		if( pCurrent->IsLeftChild() )
+			return pCurrent->m_pParent;
+
+		pCurrent = pCurrent->m_pParent;
+	}
+
+	return nullptr;
+}
+
+/*****************************************************************************/
+
 RBTree::Iterator::Iterator( Node * _pNode )
 	: m_pCurrent( _pNode )
 {
+}
+
+void RBTree::Iterator::validate() const {
+	if ( !m_pCurrent )
+		throw std::logic_error( "Invalid tree iterator state" );
 }
 
 int RBTree::Iterator::operator * () const {
@@ -79,7 +114,7 @@ int RBTree::Iterator::operator * () const {
 }
 
 bool RBTree::Iterator::operator == ( Iterator i ) const {
-	return this->m_pCurrent == i.m_pCurrent;
+	return m_pCurrent == i.m_pCurrent;
 }
 
 bool RBTree::Iterator::operator != ( Iterator i ) const {
@@ -98,10 +133,15 @@ RBTree::Iterator& RBTree::Iterator::operator ++ () {
 	else
 		m_pCurrent = nullptr;
 
+	return *this;
 }
 
 RBTree::Iterator  RBTree::Iterator::operator ++ ( int ) {
+	Iterator copy = *this;
+
 	++ *this;
+
+	return copy;
 }
 
 /*****************************************************************************/
