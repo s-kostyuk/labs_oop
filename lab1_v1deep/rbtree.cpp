@@ -64,6 +64,33 @@ int RBTree::Maximum() const {
 	return m_pRoot->FindMaxChild()->GetValue();
 }
 
+bool RBTree::operator == ( const RBTree & _t ) const {
+	Iterator pThisTree  = this->begin();
+	Iterator pOtherTree = _t.begin();
+
+	// Выходим из цикла, если полностью обошли оба дерева
+	while( pThisTree != this->begin() && pOtherTree != _t.end() ) {
+
+		// Если одно из деревьев содержит меньше элементов, чем другое - выходим
+		if( pThisTree != this->begin() || pOtherTree != _t.end() )
+			return false;
+
+		//
+		if( *pThisTree != *pOtherTree )
+			return false;
+
+		++ pThisTree;
+		++ pOtherTree;
+	}
+
+
+
+}
+
+bool RBTree::operator != ( const RBTree & _t ) const {
+	return !( *this == _t );
+}
+
 /*****************************************************************************/
 
 RBTree::Node * RBTree::Node::FindMinChild() {
@@ -143,5 +170,6 @@ RBTree::Iterator  RBTree::Iterator::operator ++ ( int ) {
 
 	return copy;
 }
+
 
 /*****************************************************************************/

@@ -65,8 +65,23 @@ public:
 private:
 	friend class Iterator;
 
+	void DestroySubtree( Node * _pRoot );
+
+	Node * InsertBase ( int _key );
+	Node * InsertFixup( Node * _n );
+	Node * DeleteBase ( int _key );
+	Node * DeleteFixup( Node * _n );
+
+	Node * CreateNode ( int _key );
+	void   LeftRotate ( Node * _l );
+	void   RightRotate( Node * _r );
+	Node * FindKeyNode( const int _key ) const;
+
+	Node * m_pRoot;
+
 	class Node {
 	private:
+		friend Node * RBTree::DeleteFixup( Node * _n );
 		int m_value;
 
 		enum Color { RED, BLACK } m_color;
@@ -101,18 +116,6 @@ private:
 		 */
 		bool IsLeftChild() { return this == m_pParent->m_pLeft; }
 	};
-
-	void DestroySubtree( Node * _pRoot );
-
-    Node * InsertBase( int _key );
-    Node * DeleteBase( int _key );
-
-    Node * CreateNode ( int _key );
-    void   LeftRotate ( Node * _l );
-    void   RightRotate( Node * _r );
-    Node * FindKeyNode( const int _key ) const;
-
-	Node * m_pRoot;
 };
 
 /*****************************************************************************/
