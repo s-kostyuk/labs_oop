@@ -28,17 +28,17 @@ RBTree::RBTree( std::initializer_list<int> _l )
 		*this += x;
 }
 
-RBTree::~RBTree() {
-	DestroySubtree( m_pRoot );
-}
-
-void RBTree::DestroySubtree( Node * _pRoot ) {
+void RBTree::DestroyRecursive( Node * _pRoot ) {
 	if( ! _pRoot )
 		return;
 
-	DestroySubtree( _pRoot->GetLeft() );
-	DestroySubtree( _pRoot->GetRight() );
+	DestroyRecursive( _pRoot->GetLeft()  );
+	DestroyRecursive( _pRoot->GetRight() );
 	delete _pRoot;
+}
+
+RBTree::~RBTree() {
+	DestroyRecursive( m_pRoot );
 }
 
 RBTree::Node * RBTree::CopyRecursive( Node * _pSource, Node * _pNewNodeParent ) {
@@ -50,8 +50,8 @@ RBTree::Node * RBTree::CopyRecursive( Node * _pSource, Node * _pNewNodeParent ) 
 	Node * pNewNode = new Node( _pSource->GetValue() );
 	pNewNode->SetColor( _pSource->GetColor() );
 
-	pNewNode->SetLeft( CopyRecursive( _pSource->GetLeft(), pNewNode ) );
-	pNewNode->SetRight( CopyRecursive( _pSource->GetLeft(), pNewNode ) );
+	pNewNode->SetLeft( CopyRecursive( _pSource->GetLeft(), pNewNode ));
+	pNewNode->SetRight( CopyRecursive( _pSource->GetRight(), pNewNode ));
 	pNewNode->SetParent( _pNewNodeParent );
 
 	return pNewNode;
@@ -66,6 +66,8 @@ RBTree::RBTree( RBTree && _t )
 {
 	_t.m_pRoot = nullptr;
 }
+
+/*****************************************************************************/
 
 int RBTree::GetSize() const {
 	Iterator curr = begin();

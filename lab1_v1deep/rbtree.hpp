@@ -65,7 +65,7 @@ public:
 private:
 	friend class Iterator;
 
-	void   DestroySubtree( Node * _pRoot );
+	void   DestroyRecursive( Node * _pRoot );
 	Node * CopyRecursive ( Node * _pSource, Node * _pNewNodeParent );
 
 	Node * InsertBase ( int _key );
@@ -91,7 +91,7 @@ private:
 		Node * m_pRight;
 
 	public:
-		Node ( int _value )
+		Node( int _value )
 				: m_value( _value )
 				, m_color( RED )
 				, m_pParent( nullptr )
