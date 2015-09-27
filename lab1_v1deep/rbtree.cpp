@@ -28,33 +28,8 @@ RBTree::RBTree( std::initializer_list<int> _l )
 		*this += x;
 }
 
-void RBTree::DestroyRecursive( Node * _pRoot ) {
-	if( ! _pRoot )
-		return;
-
-	DestroyRecursive( _pRoot->GetLeft()  );
-	DestroyRecursive( _pRoot->GetRight() );
-	delete _pRoot;
-}
-
 RBTree::~RBTree() {
 	DestroyRecursive( m_pRoot );
-}
-
-RBTree::Node * RBTree::CopyRecursive( Node * _pSource, Node * _pNewNodeParent ) {
-	// Idea from russian Stack Overflow: http://goo.gl/HRVaB4
-
-	if( _pSource == nullptr )
-		return nullptr;
-
-	Node * pNewNode = new Node( _pSource->GetValue() );
-	pNewNode->SetColor( _pSource->GetColor() );
-
-	pNewNode->SetLeft( CopyRecursive( _pSource->GetLeft(), pNewNode ));
-	pNewNode->SetRight( CopyRecursive( _pSource->GetRight(), pNewNode ));
-	pNewNode->SetParent( _pNewNodeParent );
-
-	return pNewNode;
 }
 
 RBTree::RBTree( const RBTree & _t ) {
@@ -99,7 +74,7 @@ void RBTree::operator += ( int _key ) {
 	if( ! x )
 		throw std::logic_error( "Failed to insert key" );
 
-	DeleteFixup( x );
+	InsertFixup( x );
 }
 
 bool RBTree::operator == ( const RBTree & _t ) const {
@@ -130,6 +105,31 @@ bool RBTree::operator != ( const RBTree & _t ) const {
 }
 
 /*****************************************************************************/
+
+void RBTree::DestroyRecursive( Node * _pRoot ) {
+	if( ! _pRoot )
+		return;
+
+	DestroyRecursive( _pRoot->GetLeft()  );
+	DestroyRecursive( _pRoot->GetRight() );
+	delete _pRoot;
+}
+
+RBTree::Node * RBTree::CopyRecursive( Node * _pSource, Node * _pNewNodeParent ) {
+	// Idea from russian Stack Overflow: http://goo.gl/HRVaB4
+
+	if( _pSource == nullptr )
+		return nullptr;
+
+	Node * pNewNode = new Node( _pSource->GetValue() );
+	pNewNode->SetColor( _pSource->GetColor() );
+
+	pNewNode->SetLeft( CopyRecursive( _pSource->GetLeft(), pNewNode ));
+	pNewNode->SetRight( CopyRecursive( _pSource->GetRight(), pNewNode ));
+	pNewNode->SetParent( _pNewNodeParent );
+
+	return pNewNode;
+}
 
 /*
 RBTree::Node * RBTree::InsertBase( int _key ) { }
