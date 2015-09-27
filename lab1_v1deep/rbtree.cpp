@@ -243,11 +243,11 @@ void RBTree::InsertFixup( Node * x ) {
 
 }
 
-RBTree::Node * RBTree::DeleteBase( const int _key ) {
+void RBTree::DeleteBase( const int _key ) {
 	Node * pNode = FindKeyNode( _key );
 
 	if( ! pNode )
-		return nullptr;
+		return;
 
 	if( ! pNode->GetLeft() )
 		Transplant( pNode, pNode->GetRight() );
@@ -269,7 +269,7 @@ RBTree::Node * RBTree::DeleteBase( const int _key ) {
 		pNextNode->GetLeft()->SetParent( pNextNode );
 	}
 
-	return pNode;
+	delete pNode;
 }
 
 /*
