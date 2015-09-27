@@ -41,6 +41,31 @@ void RBTree::DestroySubtree( Node * _pRoot ) {
 	delete _pRoot;
 }
 
+RBTree::Node * RBTree::CopyRecursive( Node * _pSource, Node * _pNewNodeParent ) {
+	// Idea from russian Stack Overflow: http://goo.gl/HRVaB4
+
+	if( _pSource == nullptr )
+		return nullptr;
+
+	Node * pNewNode = new Node( _pSource->GetValue(), _pSource->GetColor() );
+
+	pNewNode->SetLeft( CopyRecursive( _pSource->GetLeft(), pNewNode ) );
+	pNewNode->SetRight( CopyRecursive( _pSource->GetLeft(), pNewNode ) );
+	pNewNode->SetParent( _pNewNodeParent );
+
+	return pNewNode;
+}
+
+RBTree::RBTree( const RBTree & _t ) {
+	m_pRoot = CopyRecursive( _t.m_pRoot, nullptr );
+}
+
+RBTree::RBTree( RBTree && _t )
+	: m_pRoot( _t.m_pRoot )
+{
+	_t.m_pRoot = nullptr;
+}
+
 int RBTree::GetSize() const {
 	Iterator curr = begin();
 	int counter = 0;
@@ -111,8 +136,6 @@ void RBTree::InsertFixup( Node * _n ) { }
 RBTree::Node * RBTree::DeleteBase( int _key ) { }
 
 RBTree::Node * RBTree::DeleteFixup( Node * _n ) { }
-
-RBTree::Node * RBTree::CreateNode( int _key ) { }
 
 */
 

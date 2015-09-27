@@ -65,14 +65,14 @@ public:
 private:
 	friend class Iterator;
 
-	void DestroySubtree( Node * _pRoot );
+	void   DestroySubtree( Node * _pRoot );
+	Node * CopyRecursive ( Node * _pSource, Node * _pNewNodeParent );
 
 	Node * InsertBase ( int _key );
 	void   InsertFixup( Node * _n );
 	Node * DeleteBase ( int _key );
 	Node * DeleteFixup( Node * _n );
 
-	Node * CreateNode ( int _key );
 	void   LeftRotate ( Node * _l );
 	void   RightRotate( Node * _r );
 	Node * FindKeyNode( const int _key ) const;
@@ -91,9 +91,9 @@ private:
 		Node * m_pRight;
 
 	public:
-		Node( int _value )
+		Node( int _value, Color _color = RED )
 				: m_value( _value )
-				, m_color( RED )
+				, m_color( _color )
 				, m_pParent( nullptr )
 				, m_pLeft( nullptr )
 				, m_pRight( nullptr )
