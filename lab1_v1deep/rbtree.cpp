@@ -243,13 +243,60 @@ void RBTree::InsertFixup( Node * x ) {
 
 }
 
-/*
+RBTree::Node * RBTree::DeleteBase( const int _key ) {
+	Node * pNode = FindKeyNode( _key );
 
-RBTree::Node * RBTree::DeleteBase( int _key ) { }
+	if( ! pNode )
+		return nullptr;
+
+	if( ! pNode->GetLeft() )
+		Transplant( pNode, pNode->GetRight() );
+
+	else if( ! pNode->GetRight() )
+		Transplant( pNode, pNode->GetLeft() );
+
+	else {
+		Node * pNextNode = pNode->GetRight()->FindMinChild();
+
+		if( pNextNode->GetParent() != pNode ) {
+			Transplant( pNextNode, pNextNode->GetRight() );
+			pNextNode->SetRight( pNode->GetRight() );
+			pNextNode->GetRight()->SetParent( pNextNode );
+		}
+
+		Transplant( pNode, pNextNode );
+		pNextNode->SetLeft( pNode->GetLeft() );
+		pNextNode->GetLeft()->SetParent( pNextNode );
+	}
+
+	return pNode;
+}
+
+/*
 
 RBTree::Node * RBTree::DeleteFixup( Node * _n ) { }
 
 */
+
+void RBTree::Transplant( Node * _pNode, Node * _pOtherNode ) {
+	if( ! _pNode->GetParent() ) {
+		assert( _pNode == m_pRoot );
+		m_pRoot = _pOtherNode;
+	}
+
+	else if( _pNode->IsLeftChild() )
+		_pNode->GetParent()->SetLeft ( _pOtherNode );
+
+	else if( _pNode->IsRightChild() )
+		_pNode->GetParent()->SetRight( _pOtherNode );
+
+	else
+		assert( ! "Transplant error" );
+
+	if( _pOtherNode )
+		_pOtherNode->SetParent( _pNode->GetParent());
+
+}
 
 void RBTree::LeftRotate( Node * _l ) {
 	Node * r = _l->GetRight();

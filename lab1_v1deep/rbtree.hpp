@@ -70,9 +70,10 @@ private:
 
 	Node * InsertBase ( int _key );
 	void   InsertFixup( Node * x );
-	Node * DeleteBase ( int _key );
+	Node * DeleteBase( const int _key );
 	Node * DeleteFixup( Node * _n );
 
+	void   Transplant( Node * _pNode, Node * _pOtherNode );
 	void   LeftRotate ( Node * _l );
 	void   RightRotate( Node * _r );
 	Node * FindKeyNode( const int _key ) const;
@@ -123,7 +124,8 @@ private:
 		/* Лишние функции в классах откровенно раздражают
 		 * (используется буквально один раз, но повышает читабельность)
 		 */
-		bool IsLeftChild() { return this == m_pParent->m_pLeft; }
+		bool IsLeftChild()  { return this == m_pParent->m_pLeft;  }
+		bool IsRightChild() { return this == m_pParent->m_pRight; }
 	};
 };
 
