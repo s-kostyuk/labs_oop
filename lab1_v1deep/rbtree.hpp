@@ -69,7 +69,7 @@ private:
 	Node * CopyRecursive ( Node * _pSource, Node * _pNewNodeParent );
 
 	Node * InsertBase ( int _key );
-	void   InsertFixup( Node * _n );
+	void   InsertFixup( Node * x );
 	Node * DeleteBase ( int _key );
 	Node * DeleteFixup( Node * _n );
 
@@ -80,11 +80,14 @@ private:
 	Node * m_pRoot;
 
 	class Node {
+	public:
+		enum Color { RED, BLACK };
+
 	private:
 		friend Node * RBTree::DeleteFixup( Node * _n );
 		int m_value;
 
-		enum Color { RED, BLACK } m_color;
+		Color m_color;
 
 		Node * m_pParent;
 		Node * m_pLeft;
@@ -101,7 +104,7 @@ private:
 
 		int GetValue() { return m_value; }
 
-		Node::Color GetColor() { return m_color; }
+		Node::Color GetColor() { return ( this ) ?  m_color : BLACK; }
 
 		Node * GetParent() { return m_pParent; }
 		Node * GetLeft()   { return m_pLeft;   }
@@ -139,6 +142,8 @@ inline RBTree::Iterator RBTree::end () const
 {
 	return Iterator();
 }
+
+/*****************************************************************************/
 
 std::ostream & operator << ( std::ostream & _o, const RBTree & _t );
 

@@ -72,7 +72,7 @@ void RBTree::operator += ( int _key ) {
 	Node * x = InsertBase( _key );
 
 	if( ! x )
-		throw std::logic_error( "Failed to insert key" );
+		return;
 
 	InsertFixup( x );
 }
@@ -131,10 +131,119 @@ RBTree::Node * RBTree::CopyRecursive( Node * _pSource, Node * _pNewNodeParent ) 
 	return pNewNode;
 }
 
-/*
-RBTree::Node * RBTree::InsertBase( int _key ) { }
+RBTree::Node * RBTree::InsertBase( int _key ) {
+	if( ! m_pRoot ) {
+		m_pRoot = new Node( _key );
+		return m_pRoot;
+	}
 
-void RBTree::InsertFixup( Node * _n ) { }
+	Node * pCurrent = m_pRoot;
+
+	while( pCurrent ) {
+		if( pCurrent->GetValue() == _key )
+			return nullptr;
+
+		else if( _key < pCurrent->GetValue() ) {
+			if( pCurrent->GetLeft() )
+				pCurrent = pCurrent->GetLeft();
+
+			else {
+				Node * pNewNode = new Node( _key );
+				pNewNode->SetParent( pCurrent );
+				pCurrent->SetLeft( pNewNode );
+				return pNewNode;
+			}
+		}
+
+		else {
+			if( pCurrent->GetRight() )
+				pCurrent = pCurrent->GetRight();
+
+			else {
+				Node * pNewNode = new Node( _key );
+				pNewNode->SetParent( pCurrent );
+				pCurrent->SetRight( pNewNode );
+				return pNewNode;
+			}
+		}
+	}
+
+	assert( ! "Error in insertion, you must not be here" );
+	return nullptr;
+}
+
+void RBTree::InsertFixup( Node * x ) {
+	/* Что такое x, y, z - см. алгоритм вставки в красно-черное дерево
+	 * ( Кормен и др.: "Алгоритмы: построение и анализ". Раздел 13.3 )
+	 */
+
+	Node * p;
+
+	while( x && ( p = x->GetParent() ) && p->GetColor() == Node::RED ) {
+		Node * pp = p->GetParent();
+
+		if( p->IsLeftChild() ) {
+			Node * y = pp->GetRight();
+
+			if( y->GetColor() == Node::RED ) {
+				p->SetColor( Node::BLACK );
+				y->SetColor( Node::BLACK );
+				pp->SetColor( Node::RED );
+				x = pp;
+			}
+
+			else {
+				if( x == p->GetRight() ) {
+					x = p;
+					LeftRotate( x );
+				}
+
+				p  = x->GetParent();
+				pp = p->GetParent();
+
+				p->SetColor( Node::BLACK );
+
+				if( pp ) {
+					pp->SetColor( Node::RED );
+					RightRotate( pp );
+				}
+			}
+		}
+
+		else {
+			Node * y = pp->GetLeft();
+
+			if( y->GetColor() == Node::RED ) {
+				p->SetColor( Node::BLACK );
+				y->SetColor( Node::BLACK );
+				pp->SetColor( Node::RED );
+				x = pp;
+			}
+
+			else {
+				if( x == p->GetLeft() ) {
+					x = p;
+					RightRotate( x );
+				}
+
+				p  = x->GetParent();
+				pp = p->GetParent();
+
+				p->SetColor( Node::BLACK );
+
+				if( pp ) {
+					pp->SetColor( Node::RED );
+					LeftRotate( pp );
+				}
+			}
+		}
+	}
+
+	m_pRoot->SetColor( Node::BLACK );
+
+}
+
+/*
 
 RBTree::Node * RBTree::DeleteBase( int _key ) { }
 
@@ -147,7 +256,7 @@ void RBTree::LeftRotate( Node * _l ) {
 	if( ! r )
 		return;
 
-	_l->SetRight( _l->GetLeft() );
+	_l->SetRight( r->GetLeft() );
 	if( _l->GetRight())
 		_l->GetRight()->SetParent( _l );
 
@@ -282,6 +391,21 @@ RBTree::Iterator  RBTree::Iterator::operator ++ ( int ) {
 	++ *this;
 
 	return copy;
+}
+
+/*****************************************************************************/
+
+std::ostream & operator << ( std::ostream & _o, const RBTree & _t ) {
+	RBTree::Iterator pCurrent = _t.begin();
+
+	_o << "{ " << *pCurrent ++;
+
+	while( pCurrent != _t.end() )
+		_o << ", " << *pCurrent ++;
+
+	_o << " }";
+
+	return _o;
 }
 
 /*****************************************************************************/
