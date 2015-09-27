@@ -274,7 +274,7 @@ void RBTree::DeleteBase( const int _key ) {
 
 /*
 
-RBTree::Node * RBTree::DeleteFixup( Node * _n ) { }
+void RBTree::DeleteFixup( Node * _n ) { }
 
 */
 
