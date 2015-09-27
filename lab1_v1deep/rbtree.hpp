@@ -91,9 +91,9 @@ private:
 		Node * m_pRight;
 
 	public:
-		Node( int _value, Color _color = RED )
+		Node ( int _value )
 				: m_value( _value )
-				, m_color( _color )
+				, m_color( RED )
 				, m_pParent( nullptr )
 				, m_pLeft( nullptr )
 				, m_pRight( nullptr )

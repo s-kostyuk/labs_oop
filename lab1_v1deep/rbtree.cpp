@@ -47,7 +47,8 @@ RBTree::Node * RBTree::CopyRecursive( Node * _pSource, Node * _pNewNodeParent ) 
 	if( _pSource == nullptr )
 		return nullptr;
 
-	Node * pNewNode = new Node( _pSource->GetValue(), _pSource->GetColor() );
+	Node * pNewNode = new Node( _pSource->GetValue() );
+	pNewNode->SetColor( _pSource->GetColor() );
 
 	pNewNode->SetLeft( CopyRecursive( _pSource->GetLeft(), pNewNode ) );
 	pNewNode->SetRight( CopyRecursive( _pSource->GetLeft(), pNewNode ) );
