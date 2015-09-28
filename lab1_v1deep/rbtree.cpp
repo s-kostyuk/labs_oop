@@ -78,22 +78,7 @@ void RBTree::operator += ( int _key ) {
 }
 
 void RBTree::operator -= ( int _key ) {
-	Node * dyingNode = DeleteBase( _key );
-
-	Node * wtf = nullptr;
-	assert( ! "Not finished" );
-
-	// Если в дереве отстутствовал запрошенный узел
-	// ( удалять нечего ) - выходим
-	if( ! dyingNode )
-		return;
-
-	// Иначе - смотрим, каким цветом был удаленный узел
-	if( dyingNode->GetColor() == Node::BLACK )
-		// Если узел был черным
-		DeleteFixup( wtf );
-
-	delete dyingNode;
+	CormenDelete( _key );
 }
 
 bool RBTree::operator == ( const RBTree & _t ) const {
@@ -262,35 +247,8 @@ void RBTree::InsertFixup( Node * x ) {
 
 }
 
-RBTree::Node * RBTree::DeleteBase( const int _key ) {
-	Node * pNode = FindKeyNode( _key );
-
-	if( ! pNode )
-		return nullptr;
-
-	if( ! pNode->GetLeft() )
-		Transplant( pNode, pNode->GetRight() );
-
-	else if( ! pNode->GetRight() )
-		Transplant( pNode, pNode->GetLeft() );
-
-	else {
-		Node * pNextNode = pNode->GetRight()->FindMinChild();
-
-		if( pNextNode->GetParent() != pNode ) {
-			Transplant( pNextNode, pNextNode->GetRight() );
-			pNextNode->SetRight( pNode->GetRight() );
-			pNextNode->GetRight()->SetParent( pNextNode );
-		}
-
-		Transplant( pNode, pNextNode );
-		pNextNode->SetLeft( pNode->GetLeft() );
-		pNextNode->GetLeft()->SetParent( pNextNode );
-	}
-
-	return pNode;
-}
-
+// Алгоритм удаления ключа из красно-черного дерева -
+// см. Cormen: "Introduction to Algorithms", 3-е издание, раздел 13.4
 void RBTree::CormenDelete( const int _key ) {
 	Node * z = FindKeyNode( _key );
 

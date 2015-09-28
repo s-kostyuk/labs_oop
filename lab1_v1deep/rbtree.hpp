@@ -70,7 +70,6 @@ private:
 
 	Node * InsertBase ( int _key );
 	void   InsertFixup( Node * x );
-	Node * DeleteBase( const int _key );
 	void   CormenDelete( const int _key );
 	void   DeleteFixup( Node * _n );
 
