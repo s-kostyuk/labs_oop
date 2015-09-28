@@ -71,6 +71,7 @@ private:
 	Node * InsertBase ( int _key );
 	void   InsertFixup( Node * x );
 	Node * DeleteBase( const int _key );
+	void   CormenDelete( const int _key );
 	void   DeleteFixup( Node * _n );
 
 	void   Transplant( Node * _pNode, Node * _pOtherNode );
@@ -105,13 +106,13 @@ private:
 
 		int GetValue() { return m_value; }
 
-		Node::Color GetColor() { return ( this ) ?  m_color : BLACK; }
+		Color GetColor() { return ( this ) ?  m_color : BLACK; }
 
 		Node * GetParent() { return m_pParent; }
 		Node * GetLeft()   { return m_pLeft;   }
 		Node * GetRight()  { return m_pRight;  }
 
-		void SetColor( Node::Color _c ) { m_color = _c; }
+		void SetColor ( Color  _c ) { m_color   = _c; }
 
 		void SetParent( Node * _p ) { m_pParent = _p; }
 		void SetLeft  ( Node * _l ) { m_pLeft   = _l; }
@@ -120,10 +121,7 @@ private:
 		Node * FindMinChild();
 		Node * FindMaxChild();
 		Node * FindRightParent();
-
-		/* Лишние функции в классах откровенно раздражают
-		 * (используется буквально один раз, но повышает читабельность)
-		 */
+		
 		bool IsLeftChild()  { return this == m_pParent->m_pLeft;  }
 		bool IsRightChild() { return this == m_pParent->m_pRight; }
 	};

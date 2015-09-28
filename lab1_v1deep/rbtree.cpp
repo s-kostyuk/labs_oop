@@ -291,6 +291,53 @@ RBTree::Node * RBTree::DeleteBase( const int _key ) {
 	return pNode;
 }
 
+void RBTree::CormenDelete( const int _key ) {
+	Node * z = FindKeyNode( _key );
+
+	if( ! z )
+		return;
+
+	Node * y = z;
+
+	Node::Color yOriginalColor = y->GetColor();
+
+	Node * x;
+
+	if( ! z->GetLeft() ) {
+		x = z->GetLeft();
+		Transplant( z, z->GetRight() );
+	}
+	else if ( ! z->GetRight() ) {
+		x = z->GetLeft();
+		Transplant( z, z->GetLeft() );
+	}
+
+	else {
+		y = z->GetRight()->FindMinChild();
+		yOriginalColor = y->GetColor();
+		x = y->GetRight();
+
+		if( y->GetParent() == z )
+			x->SetParent( y );
+		else {
+			Transplant( y, y->GetRight() );
+			y->SetRight( z->GetRight() );
+			y->GetRight()->SetParent( y );
+		}
+
+		Transplant( z, y );
+
+		y->SetLeft( z->GetLeft() );
+		y->GetLeft()->SetParent( y );
+		y->SetColor( z->GetColor() );
+	}
+
+	delete z;
+
+	if( yOriginalColor == Node::BLACK )
+		DeleteFixup( x );
+}
+
 /*
 
 void RBTree::DeleteFixup( Node * _n ) { }
