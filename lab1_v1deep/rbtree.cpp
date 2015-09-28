@@ -310,9 +310,9 @@ void RBTree::LeftRotate( Node * _l ) {
 	r->SetParent( _l->GetParent());
 	if( ! r->GetParent() )
 		m_pRoot = r;
-	else if( _l == _l->GetParent()->GetLeft() )
+	else if( _l->IsLeftChild() )
 		_l->GetParent()->SetLeft( r );
-	else if( _l == _l->GetParent()->GetRight() )
+	else if( _l->IsRightChild() )
 		_l->GetParent()->SetRight( r );
 	else
 		assert( ! "Error in rotation, you must not be here" );
@@ -333,9 +333,9 @@ void RBTree::RightRotate( Node * _r ) {
 	l->SetParent( _r->GetParent());
 	if( ! l->GetParent() )
 		m_pRoot = l;
-	else if( _r == _r->GetParent()->GetLeft() )
+	else if( _r->IsLeftChild() )
 		_r->GetParent()->SetLeft( l );
-	else if( _r == _r->GetParent()->GetRight() )
+	else if( _r->IsRightChild() )
 		_r->GetParent()->SetRight( l );
 	else
 		assert( ! "Error in rotation, you must not be here" );
