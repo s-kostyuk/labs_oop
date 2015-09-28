@@ -77,6 +77,25 @@ void RBTree::operator += ( int _key ) {
 	InsertFixup( x );
 }
 
+void RBTree::operator -= ( int _key ) {
+	Node * dyingNode = DeleteBase( _key );
+
+	Node * wtf = nullptr;
+	assert( ! "Not finished" );
+
+	// Если в дереве отстутствовал запрошенный узел
+	// ( удалять нечего ) - выходим
+	if( ! dyingNode )
+		return;
+
+	// Иначе - смотрим, каким цветом был удаленный узел
+	if( dyingNode->GetColor() == Node::BLACK )
+		// Если узел был черным
+		DeleteFixup( wtf );
+
+	delete dyingNode;
+}
+
 bool RBTree::operator == ( const RBTree & _t ) const {
 	Iterator pThisTree  = this->begin();
 	Iterator pOtherTree = _t.begin();
@@ -243,11 +262,11 @@ void RBTree::InsertFixup( Node * x ) {
 
 }
 
-void RBTree::DeleteBase( const int _key ) {
+RBTree::Node * RBTree::DeleteBase( const int _key ) {
 	Node * pNode = FindKeyNode( _key );
 
 	if( ! pNode )
-		return;
+		return nullptr;
 
 	if( ! pNode->GetLeft() )
 		Transplant( pNode, pNode->GetRight() );
@@ -269,7 +288,7 @@ void RBTree::DeleteBase( const int _key ) {
 		pNextNode->GetLeft()->SetParent( pNextNode );
 	}
 
-	delete pNode;
+	return pNode;
 }
 
 /*
