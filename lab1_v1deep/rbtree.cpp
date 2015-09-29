@@ -362,6 +362,8 @@ void RBTree::DeleteFixup( Node * x ) {
 
 		}
 	}
+
+	x->SetColor( Node::BLACK );
 }
 
 void RBTree::Transplant( Node * _pNode, Node * _pOtherNode ) {
