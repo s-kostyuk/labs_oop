@@ -71,7 +71,7 @@ private:
 	Node * InsertBase ( int _key );
 	void   InsertFixup( Node * x );
 	void   CormenDelete( const int _key );
-	void   DeleteFixup( Node * _n );
+	void   DeleteFixup( Node * x );
 
 	void   Transplant( Node * _pNode, Node * _pOtherNode );
 	void   LeftRotate ( Node * _l );
@@ -85,7 +85,7 @@ private:
 		enum Color { RED, BLACK };
 
 	private:
-		friend void RBTree::DeleteFixup( Node * _n );
+		friend void RBTree::DeleteFixup( Node * x );
 		int m_value;
 
 		Color m_color;

@@ -296,11 +296,73 @@ void RBTree::CormenDelete( const int _key ) {
 		DeleteFixup( x );
 }
 
-/*
+void RBTree::DeleteFixup( Node * x ) {
+	while( x != m_pRoot && x->m_color == Node::BLACK ) {
+		if( x->IsLeftChild()) {
+			Node * w = x->GetParent()->GetRight();
+			if( w->GetColor() == Node::BLACK ) {
+				w->SetColor( Node::BLACK );
+				x->GetParent()->SetColor( Node::RED );
+				LeftRotate( x->GetParent());
+				w = x->GetParent()->GetRight();
+			}
 
-void RBTree::DeleteFixup( Node * _n ) { }
+			if( w->GetLeft()->GetColor() == Node::BLACK
+			    &&
+			    w->GetRight()->GetColor() == Node::BLACK ) {
+				w->SetColor( Node::RED );
+				x = x->GetParent();
+			}
+			else {
+				if( w->GetRight()->GetColor() == Node::BLACK ) {
+					w->GetLeft()->SetColor( Node::BLACK );
+					w->SetColor( Node::RED );
+					RightRotate( w );
+					w = x->GetRight();
+				}
 
-*/
+				w->SetColor( x->GetParent()->GetColor());
+				x->GetParent()->SetColor( Node::BLACK );
+				w->GetRight()->SetColor( Node::BLACK );
+				LeftRotate( x->GetParent());
+				x = m_pRoot;
+			}
+		}
+
+		else {
+			Node * w = x->GetParent()->GetLeft();
+			if( w->GetColor() == Node::BLACK ) {
+				w->SetColor( Node::BLACK );
+				x->GetParent()->SetColor( Node::RED );
+				RightRotate( x->GetParent());
+				w = x->GetParent()->GetLeft();
+			}
+
+			if( w->GetLeft()->GetColor() == Node::BLACK
+			    &&
+			    w->GetRight()->GetColor() == Node::BLACK ) {
+				w->SetColor( Node::RED );
+				x = x->GetParent();
+			}
+			else {
+				if( w->GetLeft()->GetColor() == Node::BLACK ) {
+					w->GetRight()->SetColor( Node::BLACK );
+					w->SetColor( Node::RED );
+					LeftRotate( w );
+					w = x->GetLeft();
+				}
+
+				w->SetColor( x->GetParent()->GetColor());
+				x->GetParent()->SetColor( Node::BLACK );
+				w->GetLeft()->SetColor( Node::BLACK );
+				RightRotate( x->GetParent());
+				x = m_pRoot;
+
+			}
+
+		}
+	}
+}
 
 void RBTree::Transplant( Node * _pNode, Node * _pOtherNode ) {
 	if( ! _pNode->GetParent() ) {
