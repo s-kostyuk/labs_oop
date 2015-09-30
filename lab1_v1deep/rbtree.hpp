@@ -8,7 +8,7 @@
 
 #include <initializer_list>
 #include <iostream>
-
+#include <cassert>
 /*****************************************************************************/
 
 class RBTree {
@@ -103,26 +103,26 @@ private:
 				, m_pRight( nullptr )
 		{}
 
-		int GetValue() { return m_value; }
+		int GetValue() { assert(this);return m_value; }
 
 		Color GetColor() { return ( this ) ?  m_color : BLACK; }
 
-		Node * GetParent() { return m_pParent; }
-		Node * GetLeft()   { return m_pLeft;   }
-		Node * GetRight()  { return m_pRight;  }
+		Node * GetParent() { assert(this);return m_pParent; }
+		Node * GetLeft()   { assert(this);return m_pLeft;   }
+		Node * GetRight()  { assert(this);return m_pRight;  }
 
-		void SetColor ( Color  _c ) { m_color   = _c; }
+		void SetColor ( Color  _c ) { assert(this);m_color   = _c; }
 
-		void SetParent( Node * _p ) { m_pParent = _p; }
-		void SetLeft  ( Node * _l ) { m_pLeft   = _l; }
-		void SetRight ( Node * _r ) { m_pRight  = _r; }
+		void SetParent( Node * _p ) { assert(this); m_pParent = _p; }
+		void SetLeft  ( Node * _l ) { assert(this);m_pLeft   = _l; }
+		void SetRight ( Node * _r ) { assert(this);m_pRight  = _r; }
 
 		Node * FindMinChild();
 		Node * FindMaxChild();
 		Node * FindRightParent();
 		
-		bool IsLeftChild()  { return this == m_pParent->m_pLeft;  }
-		bool IsRightChild() { return this == m_pParent->m_pRight; }
+		bool IsLeftChild()  { assert(this);return this == m_pParent->m_pLeft;  }
+		bool IsRightChild() { assert(this);return this == m_pParent->m_pRight; }
 	};
 };
 

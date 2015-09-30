@@ -6,7 +6,7 @@
 #include "rbtree.hpp"
 
 #include <stdexcept>
-#include <cassert>
+
 
 /*****************************************************************************/
 
@@ -297,7 +297,7 @@ void RBTree::CormenDelete( const int _key ) {
 }
 
 void RBTree::DeleteFixup( Node * x ) {
-	while( x != m_pRoot && x->m_color == Node::BLACK ) {
+	while( x != m_pRoot && x->GetColor() == Node::BLACK ) {
 		if( x->IsLeftChild()) {
 			Node * w = x->GetParent()->GetRight();
 			if( w->GetColor() == Node::BLACK ) {
@@ -381,7 +381,7 @@ void RBTree::Transplant( Node * _pNode, Node * _pOtherNode ) {
 	else
 		assert( ! "Transplant error" );
 
-	if( _pOtherNode )
+	//if( _pOtherNode )
 		_pOtherNode->SetParent( _pNode->GetParent());
 
 }
