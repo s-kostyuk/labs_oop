@@ -264,11 +264,11 @@ void RBTree::CormenDelete( const int _key ) {
 
 	if( ! z->GetLeft() ) {
 		x = z->GetRight();
-		Transplant(z, z->GetRight(), pNilParent);
+		Transplant( z, z->GetRight(), &pNilParent );
 	}
 	else if ( ! z->GetRight() ) {
 		x = z->GetLeft();
-		Transplant(z, z->GetLeft(), pNilParent);
+		Transplant( z, z->GetLeft(), &pNilParent );
 	}
 
 	else {
@@ -279,12 +279,12 @@ void RBTree::CormenDelete( const int _key ) {
 		if( y->GetParent() == z )
 			x->SetParent( y );
 		else {
-			Transplant(y, y->GetRight(), pNilParent);
+			Transplant( y, y->GetRight(), &pNilParent );
 			y->SetRight( z->GetRight() );
 			y->GetRight()->SetParent( y );
 		}
 
-		Transplant(z, y, pNilParent);
+		Transplant(z, y, &pNilParent);
 
 		y->SetLeft( z->GetLeft() );
 		y->GetLeft()->SetParent( y );
@@ -365,16 +365,14 @@ void RBTree::DeleteFixup( Node * x, Node * xParent ) {
 				w->GetLeft()->SetColor( Node::BLACK );
 				RightRotate( xParent);
 				x = m_pRoot;
-
 			}
-
 		}
 	}
 
 	x->SetColor( Node::BLACK );
 }
 
-void RBTree::Transplant(Node *_pNode, Node *_pOtherNode, Node *&pNilParent) {
+void RBTree::Transplant( Node * _pNode, Node * _pOtherNode, Node ** pNilParentContainer ) {
 	if( ! _pNode->GetParent() ) {
 		assert( _pNode == m_pRoot );
 		m_pRoot = _pOtherNode;
@@ -392,7 +390,8 @@ void RBTree::Transplant(Node *_pNode, Node *_pOtherNode, Node *&pNilParent) {
 	if( _pOtherNode )
 		_pOtherNode->SetParent( _pNode->GetParent());
 	else
-		pNilParent = _pNode->GetParent();
+		if( pNilParentContainer )
+			*pNilParentContainer = _pNode->GetParent();
 }
 
 void RBTree::LeftRotate( Node * _l ) {

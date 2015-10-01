@@ -71,9 +71,9 @@ private:
 	Node * InsertBase ( int _key );
 	void   InsertFixup( Node * x );
 	void   CormenDelete( const int _key );
-	void DeleteFixup(Node *x, Node *xParent);
+	void   DeleteFixup( Node * x, Node * xParent = nullptr);
 
-	void   Transplant(Node *_pNode, Node *_pOtherNode, Node *&pNilParent);
+	void   Transplant( Node * _pNode, Node * _pOtherNode, Node ** pNilParentContainer = nullptr );
 	void   LeftRotate ( Node * _l );
 	void   RightRotate( Node * _r );
 	Node * FindKeyNode( const int _key ) const;
