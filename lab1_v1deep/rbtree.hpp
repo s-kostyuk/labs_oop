@@ -71,9 +71,9 @@ private:
 	Node * InsertBase ( int _key );
 	void   InsertFixup( Node * x );
 	void   CormenDelete( const int _key );
-	void   DeleteFixup( Node * x );
+	void DeleteFixup(Node *x, Node *xParent);
 
-	void   Transplant( Node * _pNode, Node * _pOtherNode );
+	void   Transplant(Node *_pNode, Node *_pOtherNode, Node *&pNilParent);
 	void   LeftRotate ( Node * _l );
 	void   RightRotate( Node * _r );
 	Node * FindKeyNode( const int _key ) const;
@@ -85,7 +85,7 @@ private:
 		enum Color { RED, BLACK };
 
 	private:
-		friend void RBTree::DeleteFixup( Node * x );
+		friend void RBTree::DeleteFixup( Node * x, Node * xParent = nullptr );
 		int m_value;
 
 		Color m_color;
@@ -103,26 +103,26 @@ private:
 				, m_pRight( nullptr )
 		{}
 
-		int GetValue() { assert(this);return m_value; }
+		int GetValue() { assert(this); return m_value; }
 
 		Color GetColor() { return ( this ) ?  m_color : BLACK; }
 
-		Node * GetParent() { assert(this);return m_pParent; }
-		Node * GetLeft()   { assert(this);return m_pLeft;   }
-		Node * GetRight()  { assert(this);return m_pRight;  }
+		Node * GetParent() { assert(this); return m_pParent; }
+		Node * GetLeft()   { assert(this); return m_pLeft;   }
+		Node * GetRight()  { assert(this); return m_pRight;  }
 
-		void SetColor ( Color  _c ) { assert(this);m_color   = _c; }
+		void SetColor ( Color  _c ) { assert(this); m_color   = _c; }
 
 		void SetParent( Node * _p ) { assert(this); m_pParent = _p; }
-		void SetLeft  ( Node * _l ) { assert(this);m_pLeft   = _l; }
-		void SetRight ( Node * _r ) { assert(this);m_pRight  = _r; }
+		void SetLeft  ( Node * _l ) { assert(this); m_pLeft   = _l; }
+		void SetRight ( Node * _r ) { assert(this); m_pRight  = _r; }
 
 		Node * FindMinChild();
 		Node * FindMaxChild();
 		Node * FindRightParent();
 		
-		bool IsLeftChild()  { assert(this);return this == m_pParent->m_pLeft;  }
-		bool IsRightChild() { assert(this);return this == m_pParent->m_pRight; }
+		bool IsLeftChild()  { assert(this); return this == m_pParent->m_pLeft;  }
+		bool IsRightChild() { assert(this); return this == m_pParent->m_pRight; }
 	};
 };
 
