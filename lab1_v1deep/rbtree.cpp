@@ -6,6 +6,7 @@
 #include "rbtree.hpp"
 
 #include <stdexcept>
+#include <utility>
 
 /*****************************************************************************/
 
@@ -27,10 +28,6 @@ RBTree::RBTree( std::initializer_list<int> _l )
 		*this += x;
 }
 
-RBTree::~RBTree() {
-	DestroyRecursive( m_pRoot );
-}
-
 RBTree::RBTree( const RBTree & _t ) {
 	m_pRoot = CopyRecursive( _t.m_pRoot, nullptr );
 }
@@ -41,9 +38,35 @@ RBTree::RBTree( RBTree && _t )
 	_t.m_pRoot = nullptr;
 }
 
+RBTree & RBTree::operator = ( const RBTree & _t ) {
+	if ( & _t == this )
+		return * this;
+
+	DestroyRecursive( m_pRoot );
+
+	m_pRoot = CopyRecursive( _t.m_pRoot, nullptr );
+
+	return * this;
+}
+
+RBTree & RBTree::operator = ( RBTree && _t ) {
+	if ( & _t == this )
+		return * this;
+
+	std::swap( m_pRoot, _t.m_pRoot );
+
+	return * this;
+}
+
 /*****************************************************************************/
 
-int RBTree::GetSize() const {
+void RBTree::Clear() {
+	DestroyRecursive( m_pRoot );
+
+	m_pRoot = nullptr;
+}
+
+int RBTree::GetNOfElements() const {
 	Iterator curr = begin();
 	int counter = 0;
 
@@ -67,17 +90,19 @@ int RBTree::Maximum() const {
 	return m_pRoot->FindMaxChild()->GetValue();
 }
 
-void RBTree::operator += ( int _key ) {
+RBTree & RBTree::operator += ( int _key ) {
 	Node * x = InsertBase( _key );
 
-	if( ! x )
-		return;
+	if(  x )
+		InsertFixup( x );
 
-	InsertFixup( x );
+	return *this;
 }
 
-void RBTree::operator -= ( int _key ) {
+RBTree & RBTree::operator -= ( int _key ) {
 	CormenDelete( _key );
+
+	return *this;
 }
 
 bool RBTree::operator == ( const RBTree & _t ) const {
@@ -561,7 +586,9 @@ RBTree::Iterator  RBTree::Iterator::operator ++ ( int ) {
 std::ostream & operator << ( std::ostream & _o, const RBTree & _t ) {
 	RBTree::Iterator pCurrent = _t.begin();
 
-	_o << "{ " << *pCurrent ++;
+	_o << "{ ";
+	if( pCurrent != _t.end() )
+		_o << *pCurrent ++;
 
 	while( pCurrent != _t.end() )
 		_o << ", " << *pCurrent ++;

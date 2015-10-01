@@ -39,5 +39,13 @@ int main() {
 
 	std::cout << testTree3 << std::endl;
 
+	RBTree testTree4( testTree3 -= 1489 );
+
+	std::cout << testTree4;
+
+	testTree4.Clear();
+
+	std::cout << testTree4;
+
     return 0;
 }

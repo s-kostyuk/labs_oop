@@ -48,9 +48,14 @@ public:
 	RBTree( const RBTree & _t );
 	RBTree( RBTree && _t );
 
-    ~RBTree();
+	RBTree & operator = ( const RBTree & _t );
+	RBTree & operator = ( RBTree && _t );
 
-	int GetSize() const;
+    ~RBTree() { Clear(); }
+
+	void Clear();
+
+	int GetNOfElements() const;
     bool HasKey( const int _key ) const;
     int Minimum() const;
     int Maximum() const;
@@ -58,8 +63,8 @@ public:
 	Iterator begin() const;
 	Iterator end() const;
 
-	void operator += ( int _key );
-	void operator -= ( int _key );
+	RBTree & operator += ( int _key );
+	RBTree & operator -= ( int _key );
 
 	bool operator == ( const RBTree & _t ) const;
 	bool operator != ( const RBTree & _t ) const;
