@@ -7,7 +7,6 @@
 
 #include <stdexcept>
 
-
 /*****************************************************************************/
 
 RBTree::RBTree() {
@@ -260,6 +259,8 @@ void RBTree::CormenDelete( const int _key ) {
 	Node::Color yOriginalColor = y->GetColor();
 
 	Node * x;
+
+	// Указатель на родителя NIL-узла. Подробнее о том, зачем он нужен - см. в ф-ции Transplant
 	Node * pNilParent = nullptr;
 
 	if( ! z->GetLeft() ) {
@@ -297,10 +298,16 @@ void RBTree::CormenDelete( const int _key ) {
 		DeleteFixup( x, pNilParent );
 }
 
+/* Восстановление красно-черных свойств дерева после удаления ключа
+ * Аргумент xParent является не обязательным. По умолчанию xParent = nullptr.
+ * По факту, xParent должен передаваться ТОЛЬКО тогда, когда x - ссылка на NIL-узел
+ * (т.е. nullptr).
+ */
 void RBTree::DeleteFixup( Node * x, Node * xParent ) {
 	assert( x || xParent );
 
-	if( ! xParent )
+	// Игнорируем переданный указатель xParent, если узел x не является NIL-узлом:
+	if( x )
 		xParent = x->GetParent();
 
 	while( x != m_pRoot && x->GetColor() == Node::BLACK ) {
@@ -372,6 +379,19 @@ void RBTree::DeleteFixup( Node * x, Node * xParent ) {
 	x->SetColor( Node::BLACK );
 }
 
+/* Модифицированная реализация Transplant из "Introduction to Algorithms".
+ Добавлен новый не обязательный аргумент pNilParentContainer - указатель на переменную-указатель,
+ которая указывает на родителя NIL-узла. Зачем это нужно:
+ - в оригинальной реализации присвоение "_pOtherNode->SetParent( _pNode->GetParent());" выполняется безусловно,
+ т.е. значение родителя может быть установлено даже для NIL-узла;
+ - в данной реализации как таковой NIL-узел НЕ существует, указателем на NIL-узел выступает nullptr;
+ - знать родителя NIL-узла необходимо для нормальной работы DeleteFixup;
+ - но разыменование нулевого указателя (для установки указателя на родителя), естественно, приводит к краху программы;
+ - чтобы избежать проблем выше и не потерять указатель на родитель NIL-узла, разыменовываем указатель pNilParentContainer
+ и записываем в переменную-указатель ссылку на родитель NIL-узла.
+
+ Костылевато, но работает :)
+ */
 void RBTree::Transplant( Node * _pNode, Node * _pOtherNode, Node ** pNilParentContainer ) {
 	if( ! _pNode->GetParent() ) {
 		assert( _pNode == m_pRoot );
