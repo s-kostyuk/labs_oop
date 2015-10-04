@@ -2,7 +2,7 @@
 // Created by srg on 21.09.15.
 //
 
-#include "rbtree.hpp"
+#include "integerset.hpp"
 
 #include <cstdlib>
 #include <ctime>
@@ -10,47 +10,16 @@
 int main() {
 	srand( time( NULL ));
 
-    RBTree testTree( { 10, 9, 3, 2, 1, 7 } );
+    IntegerSet testSet1({ 14, 17, 23, 24, 38, 52, 56, 57, 74, 75, 85, 91, 98, 100, 116, 128, 131, 186, 194, 225, 232,
+                         240, 266, 278, 290, 302, 309, 322, 328, 363, 366, 371, 386, 404, 407, 447, 462, 463, 477,
+                         479, 485, 487, 489 });
 
-	std::cout << testTree << std::endl;
+	IntegerSet testSet2({ 14, 17, 23, 24, 38, 52, 56, 57, 74, 75, 85, 91, 98, 100, 116, 128, 131, 186, 194, 225, 232,
+	                     479, 485, 487, 489 });
 
-	RBTree testTree2( testTree );
+	IntegerSet testSet3 = testSet1 & testSet2;
 
-	std::cout << testTree2 << std::endl;
-
-	RBTree testTree3( { 15, 35, 89, 124, 122, 190, 191, 217, 284, 293, 327, 368, 407,
-	                    436, 435, 490, 529, 536, 582, 599, 606, 656, 696, 696, 744,
-	                    780, 789, 814, 887, 897, 912, 942, 995, 1032, 1068, 1087,
-	                    1114, 1121, 1187, 1200, 1237, 1254, 1278, 1324, 1342, 1383,
-	                    1405, 1433, 1451, 1489 } );
-
-	const int nOfKeys = 50;
-
-	testTree.Clear();
-
-	for( int i = 0, temp; i < nOfKeys; i++ ) {
-		temp = rand() % 500;
-		testTree += temp;
-	}
-
-	std::cout << testTree << std::endl;
-
-	testTree3 -= 814;
-
-	std::cout << testTree3 << std::endl;
-
-	RBTree testTree4( testTree3 -= 1489 );
-
-	std::cout << testTree4 << std::endl;
-
-	testTree4.Clear();
-
-	std::cout << testTree4 << std::endl;
-
-	testTree2 = std::move( testTree3 );
-
-	std::cout << testTree2 << std::endl;
-	std::cout << testTree3 << std::endl;
+	assert( testSet2 == testSet3 );
 
     return 0;
 }

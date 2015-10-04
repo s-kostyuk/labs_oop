@@ -79,9 +79,12 @@ IntegerSet   IntegerSet::operator &  ( const IntegerSet & _s ) const {
 	Iterator itSet1 = this->begin();
 	Iterator itSet2 = _s.begin();
 
-	while( itSet1 != this->end() && itSet2 != _s.end() ) {
-		if( *itSet1 == *itSet2 )
+	while( itSet1 != this->end() && ( itSet2 != _s.end()) ) {
+		if( *itSet1 == *itSet2 ) {
 			result += *itSet1;
+			++ itSet1;
+			++ itSet2;
+		}
 
 		else if( *itSet1 < *itSet2 )
 			++ itSet1;

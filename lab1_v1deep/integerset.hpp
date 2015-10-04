@@ -87,7 +87,7 @@ inline bool IntegerSet::Iterator::operator == ( Iterator _i ) const {
 }
 
 inline bool IntegerSet::Iterator::operator != ( Iterator _i ) const {
-	return *this != _i;
+	return !( *this == _i );
 }
 
 /*****************************************************************************/
