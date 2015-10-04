@@ -25,8 +25,8 @@ public:
 
 		int operator * () const;
 
-		bool operator == ( Iterator i ) const;
-		bool operator != ( Iterator i ) const;
+		bool operator == ( Iterator _i ) const;
+		bool operator != ( Iterator _i ) const;
 
 		Iterator & operator ++ ();
 		Iterator operator ++ ( int );

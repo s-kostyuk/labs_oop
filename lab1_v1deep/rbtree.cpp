@@ -550,12 +550,12 @@ int RBTree::Iterator::operator * () const {
 	return m_pCurrent->GetValue();
 }
 
-bool RBTree::Iterator::operator == ( Iterator i ) const {
-	return m_pCurrent == i.m_pCurrent;
+bool RBTree::Iterator::operator == ( Iterator _i ) const {
+	return m_pCurrent == _i.m_pCurrent;
 }
 
-bool RBTree::Iterator::operator != ( Iterator i ) const {
-	return !( *this == i );
+bool RBTree::Iterator::operator != ( Iterator _i ) const {
+	return !( *this == _i );
 }
 
 RBTree::Iterator& RBTree::Iterator::operator ++ () {
