@@ -14,10 +14,10 @@ RBTree::RBTree() {
 	m_pRoot = nullptr;
 }
 
-RBTree::RBTree(int * pArray, int _nOfElements)
+RBTree::RBTree(int * _pArray, int _nOfElements)
 	: RBTree()
 {
-	if( _nOfElements <= 0 || ! pArray )
+	if( _nOfElements <= 0 || !_pArray )
 		throw std::logic_error( "Invalid parameters" );
 }
 

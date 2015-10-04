@@ -42,7 +42,7 @@ public:
 	/*************************************************************************/
 
 	RBTree();
-	RBTree( int * pArray, int _nOfElements );
+	RBTree( int * _pArray, int _nOfElements );
 	RBTree( std::initializer_list< int > _l );
 
 	RBTree( const RBTree & _t );

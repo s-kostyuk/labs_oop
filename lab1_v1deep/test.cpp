@@ -24,16 +24,16 @@ int main() {
 	                    1114, 1121, 1187, 1200, 1237, 1254, 1278, 1324, 1342, 1383,
 	                    1405, 1433, 1451, 1489 } );
 
-	/*const int nOfKeys = 50;
+	const int nOfKeys = 50;
 
-	std::cout << "\nInserted: { ";
+	testTree.Clear();
+
 	for( int i = 0, temp; i < nOfKeys; i++ ) {
-		temp = rand() % 50 + 30 * i;
-		std::cout << temp << ", ";
+		temp = rand() % 500;
 		testTree += temp;
 	}
-	std::cout << "}\n";
-	*/
+
+	std::cout << testTree << std::endl;
 
 	testTree3 -= 814;
 
@@ -41,11 +41,16 @@ int main() {
 
 	RBTree testTree4( testTree3 -= 1489 );
 
-	std::cout << testTree4;
+	std::cout << testTree4 << std::endl;
 
 	testTree4.Clear();
 
-	std::cout << testTree4;
+	std::cout << testTree4 << std::endl;
+
+	testTree2 = std::move( testTree3 );
+
+	std::cout << testTree2 << std::endl;
+	std::cout << testTree3 << std::endl;
 
     return 0;
 }
