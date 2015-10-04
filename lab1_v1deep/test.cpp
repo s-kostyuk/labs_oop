@@ -2,7 +2,7 @@
 // Created by srg on 21.09.15.
 //
 
-#include "integerset.hpp"
+#include "libs/integerset.hpp"
 
 #include <cstdlib>
 #include <ctime>
