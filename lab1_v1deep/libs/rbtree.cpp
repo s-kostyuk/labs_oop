@@ -19,6 +19,9 @@ RBTree::RBTree(int * _pArray, int _nOfElements)
 {
 	if( _nOfElements <= 0 || !_pArray )
 		throw std::logic_error( "Invalid parameters" );
+
+	for( int i = 0; i < _nOfElements; i++ )
+		*this += _pArray[ i ];
 }
 
 RBTree::RBTree( std::initializer_list<int> _l )
@@ -70,8 +73,10 @@ int RBTree::GetNOfElements() const {
 	Iterator curr = begin();
 	int counter = 0;
 
-	while( curr != end() )
-		counter ++ ;
+	while( curr != end() ) {
+		++ counter;
+		++ curr;
+	}
 
 	return counter;
 }
