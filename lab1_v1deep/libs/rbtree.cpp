@@ -98,7 +98,7 @@ int RBTree::Maximum() const {
 RBTree & RBTree::operator += ( const int _key ) {
 	Node * x = InsertBase( _key );
 
-	if(  x )
+	if( x )
 		InsertFixup( x );
 
 	return *this;
@@ -307,8 +307,12 @@ void RBTree::CormenDelete( const int _key ) {
 		yOriginalColor = y->GetColor();
 		x = y->GetRight();
 
-		if( y->GetParent() == z )
-			x->SetParent( y );
+		if( y->GetParent() == z ) {
+			if( x )
+				x->SetParent( y );
+			else
+				pNilParent = y;
+		}
 		else {
 			Transplant( y, y->GetRight(), &pNilParent );
 			y->SetRight( z->GetRight() );
@@ -334,7 +338,11 @@ void RBTree::CormenDelete( const int _key ) {
  * (т.е. nullptr).
  */
 void RBTree::DeleteFixup( Node * x, Node * xParent ) {
-	assert( x || xParent );
+	if( !x && !xParent ) {
+		assert( m_pRoot == nullptr );
+		return;
+	}
+
 
 	// Игнорируем переданный указатель xParent, если узел x не является NIL-узлом:
 	if( x )
@@ -346,7 +354,7 @@ void RBTree::DeleteFixup( Node * x, Node * xParent ) {
 			if( w->GetColor() == Node::RED ) {
 				w->SetColor( Node::BLACK );
 				xParent->SetColor( Node::RED );
-				LeftRotate( xParent);
+				LeftRotate( xParent );
 				w = xParent->GetRight();
 			}
 
@@ -368,7 +376,7 @@ void RBTree::DeleteFixup( Node * x, Node * xParent ) {
 				w->SetColor( xParent->GetColor());
 				xParent->SetColor( Node::BLACK );
 				w->GetRight()->SetColor( Node::BLACK );
-				LeftRotate( xParent);
+				LeftRotate( xParent );
 				x = m_pRoot;
 			}
 		}
@@ -378,7 +386,7 @@ void RBTree::DeleteFixup( Node * x, Node * xParent ) {
 			if( w->GetColor() == Node::RED ) {
 				w->SetColor( Node::BLACK );
 				xParent->SetColor( Node::RED );
-				RightRotate( xParent);
+				RightRotate( xParent );
 				w = xParent->GetLeft();
 			}
 
@@ -400,7 +408,7 @@ void RBTree::DeleteFixup( Node * x, Node * xParent ) {
 				w->SetColor( xParent->GetColor());
 				xParent->SetColor( Node::BLACK );
 				w->GetLeft()->SetColor( Node::BLACK );
-				RightRotate( xParent);
+				RightRotate( xParent );
 				x = m_pRoot;
 			}
 		}
