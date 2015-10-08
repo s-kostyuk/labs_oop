@@ -14,7 +14,7 @@ RBTree::RBTree() {
 	m_pRoot = nullptr;
 }
 
-RBTree::RBTree(int * _pArray, int _nOfElements)
+RBTree::RBTree( const int * _pArray, const int _nOfElements )
 	: RBTree()
 {
 	if( _nOfElements <= 0 || !_pArray )
@@ -95,7 +95,7 @@ int RBTree::Maximum() const {
 	return m_pRoot->FindMaxChild()->GetValue();
 }
 
-RBTree & RBTree::operator += ( int _key ) {
+RBTree & RBTree::operator += ( const int _key ) {
 	Node * x = InsertBase( _key );
 
 	if(  x )
@@ -104,7 +104,7 @@ RBTree & RBTree::operator += ( int _key ) {
 	return *this;
 }
 
-RBTree & RBTree::operator -= ( int _key ) {
+RBTree & RBTree::operator -= ( const int _key ) {
 	CormenDelete( _key );
 
 	return *this;
@@ -164,7 +164,7 @@ RBTree::Node * RBTree::CopyRecursive( Node * _pSource, Node * _pNewNodeParent ) 
 	return pNewNode;
 }
 
-RBTree::Node * RBTree::InsertBase( int _key ) {
+RBTree::Node * RBTree::InsertBase( const int _key ) {
 	if( ! m_pRoot ) {
 		m_pRoot = new Node( _key );
 		return m_pRoot;

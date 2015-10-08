@@ -16,8 +16,8 @@ DECLARE_OOP_TEST( integerset_test_default_constructor ) {
 }
 
 DECLARE_OOP_TEST( integerset_test_array_constructor ) {
-	int testArray[] = { 100, 245, 999 };
-	int testArraySize = sizeof( testArray ) / sizeof( *testArray );
+	const int testArray[] = { 100, 245, 999 };
+	const int testArraySize = sizeof( testArray ) / sizeof( *testArray );
 
 	IntegerSet testSet( testArray, testArraySize );
 
@@ -26,8 +26,8 @@ DECLARE_OOP_TEST( integerset_test_array_constructor ) {
 }
 
 DECLARE_OOP_TEST( integerset_test_array_constructor_error ) {
-	int testArray[] = { 10, 15, 25 };
-	int testArraySize = sizeof( testArray ) / sizeof( *testArray );
+	const int testArray[] = { 10, 15, 25 };
+	const int testArraySize = sizeof( testArray ) / sizeof( *testArray );
 
 	try
 	{
@@ -64,12 +64,15 @@ DECLARE_OOP_TEST( integerset_test_clear ) {
 	testSet.clear();
 
 	assert( testSet.getSize() == 0 );
+
+	const IntegerSet emptySet;
+	assert( testSet == emptySet );
 }
 
 DECLARE_OOP_TEST( integerset_test_equal ) {
-	IntegerSet testSet1{ 10, 15, 25, 315, 909, 512 };
-	IntegerSet testSet2{ 10, 15, 25, 315, 909, 512 };
-	IntegerSet testSet3{ 512, 10, 315, 25, 909, 15 };
+	const IntegerSet testSet1{ 10, 15, 25, 315, 909, 512 };
+	const IntegerSet testSet2{ 10, 15, 25, 315, 909, 512 };
+	const IntegerSet testSet3{ 512, 10, 315, 25, 909, 15 };
 
 	assert(    testSet1 == testSet1
 	        && testSet1 == testSet2
@@ -102,7 +105,7 @@ DECLARE_OOP_TEST( integerset_test_add_key ) {
 	testSet1 += -5032;
 	testSet1 += 0;
 
-	IntegerSet testSet2{ 10, 15, 25, 315, 909, 512, 2015, -5032, 0 };
+	const IntegerSet testSet2{ 10, 15, 25, 315, 909, 512, 2015, -5032, 0 };
 
 	assert( testSet1 == testSet2 );
 
@@ -120,7 +123,7 @@ DECLARE_OOP_TEST( integerset_test_remove_key ) {
 	testSet1 -= 15;
 	testSet1 -= 10;
 
-	IntegerSet testSet2{ 25, 315, 512 };
+	const IntegerSet testSet2{ 25, 315, 512 };
 
 	assert( testSet1 == testSet2 );
 
@@ -128,6 +131,8 @@ DECLARE_OOP_TEST( integerset_test_remove_key ) {
 
 	assert( testSet1 == testSet2 );
 }
+
+
 
 /*
 #include <cstdlib>

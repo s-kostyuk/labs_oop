@@ -33,7 +33,7 @@ IntegerSet::IntegerSet()
 	: m_tree()
 { }
 
-IntegerSet::IntegerSet( int * _pArray, int _nOfElements )
+IntegerSet::IntegerSet( const int * _pArray, const int _nOfElements )
 	: m_tree( _pArray, _nOfElements )
 { }
 
@@ -61,13 +61,13 @@ IntegerSet & IntegerSet::operator = ( IntegerSet && _s ) {
 
 /*****************************************************************************/
 
-IntegerSet & IntegerSet::operator += ( int _key ) {
+IntegerSet & IntegerSet::operator += ( const int _key ) {
 	m_tree += _key;
 
 	return *this;
 }
 
-IntegerSet & IntegerSet::operator -= ( int _key ) {
+IntegerSet & IntegerSet::operator -= ( const int _key ) {
 	m_tree -= _key;
 
 	return *this;

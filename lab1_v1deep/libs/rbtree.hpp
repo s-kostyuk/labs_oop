@@ -42,7 +42,7 @@ public:
 	/*************************************************************************/
 
 	RBTree();
-	RBTree( int * _pArray, int _nOfElements );
+	RBTree( const int * _pArray, const int _nOfElements );
 	RBTree( std::initializer_list< int > _l );
 
 	RBTree( const RBTree & _t );
@@ -63,8 +63,8 @@ public:
 	Iterator begin() const;
 	Iterator end() const;
 
-	RBTree & operator += ( int _key );
-	RBTree & operator -= ( int _key );
+	RBTree & operator += ( const int _key );
+	RBTree & operator -= ( const int _key );
 
 	bool operator == ( const RBTree & _t ) const;
 	bool operator != ( const RBTree & _t ) const;
@@ -75,7 +75,7 @@ private:
 	void   DestroyRecursive( Node * _pRoot );
 	Node * CopyRecursive ( Node * _pSource, Node * _pNewNodeParent );
 
-	Node * InsertBase ( int _key );
+	Node * InsertBase( const int _key );
 	void   InsertFixup( Node * x );
 	void   CormenDelete( const int _key );
 	void   DeleteFixup( Node * x, Node * xParent = nullptr);
@@ -96,8 +96,7 @@ private:
 		enum Color { RED, BLACK };
 
 	private:
-		friend void RBTree::DeleteFixup( Node * x, Node * xParent = nullptr );
-		int m_value;
+		const int m_value;
 
 		Color m_color;
 
@@ -114,26 +113,26 @@ private:
 				, m_pRight( nullptr )
 		{}
 
-		int GetValue() { assert(this); return m_value; }
+		int    GetValue()  { assert( this ); return m_value;   }
 
-		Color GetColor() { return ( this ) ?  m_color : BLACK; }
+		Color  GetColor() { return ( this ) ? m_color : BLACK; }
 
-		Node * GetParent() { assert(this); return m_pParent; }
-		Node * GetLeft()   { assert(this); return m_pLeft;   }
-		Node * GetRight()  { assert(this); return m_pRight;  }
+		Node * GetParent() { assert( this ); return m_pParent; }
+		Node * GetLeft()   { assert( this ); return m_pLeft;   }
+		Node * GetRight()  { assert( this ); return m_pRight;  }
 
-		void SetColor ( Color  _c ) { assert(this); m_color   = _c; }
+		void SetColor ( Color  _c ) { assert( this ); m_color   = _c; }
 
-		void SetParent( Node * _p ) { assert(this); m_pParent = _p; }
-		void SetLeft  ( Node * _l ) { assert(this); m_pLeft   = _l; }
-		void SetRight ( Node * _r ) { assert(this); m_pRight  = _r; }
+		void SetParent( Node * _p ) { assert( this ); m_pParent = _p; }
+		void SetLeft  ( Node * _l ) { assert( this ); m_pLeft   = _l; }
+		void SetRight ( Node * _r ) { assert( this ); m_pRight  = _r; }
 
 		Node * FindMinChild();
 		Node * FindMaxChild();
 		Node * FindRightParent();
 		
-		bool IsLeftChild()  { assert(this); return this == m_pParent->m_pLeft;  }
-		bool IsRightChild() { assert(this); return this == m_pParent->m_pRight; }
+		bool IsLeftChild()  { assert( this ); return this == m_pParent->m_pLeft;  }
+		bool IsRightChild() { assert( this ); return this == m_pParent->m_pRight; }
 	};
 };
 

@@ -36,7 +36,7 @@ public:
 	/*************************************************************************/
 
 	IntegerSet();
-	IntegerSet( int * _pArray, int _nOfElements );
+	IntegerSet( const int * _pArray, const int _nOfElements );
 	IntegerSet( std::initializer_list< int > _l );
 
 	IntegerSet( const IntegerSet & _s );
@@ -55,8 +55,8 @@ public:
 	Iterator begin() const;
 	Iterator end() const;
 
-	IntegerSet & operator += ( int _key );
-	IntegerSet & operator -= ( int _key );
+	IntegerSet & operator += ( const int _key );
+	IntegerSet & operator -= ( const int _key );
 
 	IntegerSet   operator &  ( const IntegerSet & _s ) const;
 	IntegerSet & operator &= ( const IntegerSet & _s );
