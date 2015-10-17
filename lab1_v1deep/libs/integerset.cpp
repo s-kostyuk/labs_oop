@@ -6,29 +6,6 @@
 
 /*****************************************************************************/
 
-IntegerSet::Iterator::Iterator()
-	: m_treeIt()
-{ }
-
-IntegerSet::Iterator::Iterator( RBTree::Iterator _it )
-	: m_treeIt( _it )
-{ }
-
-IntegerSet::Iterator & IntegerSet::Iterator::operator ++ () {
-	++ m_treeIt;
-	return *this;
-}
-
-IntegerSet::Iterator IntegerSet::Iterator::operator ++( int ) {
-	Iterator copy = *this;
-
-	++ *this;
-
-	return copy;
-}
-
-/*****************************************************************************/
-
 IntegerSet::IntegerSet()
 	: m_tree()
 { }

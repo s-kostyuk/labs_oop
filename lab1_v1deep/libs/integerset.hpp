@@ -15,23 +15,7 @@ class IntegerSet {
 public:
 	/*************************************************************************/
 
-	class Iterator {
-
-	public:
-		explicit Iterator();
-		explicit Iterator( RBTree::Iterator _it );
-
-		int operator * () const;
-
-		bool operator == ( Iterator _i ) const;
-		bool operator != ( Iterator _i ) const;
-
-		Iterator & operator ++ ();
-		Iterator operator ++ ( int );
-
-	private:
-		RBTree::Iterator m_treeIt;
-	};
+	typedef RBTree::Iterator Iterator;
 
 	/*************************************************************************/
 
@@ -78,20 +62,6 @@ private:
 
 /*****************************************************************************/
 
-inline int IntegerSet::Iterator::operator * () const {
-	return *m_treeIt;
-}
-
-inline bool IntegerSet::Iterator::operator == ( Iterator _i ) const {
-	 return m_treeIt == _i.m_treeIt;
-}
-
-inline bool IntegerSet::Iterator::operator != ( Iterator _i ) const {
-	return !( *this == _i );
-}
-
-/*****************************************************************************/
-
 inline int IntegerSet::getSize() const {
 	return m_tree.GetNOfElements();
 }
@@ -101,11 +71,11 @@ inline bool IntegerSet::hasKey( const int _key ) const {
 }
 
 inline IntegerSet::Iterator IntegerSet::begin() const {
-	return Iterator( m_tree.begin() );
+	return m_tree.begin();
 }
 
 inline IntegerSet::Iterator IntegerSet::end() const {
-	return Iterator( m_tree.end() );
+	return m_tree.end();
 }
 
 /*****************************************************************************/
