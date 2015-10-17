@@ -8,31 +8,45 @@
 
 IntegerSet::IntegerSet()
 	: m_tree()
+    , m_nOfElements(0)
 { }
 
 IntegerSet::IntegerSet( const int * _pArray, const int _nOfElements )
 	: m_tree( _pArray, _nOfElements )
+	, m_nOfElements( (unsigned long) _nOfElements )
+{ }
+
+IntegerSet::IntegerSet( const int * _pArray, const unsigned long _nOfElements )
+	: m_tree( _pArray, _nOfElements )
+	, m_nOfElements( _nOfElements )
 { }
 
 IntegerSet::IntegerSet( std::initializer_list<int> _l )
 	: m_tree( _l )
+	, m_nOfElements( _l.size() )
 { }
 
 IntegerSet::IntegerSet( const IntegerSet & _s )
 	: m_tree( _s.m_tree )
+	, m_nOfElements( _s.m_nOfElements )
 { }
 
 IntegerSet::IntegerSet( IntegerSet && _s )
 	: m_tree( std::move( _s.m_tree ) )
+	, m_nOfElements( _s.m_nOfElements )
 { }
 
 IntegerSet & IntegerSet::operator = ( const IntegerSet & _s ) {
 	m_tree = _s.m_tree;
+	m_nOfElements = _s.m_nOfElements;
+
 	return *this;
 }
 
 IntegerSet & IntegerSet::operator = ( IntegerSet && _s ) {
 	m_tree = std::move( _s.m_tree );
+	m_nOfElements = _s.m_nOfElements;
+
 	return *this;
 }
 
@@ -40,12 +54,14 @@ IntegerSet & IntegerSet::operator = ( IntegerSet && _s ) {
 
 IntegerSet & IntegerSet::operator += ( const int _key ) {
 	m_tree += _key;
+	++ m_nOfElements;
 
 	return *this;
 }
 
 IntegerSet & IntegerSet::operator -= ( const int _key ) {
 	m_tree -= _key;
+	-- m_nOfElements;
 
 	return *this;
 }

@@ -43,6 +43,7 @@ public:
 
 	RBTree();
 	RBTree( const int * _pArray, const int _nOfElements );
+	RBTree( const int * _pArray, const unsigned long _nOfElements );
 	RBTree( std::initializer_list< int > _l );
 
 	RBTree( const RBTree & _t );
@@ -55,7 +56,7 @@ public:
 
 	void Clear();
 
-	int GetNOfElements() const;
+	unsigned long GetNOfElements() const;
     bool HasKey( const int _key ) const;
     int Minimum() const;
     int Maximum() const;

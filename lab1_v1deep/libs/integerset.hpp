@@ -21,6 +21,7 @@ public:
 
 	IntegerSet();
 	IntegerSet( const int * _pArray, const int _nOfElements );
+	IntegerSet( const int * _pArray, const unsigned long _nOfElements );
 	IntegerSet( std::initializer_list< int > _l );
 
 	IntegerSet( const IntegerSet & _s );
@@ -31,9 +32,9 @@ public:
 
 	~IntegerSet() { this->clear(); }
 
-	void clear() { m_tree.Clear(); }
+	void clear() { m_tree.Clear(); m_nOfElements = 0; }
 
-	int getSize() const;
+	unsigned long getSize() const;
 	bool hasKey( const int _key ) const;
 
 	Iterator begin() const;
@@ -58,12 +59,14 @@ private:
 
 	RBTree m_tree;
 
+	unsigned long m_nOfElements;
 };
 
 /*****************************************************************************/
 
-inline int IntegerSet::getSize() const {
-	return m_tree.GetNOfElements();
+inline unsigned long IntegerSet::getSize() const {
+	assert( m_nOfElements == m_tree.GetNOfElements() );
+	return m_nOfElements;
 }
 
 inline bool IntegerSet::hasKey( const int _key ) const {
@@ -81,7 +84,8 @@ inline IntegerSet::Iterator IntegerSet::end() const {
 /*****************************************************************************/
 
 inline bool IntegerSet::operator == ( const IntegerSet & _s ) const {
-	return m_tree == _s.m_tree;
+	return this->getSize() == _s.getSize() && m_tree == _s.m_tree;
+
 }
 
 inline bool IntegerSet::operator != ( const IntegerSet & _s ) const {
