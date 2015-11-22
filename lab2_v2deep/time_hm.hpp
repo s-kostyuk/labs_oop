@@ -19,7 +19,7 @@ public:
 
 	/*-----------------------------------------------------------------*/
 
-	TimeHM() = delete;
+	TimeHM();
 
 	TimeHM( short _h, short _m );
 
@@ -53,9 +53,9 @@ private:
 
 inline bool
 TimeHM::IsValid() {
-	return m_hour   >= 0 && m_hour   <  24
+	return m_hour   >= 0 && m_hour   < 24
 	       &&
-	       m_minute >= 0 && m_minute <= 60;
+	       m_minute >= 0 && m_minute < 60;
 }
 
 /*****************************************************************************/

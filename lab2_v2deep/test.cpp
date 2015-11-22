@@ -14,6 +14,14 @@
 
 /*****************************************************************************/
 
+DECLARE_OOP_TEST( test_time_default_constructor ) {
+	TimeHM testTime;
+
+	assert( testTime.GetHour() == 0 && testTime.GetMinute() == 0 );
+}
+
+/*****************************************************************************/
+
 DECLARE_OOP_TEST( test_create_valid_time ) {
 	const int h = 10;
 	const int m = 5;

@@ -12,6 +12,10 @@
 
 /*****************************************************************************/
 
+TimeHM::TimeHM()
+		: m_hour( 0 ), m_minute( 0 )
+{ }
+
 TimeHM::TimeHM( short _h, short _m )
 		: m_hour( _h ), m_minute( _m )
 {
