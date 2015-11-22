@@ -11,6 +11,7 @@
 
 namespace Messages {
 	const char * const TimeIsInvalid = "Requested time is invalid";
+
 	const char * const StationNameIsEmpty = "Station name is empty";
 	const char * const StationWithoutPlatfroms = "Station must have at leas one platfrom";
 	const char * const NegativePlatfromsOnStation = "Number of platforms can't be negative";

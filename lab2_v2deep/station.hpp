@@ -26,6 +26,8 @@ public:
 	Station( const Station & ) = delete;
 	Station & operator = ( const Station & ) = delete;
 
+	~Station() = default;
+
 	/*-----------------------------------------------------------------*/
 
 	const std::string & GetName() const { return m_name; };
@@ -41,12 +43,11 @@ private:
 
 	/*-----------------------------------------------------------------*/
 
-	std::string m_name;
+	const std::string m_name;
 	int m_nOfPlatforms;
 
 	/*-----------------------------------------------------------------*/
 
-	void CheckPlatforms( const int _nOfPlatforms ) const;
 };
 
 /*****************************************************************************/
