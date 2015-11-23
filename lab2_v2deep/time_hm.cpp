@@ -16,8 +16,8 @@ TimeHM::TimeHM()
 		: m_hour( 0 ), m_minute( 0 )
 { }
 
-TimeHM::TimeHM( short _h, short _m )
-		: m_hour( _h ), m_minute( _m )
+TimeHM::TimeHM( short _h, short _m, Day _timeDay )
+		: m_hour( _h ), m_minute( _m ), m_day( _timeDay )
 {
 	if( !IsValid() )
 		throw std::logic_error( Messages::TimeIsInvalid );
@@ -26,11 +26,18 @@ TimeHM::TimeHM( short _h, short _m )
 /*****************************************************************************/
 
 bool TimeHM::operator < ( const TimeHM & _t ) const {
-	if( GetHour() < _t.GetHour() )
+	if( m_day == Day::Today && _t.m_day == Day::NextDay )
 		return true;
 
-	else if( GetHour() == _t.GetHour() )
-		return GetMinute() < _t.GetMinute();
+	else if( m_day == _t.m_day ) {
+
+		if( GetHour() < _t.GetHour())
+			return true;
+
+		else if( GetHour() == _t.GetHour())
+			return GetMinute() < _t.GetMinute();
+
+	}
 
 	return false;
 }

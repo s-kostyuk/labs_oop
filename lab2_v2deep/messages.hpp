@@ -15,6 +15,8 @@ namespace Messages {
 	const char * const StationNameIsEmpty = "Station name is empty";
 	const char * const StationWithoutPlatfroms = "Station must have at leas one platfrom";
 	const char * const NegativePlatfromsOnStation = "Number of platforms can't be negative";
+
+	const char * const DeparturePreceedArrive = "Departure time can't preceed arrive time";
 }
 
 /*****************************************************************************/

@@ -80,10 +80,11 @@ DECLARE_OOP_TEST( test_time_print_midnight ) {
 /*****************************************************************************/
 
 DECLARE_OOP_TEST( test_time_compations ) {
-	assert( TimeHM( 10, 15 ) < TimeHM( 11, 15 ) );
-	assert( TimeHM( 10, 14 ) < TimeHM( 10, 15 ) );
+	assert( TimeHM( 10, 15 ) <  TimeHM( 11, 15 ));
+	assert( TimeHM( 10, 14 ) <  TimeHM( 10, 15 ));
 
-	assert( TimeHM( 11, 15 ) == TimeHM( 11, 15 ) );
+	assert( TimeHM( 11, 15 ) == TimeHM( 11, 15 ));
+	assert( TimeHM( 11, 15 ) <  TimeHM( 11, 15, TimeHM::Day::NextDay ));
 }
 
 /*****************************************************************************/

@@ -19,9 +19,15 @@ public:
 
 	/*-----------------------------------------------------------------*/
 
+	enum class Day {
+		Today, NextDay
+	};
+
+	/*-----------------------------------------------------------------*/
+
 	TimeHM();
 
-	TimeHM( short _h, short _m );
+	TimeHM( short _h, short _m, Day _timeDay = Day::Today );
 
 	~TimeHM() = default;
 
@@ -29,6 +35,7 @@ public:
 
 	short GetHour()   const { return m_hour;   }
 	short GetMinute() const { return m_minute; }
+	Day   GetDay()    const { return m_day;    }
 
 	/*-----------------------------------------------------------------*/
 
@@ -43,6 +50,7 @@ private:
 
 	short m_hour;
 	short m_minute;
+	Day   m_day;
 
 	/*-----------------------------------------------------------------*/
 
@@ -62,9 +70,11 @@ TimeHM::IsValid() {
 
 inline bool
 TimeHM::operator == ( const TimeHM & _t ) const {
-	return m_hour   == _t.GetHour()
-	       &&
-	       m_minute == _t.GetMinute();
+	return m_day == _t.m_day
+	        &&
+			m_hour   == _t.GetHour()
+	        &&
+			m_minute == _t.GetMinute();
 }
 
 /*****************************************************************************/

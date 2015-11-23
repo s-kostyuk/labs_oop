@@ -36,9 +36,9 @@ public:
 
 	/*-----------------------------------------------------------------*/
 
-	unsigned int GetID();
-	unsigned int GetNOfSeats();
-	unsigned int GetCurrentRoute();
+	unsigned int GetID() const;
+	unsigned int GetNOfSeats() const;
+	unsigned int GetCurrentRoute() const;
 
 	/*-----------------------------------------------------------------*/
 
@@ -61,15 +61,15 @@ private:
 
 /*****************************************************************************/
 
-inline unsigned int Train::GetID() {
+inline unsigned int Train::GetID() const {
 	return m_id;
 }
 
-inline unsigned int Train::GetNOfSeats() {
+inline unsigned int Train::GetNOfSeats() const {
 	return m_nOfSeats;
 }
 
-inline unsigned int Train::GetCurrentRoute() {
+inline unsigned int Train::GetCurrentRoute() const {
 	return m_currRoute;
 }
 
