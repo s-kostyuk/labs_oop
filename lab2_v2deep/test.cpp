@@ -8,6 +8,8 @@
 #include "testslib.hpp"
 #include "time_hm.hpp"
 #include "station.hpp"
+#include "train.hpp"
+#include "train_sched_item.hpp"
 
 #include <sstream>
 #include <cassert>
@@ -124,6 +126,33 @@ DECLARE_OOP_TEST( test_create_station_with_negative_platforms ) {
 			Station testStation( "Station 1", -1 );
 		,	Messages::NegativePlatfromsOnStation
 	);
+}
+
+/*****************************************************************************/
+
+DECLARE_OOP_TEST( test_create_correct_train_sched_item ) {
+	Station firstStation( "Station 1", 8 );
+
+	TrainSchedItem testItem( firstStation, {11,15}, {13,10} );
+}
+
+/*****************************************************************************/
+
+DECLARE_OOP_TEST( test_create_train_sched_item_with_wrong_time ) {
+	Station firstStation( "Station 1", 8 );
+
+	ASSERT_THROWS(
+			TrainSchedItem testItem( firstStation, {18,15}, {13,10} );
+		,	Messages::DeparturePreceedArrive
+	);
+}
+
+/*****************************************************************************/
+
+DECLARE_OOP_TEST( test_create_train_sched_item_arriving_next_day ) {
+	Station firstStation( "Station 1", 8 );
+
+	TrainSchedItem testItem( firstStation, {18,15}, {13,10, TimeHM::Day::NextDay } );
 }
 
 /*****************************************************************************/

@@ -11,7 +11,7 @@
 
 /*****************************************************************************/
 
-Train::Train( const unsigned int _id, const unsigned int _nOfSeats, const unsigned int _currRoute )
+Train::Train( const unsigned int _id, const unsigned int _nOfSeats, RoutePtr const _currRoute )
 		: m_id( _id ), m_nOfSeats( _nOfSeats ), m_currRoute( _currRoute )
 { }
 
