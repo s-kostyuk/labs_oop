@@ -161,3 +161,39 @@ DECLARE_OOP_TEST( test_create_train_sched_item_arriving_next_day ) {
 }
 
 /*****************************************************************************/
+
+DECLARE_OOP_TEST( test_create_correct_train ) {
+	Train( 10, 200 );
+
+	// Train without current route
+	Train( 10, 200, nullptr );
+}
+
+/*****************************************************************************/
+
+// TODO: Сделать тест для конструктора маршрута
+/*
+DECLARE_OOP_TEST( test_create_correct_train_with_route ) {
+	Train( 10, 200 );
+}
+*/
+
+/*****************************************************************************/
+
+DECLARE_OOP_TEST( test_create_train_with_wrong_id ) {
+	ASSERT_THROWS(
+			Train testTrain( -10, 200 );
+		,	Messages::NegativeID
+	);
+}
+
+/*****************************************************************************/
+
+DECLARE_OOP_TEST( test_create_train_with_wrong_seats_count ) {
+	ASSERT_THROWS(
+			Train testTrain( 10, -200 );
+		,	Messages::NegativeNumberOfSeats
+	);
+}
+
+/*****************************************************************************/

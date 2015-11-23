@@ -11,8 +11,14 @@
 
 /*****************************************************************************/
 
-Train::Train( const unsigned int _id, const unsigned int _nOfSeats, RoutePtr const _currRoute )
+Train::Train( const int _id, const int _nOfSeats, RoutePtr const _currRoute )
 		: m_id( _id ), m_nOfSeats( _nOfSeats ), m_currRoute( _currRoute )
-{ }
+{
+	if( m_id < 0 )
+		throw std::logic_error( Messages::NegativeID );
+
+	if( m_nOfSeats < 0 )
+		throw std::logic_error( Messages::NegativeNumberOfSeats );
+}
 
 /*****************************************************************************/

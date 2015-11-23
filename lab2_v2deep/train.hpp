@@ -29,7 +29,7 @@ public:
 
 	Train() = delete;
 
-	Train( const unsigned int _id, const unsigned int _nOfSeats, RoutePtr const _currRoute = nullptr );
+	Train( const int _id, const int _nOfSeats, RoutePtr const _currRoute = nullptr );
 
 	Train( const Train & ) = delete;
 	Train & operator = ( const Train & ) = delete;
@@ -38,13 +38,13 @@ public:
 
 	/*-----------------------------------------------------------------*/
 
-	unsigned int GetID() const;
-	unsigned int GetNOfSeats() const;
-	RoutePtr     GetCurrentRoute() const;
+	int GetID() const;
+	int GetNOfSeats() const;
+	RoutePtr GetCurrentRoute() const;
 
 	/*-----------------------------------------------------------------*/
 
-	void SetNOfSeats( const unsigned int _nOfSeats );
+	void SetNOfSeats( const int _nOfSeats );
 	void SetCurrentRoute( RoutePtr const _currRoute );
 
 	/*-----------------------------------------------------------------*/
@@ -53,8 +53,8 @@ private:
 
 	/*-----------------------------------------------------------------*/
 
-	const unsigned int m_id;
-	unsigned int m_nOfSeats;
+	const int m_id;
+	int m_nOfSeats;
 	RoutePtr     m_currRoute;
 
 	/*-----------------------------------------------------------------*/
@@ -63,11 +63,11 @@ private:
 
 /*****************************************************************************/
 
-inline unsigned int Train::GetID() const {
+inline int Train::GetID() const {
 	return m_id;
 }
 
-inline unsigned int Train::GetNOfSeats() const {
+inline int Train::GetNOfSeats() const {
 	return m_nOfSeats;
 }
 
@@ -77,7 +77,7 @@ inline RoutePtr Train::GetCurrentRoute() const {
 
 /*****************************************************************************/
 
-inline void Train::SetNOfSeats( const unsigned int _nOfSeats ) {
+inline void Train::SetNOfSeats( const int _nOfSeats ) {
 	m_nOfSeats = _nOfSeats;
 }
 
