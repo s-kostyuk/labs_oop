@@ -126,13 +126,3 @@ DECLARE_OOP_TEST( test_create_station_with_negative_platforms ) {
 }
 
 /*****************************************************************************/
-
-DECLARE_OOP_TEST( test_equal_stations ) {
-	// Имя - уникальный идентификатор для станции.
-	// Два объекта типа Station считаются идентичными, если их имена совпадают.
-
-	assert( Station( "Station 1", 8 ) == Station( "Station 1", 9 ) );
-	assert( !( Station( "Station 2", 8 ) == Station( "Station 1", 8 ) ) );
-}
-
-/*****************************************************************************/
