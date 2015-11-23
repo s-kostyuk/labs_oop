@@ -11,29 +11,35 @@
 
 /*****************************************************************************/
 
-// TODO: Выбрасывать исключение или проверять на правильность и возвращать результат?
-void Route::CheckItemVector( RouteInitVector & _v ) {
-	for( auto it = _v.begin() + 1; it != _v.end(); ++ it ) {
-		if( **(it - 1) < **it )
-			throw std::logic_error( Messages::WrongRoutePointsOrder );
-
-		if( TrainSchedItem::IsOverlaps( **(it - 1), **it ) )
-			throw std::logic_error( Messages::RouteItemWithWrongTime );
-
-	}
+Route::Route( const int _id )
+		: m_id( _id )
+{
+	if( _id < 0 )
+		throw std::logic_error( Messages::NegativeID );
 }
 
 /*****************************************************************************/
 
-Route::Route( const int _id, Route::RouteInitVector & _v )
-	: m_id( _id )
-{
-	if( _id < 0 )
-		throw std::logic_error( Messages::NegativeID );
+void Route::AddItem( UniqueRouteItem _it ) {
+	CheckItem( _it );
 
-	CheckItemVector( _v );
+	m_items.push_back( std::move( _it ) );
+}
 
-	m_items = std::move( _v );
+/*****************************************************************************/
+
+void Route::CheckItem( UniqueRouteItem & _i ) {
+	auto pLastItem = m_items.rbegin();
+
+	if( pLastItem == m_items.rend() )
+		return;
+
+	if( *_i < **pLastItem )
+		throw std::logic_error( Messages::WrongRoutePointsOrder );
+
+	if( TrainSchedItem::IsOverlaps( *_i, **pLastItem ) )
+		throw std::logic_error( Messages::RouteItemWithWrongTime );
+
 }
 
 /*****************************************************************************/

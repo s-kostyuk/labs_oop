@@ -14,10 +14,11 @@
 #include "station.hpp"
 #include "train.hpp"
 #include "train_sched_item.hpp"
+#include "route.hpp"
 
 #include <sstream>
 #include <cassert>
-
+#include <memory>
 
 /*****************************************************************************/
 
@@ -162,6 +163,20 @@ DECLARE_OOP_TEST( test_create_train_sched_item_arriving_next_day ) {
 
 /*****************************************************************************/
 
+DECLARE_OOP_TEST( test_create_correct_route ) {
+	Route testRoute( 10 );
+
+	Station firstStation( "Station 1", 8 );
+	Station secondStation( "Station 2", 2 );
+	Station thirdStation( "Station 3", 5 );
+
+	testRoute.AddItem( std::make_unique< TrainSchedItem >( firstStation, TimeHM{11,15}, TimeHM{13,10} ) );
+	testRoute.AddItem( std::make_unique< TrainSchedItem >( secondStation, TimeHM{15,15}, TimeHM{15,30} ) );
+	testRoute.AddItem( std::make_unique< TrainSchedItem >( thirdStation, TimeHM{17,00}, TimeHM{18,10} ) );
+}
+
+/*****************************************************************************/
+
 DECLARE_OOP_TEST( test_create_correct_train ) {
 	Train( 10, 200 );
 
@@ -171,7 +186,7 @@ DECLARE_OOP_TEST( test_create_correct_train ) {
 
 /*****************************************************************************/
 
-// TODO: Сделать тест для конструктора маршрута
+// TODO: Сделать тест с конструктором маршрута
 /*
 DECLARE_OOP_TEST( test_create_correct_train_with_route ) {
 	Train( 10, 200 );

@@ -13,7 +13,7 @@
 /*****************************************************************************/
 
 TrainSchedItem::TrainSchedItem( const Station & _arriveStation, const TimeHM & _arriveTime,
-                                const TimeHM  & _departureTime )
+                                const TimeHM & _departureTime )
 		: m_arriveStation( _arriveStation )
 		, m_arriveTime    ( _arriveTime )
 		, m_departureTime ( _departureTime )
@@ -31,7 +31,7 @@ bool TrainSchedItem::operator == ( const TrainSchedItem & _item ) const {
 		&&
         m_departureTime == _item.m_departureTime
 		&&
-	    m_arriveStation == _item.m_arriveStation;
+		m_arriveStation == _item.m_arriveStation;
 }
 
 /*****************************************************************************/
