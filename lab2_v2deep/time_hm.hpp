@@ -70,7 +70,7 @@ TimeHM::IsValid() {
 
 inline bool
 TimeHM::operator == ( const TimeHM & _t ) const {
-	return m_day == _t.m_day
+	return  m_day    == _t.GetDay()
 	        &&
 			m_hour   == _t.GetHour()
 	        &&
