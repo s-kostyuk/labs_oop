@@ -36,6 +36,7 @@ public:
 	/*-----------------------------------------------------------------*/
 
 	bool operator == ( const Station & _s ) const;
+	bool operator == ( const char * const _name ) const;
 
 	/*-----------------------------------------------------------------*/
 
@@ -55,6 +56,11 @@ private:
 inline bool
 Station::operator == ( const Station & _s ) const {
 	return _s.m_name == m_name;
+}
+
+inline bool
+Station::operator == ( const char * const _name ) const {
+	return _name == m_name;
 }
 
 /*****************************************************************************/
