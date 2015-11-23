@@ -7,6 +7,8 @@
 
 #include <stdexcept>
 
+/*****************************************************************************/
+
 Station::Station( const std::string & _name, const int _nOfPlatforms )
 	: m_name( _name ), m_nOfPlatforms( _nOfPlatforms )
 {
@@ -19,3 +21,15 @@ Station::Station( const std::string & _name, const int _nOfPlatforms )
 	if( _nOfPlatforms < 0  )
 		throw std::logic_error( Messages::NegativePlatfromsOnStation );
 }
+
+/*****************************************************************************/
+
+bool Station::operator == ( const Station & _s ) const {
+	return m_name == _s.m_name;
+}
+
+bool Station::operator < ( const Station & _s ) const {
+	return m_name < _s.m_name;
+}
+
+/*****************************************************************************/

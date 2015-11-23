@@ -1,19 +1,22 @@
 //
-// Created by Sergey Kostyuk (http://git.io/vBvMH) on 22.11.15.
+// Created by Sergey Kostyuk (http://git.io/vBvMH) on 23.11.15.
 //
 
-/*****************************************************************************/
-
-#ifndef STATION_HPP
-#define STATION_HPP
+#ifndef ROUTE_HPP
+#define ROUTE_HPP
 
 /*****************************************************************************/
 
-#include <string>
+#include "train_sched_item.hpp"
+
+#include <vector>
+#include <memory>
 
 /*****************************************************************************/
 
-class Station {
+class Route {
+
+	typedef std::vector< std::unique_ptr< TrainSchedItem > > RouteInitVector;
 
 	/*-----------------------------------------------------------------*/
 
@@ -21,22 +24,14 @@ public:
 
 	/*-----------------------------------------------------------------*/
 
-	Station( const std::string & _name, const int _nOfPlatforms );
+	Route() = delete;
 
-	Station( const Station & ) = delete;
-	Station & operator = ( const Station & ) = delete;
+	Route( const int _id, RouteInitVector & _v );
 
-	~Station() = default;
+	Route( const Route & ) = delete;
+	Route & operator = ( const Route & ) = delete;
 
-	/*-----------------------------------------------------------------*/
-
-	const std::string & GetName() const { return m_name; };
-	int GetNOfPlatfroms() const { return m_nOfPlatforms; };
-
-	/*-----------------------------------------------------------------*/
-
-	bool operator == ( const Station & _s ) const;
-	bool operator  < ( const Station & _s ) const;
+	~ Route() = default;
 
 	/*-----------------------------------------------------------------*/
 
@@ -44,8 +39,16 @@ private:
 
 	/*-----------------------------------------------------------------*/
 
-	const std::string m_name;
-	int m_nOfPlatforms;
+	typedef std::unique_ptr< TrainSchedItem > UniqueItem;
+
+	/*-----------------------------------------------------------------*/
+
+	const int m_id;
+	std::vector< UniqueItem > m_items;
+
+	/*-----------------------------------------------------------------*/
+
+	void CheckItemVector( RouteInitVector & _v );
 
 	/*-----------------------------------------------------------------*/
 
@@ -53,4 +56,4 @@ private:
 
 /*****************************************************************************/
 
-#endif //STATION_HPP
+#endif //ROUTE_HPP

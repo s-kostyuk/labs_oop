@@ -17,6 +17,10 @@ namespace Messages {
 	const char * const NegativePlatfromsOnStation = "Number of platforms can't be negative";
 
 	const char * const DeparturePreceedArrive = "Departure time can't preceed arrive time";
+
+	const char * const NegativeID = "ID of an object can't be negative";
+	const char * const WrongRoutePointsOrder = "List of route points must be sorted by arrive time";
+	const char * const RouteItemWithWrongTime = "Train can't be simultaneously on different stations";
 }
 
 /*****************************************************************************/

@@ -41,6 +41,11 @@ public:
 
 	/*-----------------------------------------------------------------*/
 
+	bool operator == ( const TrainSchedItem & _item ) const;
+	bool operator  < ( const TrainSchedItem & _item ) const;
+
+	/*-----------------------------------------------------------------*/
+
 	static bool IsOverlaps(
 			const TrainSchedItem & _item1,
 			const TrainSchedItem & _item2
