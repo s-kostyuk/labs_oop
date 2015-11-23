@@ -27,8 +27,8 @@ public:
 
 	TrainSchedItem(
 			const Station & _arriveStation,
-			const TimeHM & _arriveTime,
-			const TimeHM & _departureTime
+			const TimeHM  & _arriveTime,
+			const TimeHM  & _departureTime
 	);
 
 	~ TrainSchedItem() = default;
@@ -37,7 +37,7 @@ public:
 
 	const Station & GetArriveStation() const;
 	const TimeHM    GetArriveTime   () const;
-	const TimeHM    GetDepartureTime() const;
+	const TimeHM    GetDepartTime   () const;
 
 	/*-----------------------------------------------------------------*/
 
@@ -78,16 +78,8 @@ TrainSchedItem::GetArriveTime() const {
 }
 
 inline const TimeHM
-TrainSchedItem::GetDepartureTime() const {
+TrainSchedItem::GetDepartTime() const {
 	return m_departureTime;
-}
-
-inline bool
-TrainSchedItem::IsOverlaps( const TrainSchedItem & _item1, const TrainSchedItem & _item2 ) {
-	return  _item1.GetArriveTime() < _item2.GetDepartureTime()
-	        &&
-	        _item2.GetArriveTime() < _item1.GetDepartureTime();
-
 }
 
 /*****************************************************************************/

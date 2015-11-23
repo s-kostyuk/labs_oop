@@ -15,11 +15,11 @@ Station::Station( const std::string & _name, const int _nOfPlatforms )
 	if( m_name.empty() )
 		throw std::logic_error( Messages::StationNameIsEmpty );
 
-	if( _nOfPlatforms == 0 )
-		throw std::logic_error( Messages::StationWithoutPlatfroms );
-
 	if( _nOfPlatforms < 0  )
 		throw std::logic_error( Messages::NegativePlatfromsOnStation );
+
+	if( _nOfPlatforms == 0 )
+		throw std::logic_error( Messages::StationWithoutPlatfroms );
 }
 
 /*****************************************************************************/

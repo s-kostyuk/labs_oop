@@ -13,7 +13,7 @@
 /*****************************************************************************/
 
 TimeHM::TimeHM()
-		: m_hour( 0 ), m_minute( 0 )
+		: m_hour( 0 ), m_minute( 0 ), m_day( Day::Today )
 { }
 
 TimeHM::TimeHM( short _h, short _m, Day _timeDay )

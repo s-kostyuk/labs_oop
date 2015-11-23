@@ -21,6 +21,8 @@ public:
 
 	/*-----------------------------------------------------------------*/
 
+	Station() = delete;
+
 	Station( const std::string & _name, const int _nOfPlatforms );
 
 	Station( const Station & ) = delete;

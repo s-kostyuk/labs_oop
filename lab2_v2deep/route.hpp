@@ -14,6 +14,8 @@
 
 /*****************************************************************************/
 
+// TODO: Требует переработки
+
 class Route {
 
 	typedef std::vector< std::unique_ptr< TrainSchedItem > > RouteInitVector;

@@ -29,7 +29,7 @@ public:
 
 	Train() = delete;
 
-	Train( const unsigned int _id, const unsigned int _nOfSeats, RoutePtr const _currRoute = 0 );
+	Train( const unsigned int _id, const unsigned int _nOfSeats, RoutePtr const _currRoute = nullptr );
 
 	Train( const Train & ) = delete;
 	Train & operator = ( const Train & ) = delete;
