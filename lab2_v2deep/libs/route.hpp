@@ -10,6 +10,7 @@
 #include "train_sched_item.hpp"
 
 #include <vector>
+#include <set>
 #include <memory>
 
 /*****************************************************************************/
@@ -24,6 +25,8 @@ public:
 
 	class ItemIterator;
 	class ItemIteratorReverse;
+
+	/*-----------------------------------------------------------------*/
 
 	Route() = delete;
 
@@ -50,6 +53,10 @@ public:
 
 	/*-----------------------------------------------------------------*/
 
+	bool HasStation( const Station & _s );
+
+	/*-----------------------------------------------------------------*/
+
 	TimeHM::TimeDiff GetDuration();
 
 	/*-----------------------------------------------------------------*/
@@ -60,6 +67,7 @@ private:
 
 	const int m_id;
 	std::vector< UniqueRouteItem > m_items;
+	std::set< const Station * > m_usedStations;
 
 	/*-----------------------------------------------------------------*/
 

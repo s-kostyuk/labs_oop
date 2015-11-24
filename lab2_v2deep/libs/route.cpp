@@ -23,6 +23,8 @@ Route::Route( const int _id )
 void Route::AddItem( UniqueRouteItem _it ) {
 	CheckItem( _it );
 
+	m_usedStations.insert( & _it->GetArriveStation() );
+
 	m_items.push_back( std::move( _it ) );
 }
 
@@ -48,6 +50,14 @@ TimeHM::TimeDiff Route::GetDuration() {
 	return TimeHM::GetDiff(
 			m_items.rbegin()->get()->GetArriveTime(), m_items.begin()->get()->GetArriveTime()
 	);
+}
+
+/*****************************************************************************/
+
+bool Route::HasStation( const Station & _s ) {
+	auto it = m_usedStations.find( & _s );
+
+	return it != m_usedStations.end();
 }
 
 /*****************************************************************************/

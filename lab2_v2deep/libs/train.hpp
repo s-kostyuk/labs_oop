@@ -29,7 +29,7 @@ public:
 
 	Train() = delete;
 
-	Train( const int _id, const int _nOfSeats, RoutePtr const _currRoute = nullptr );
+	Train( const int _id, const int _nOfSeats, RoutePtr _currRoute = nullptr );
 
 	Train( const Train & ) = delete;
 	Train & operator = ( const Train & ) = delete;
@@ -38,8 +38,8 @@ public:
 
 	/*-----------------------------------------------------------------*/
 
-	int GetID() const;
-	int GetNOfSeats() const;
+	int      GetID()           const;
+	int      GetNOfSeats()     const;
 	RoutePtr GetCurrentRoute() const;
 
 	/*-----------------------------------------------------------------*/
@@ -54,8 +54,8 @@ private:
 	/*-----------------------------------------------------------------*/
 
 	const int m_id;
-	int m_nOfSeats;
-	RoutePtr     m_currRoute;
+	int       m_nOfSeats;
+	RoutePtr  m_currRoute;
 
 	/*-----------------------------------------------------------------*/
 

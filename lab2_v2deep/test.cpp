@@ -224,6 +224,10 @@ DECLARE_OOP_TEST( test_create_correct_route ) {
 	testRoute.AddItem( std::make_unique< TrainSchedItem >( firstStation, TimeHM{11,15}, TimeHM{13,10} ) );
 	testRoute.AddItem( std::make_unique< TrainSchedItem >( secondStation, TimeHM{15,15}, TimeHM{15,30} ) );
 	testRoute.AddItem( std::make_unique< TrainSchedItem >( thirdStation, TimeHM{17,00}, TimeHM{18,10} ) );
+
+	assert( testRoute.HasStation( firstStation ) );
+	assert( testRoute.HasStation( secondStation ) );
+	assert( testRoute.HasStation( thirdStation ) );
 }
 
 /*****************************************************************************/
