@@ -17,11 +17,12 @@
 #include <memory>
 #include <utility>
 #include <string>
-#include <set>
+#include <unordered_map>
 
 /*****************************************************************************/
 
 typedef int RouteID;
+typedef int TrainID;
 typedef std::string StationName;
 
 /*****************************************************************************/
@@ -43,50 +44,50 @@ public:
 
 	/*-----------------------------------------------------------------*/
 
-	void AddStation(
-			const std::string & _name,
-			int _nOfPlatforms
-	);
+	void declareNewRoute( const RouteID _id );
 
-	/*-----------------------------------------------------------------*/
-
-	void DeclareRoute(
-			const RouteID _id
-	);
-
-	bool TryAddRouteItem(
+	bool addRouteItem(
 			const RouteID _id,
 			const StationName & _arriveStation,
 			const TimeHM & _arriveTime,
 			const TimeHM & _departureTime
 	);
 
-	void SettleRoute(
-			const RouteID _id
-	);
+	void settleRoute( const RouteID _id );
 
 	/*-----------------------------------------------------------------*/
 
-	void AddTrain(
-			const int _id,
+	void addStation(
+			const StationName & _name,
+			const int _nOfPlatforms
+	);
+
+	void addTrain(
+			const TrainID _id,
 			const int _nOfSeats
 	);
 
-	void AddTrain(
-			const int _id,
+	void addTrain(
+			const TrainID _id,
 			const int _nOfSeats,
-			const int _currentRouteID
+			const RouteID _currentRoute
 	);
 
 	/*-----------------------------------------------------------------*/
 
-	void SetTrainRoute(
-			const int _trainId,
-			const int _newRouteID
+	const Station * findStation( const StationName & _name );
+
+	const Train * findTrain( const TrainID _id );
+
+	/*-----------------------------------------------------------------*/
+
+	void setTrainRoute(
+			const TrainID _train,
+			RouteID _newRoute
 	);
 
-	void SetTrainNOfSeats(
-			const int _trainId,
+	void setTrainNOfSeats(
+			const TrainID _train,
 			const int _newNOfSeats
 	);
 
@@ -100,7 +101,9 @@ private:
 
 	std::vector< std::unique_ptr<  Train  > > m_allTrains;
 
-	std::set< RouteID, std::unique_ptr< Route > > m_allRoutes;
+	std::unordered_map< RouteID, std::unique_ptr< Route > > m_allRoutes;
+
+	std::set< RouteID > m_unsettledRoutes;
 
 	/*-----------------------------------------------------------------*/
 

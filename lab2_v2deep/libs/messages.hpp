@@ -24,6 +24,13 @@ namespace Messages {
 
 	const char * const WrongRoutePointsOrder = "List of route points must be sorted by arrive time";
 	const char * const RouteItemWithWrongTime = "Train can't be simultaneously on different stations";
+
+	const char * const DuplicateStationNames = "Station with this name already exists";
+
+	const char * const UnfinishedRouteExist = "There is alraeady route with the same ID but it's unfinished";
+	const char * const DuplicateRouteID = "There is already route with the same ID";
+	const char * const RouteAlreadySettled = "This route is already settled";
+	const char * const RouteDoesntExist = "Unable to process operations with non-existent route";
 }
 
 /*****************************************************************************/
