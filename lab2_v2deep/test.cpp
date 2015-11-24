@@ -8,17 +8,18 @@
 
 /*****************************************************************************/
 
-#include "messages.hpp"
+#include "libs/messages.hpp"
 #include "testslib.hpp"
-#include "time_hm.hpp"
-#include "station.hpp"
-#include "train.hpp"
-#include "train_sched_item.hpp"
-#include "route.hpp"
+#include "libs/time_hm.hpp"
+#include "libs/station.hpp"
+#include "libs/train.hpp"
+#include "libs/train_sched_item.hpp"
+#include "libs/route.hpp"
 
 #include <sstream>
 #include <cassert>
 #include <memory>
+#include <utility>
 
 /*****************************************************************************/
 
@@ -175,6 +176,14 @@ DECLARE_OOP_TEST( test_create_correct_route ) {
 	testRoute.AddItem( std::make_unique< TrainSchedItem >( thirdStation, TimeHM{17,00}, TimeHM{18,10} ) );
 }
 
+/*****************************************************************************/
+
+// TODO: Тест с использованием итераторов
+/*
+DECLARE_OOP_TEST( test_create_correct_route_and_check_with_iterators ) {
+
+}
+*/
 /*****************************************************************************/
 
 DECLARE_OOP_TEST( test_create_correct_train ) {
