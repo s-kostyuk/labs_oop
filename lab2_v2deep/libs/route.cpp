@@ -44,3 +44,10 @@ void Route::CheckItem( UniqueRouteItem & _i ) {
 
 /*****************************************************************************/
 
+TimeHM::TimeDiff Route::GetDuration() {
+	return TimeHM::GetDiff(
+			m_items.rbegin()->get()->GetArriveTime(), m_items.begin()->get()->GetArriveTime()
+	);
+}
+
+/*****************************************************************************/

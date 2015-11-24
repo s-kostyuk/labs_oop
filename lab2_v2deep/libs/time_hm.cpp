@@ -7,8 +7,8 @@
 #include "time_hm.hpp"
 #include "messages.hpp"
 
-#include <stdexcept>
 #include <iomanip>
+#include <cassert>
 
 /*****************************************************************************/
 
@@ -52,3 +52,32 @@ std::ostream & operator << ( std::ostream & _o, const TimeHM & _t ) {
 }
 
 /*****************************************************************************/
+
+TimeHM::LongMinute TimeHM::GetMinutesFromMidnight() const {
+	return
+			( int )m_day * HOURS_IN_DAY * MINUTES_IN_HOUR
+			+
+			m_hour * MINUTES_IN_HOUR
+			+
+			m_minute;
+}
+
+/*****************************************************************************/
+
+TimeHM::TimeDiff TimeHM::operator - ( const TimeHM & _t ) const {
+	assert( _t < *this );
+
+	return GetMinutesFromMidnight() - _t.GetMinutesFromMidnight();
+}
+
+/*****************************************************************************/
+
+TimeHM::TimeDiff TimeHM::GetDiff( const TimeHM & _t1, const TimeHM & _t2 ) {
+	return
+			( _t1 < _t2 ) ?
+			( _t2 - _t1 ) :
+			( _t1 - _t2 );
+}
+
+/*****************************************************************************/
+

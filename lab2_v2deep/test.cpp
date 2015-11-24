@@ -98,6 +98,56 @@ DECLARE_OOP_TEST( test_time_compations ) {
 
 /*****************************************************************************/
 
+DECLARE_OOP_TEST( test_time_convertation ) {
+	assert(
+			TimeHM( 11, 15 ).GetMinutesFromMidnight()
+			==
+			675
+	);
+
+	assert(
+			TimeHM( 0, 15, TimeHM::Day::NextDay ).GetMinutesFromMidnight()
+			==
+			1455
+	);
+}
+
+/*****************************************************************************/
+
+DECLARE_OOP_TEST( test_time_diff ) {
+	assert(
+			TimeHM::GetDiff( TimeHM( 10, 15 ), TimeHM( 11, 15 ) )
+			==
+			60
+	);
+
+	assert(
+			TimeHM::GetDiff( TimeHM( 11, 15 ), TimeHM( 10, 15 ) )
+			==
+			60
+	);
+
+	assert(
+			TimeHM::GetDiff( TimeHM( 0, 0 ), TimeHM( 0, 0, TimeHM::Day::NextDay ) )
+			==
+			1440
+	);
+
+	assert(
+			TimeHM::GetDiff( TimeHM( 23, 59 ), TimeHM( 00, 00, TimeHM::Day::NextDay ) )
+			==
+			1
+	);
+
+	assert(
+			TimeHM::GetDiff( TimeHM( 23, 59 ), TimeHM( 00, 00 ) )
+			==
+			1439
+	);
+}
+
+/*****************************************************************************/
+
 DECLARE_OOP_TEST( test_create_correct_station ) {
 	const std::string sName = "Station 1";
 
