@@ -11,12 +11,6 @@
 
 /*****************************************************************************/
 
-const Route * Controller::findRoute( const RouteID _id ) {
-	return m_allRoutes.find( _id )->second.get();
-}
-
-/*****************************************************************************/
-
 const Station * Controller::findStation( const StationName & _name ) {
 	auto it = std::find_if
 	(
@@ -27,9 +21,9 @@ const Station * Controller::findStation( const StationName & _name ) {
 	        }
 	);
 
+	// TODO: Выглядит совсем не красиво
 	return ( it == m_allStations.end() ) ?
-	       nullptr :
-	       it->get();
+	       nullptr : it->get();
 }
 
 /*****************************************************************************/
@@ -47,14 +41,23 @@ void Controller::addStation( const StationName & _name, const int _nOfPlatforms 
 
 /*****************************************************************************/
 
+Route * Controller::findRouteMutable( const RouteID _id ) {
+	auto it = m_allRoutes.find( _id );
+
+	// TODO: Выглядит совсем не красиво
+	return ( it == m_allRoutes.end() ) ?
+	       nullptr : it->second.get();
+}
+
+/*****************************************************************************/
+
 void Controller::declareNewRoute( const RouteID _id ) {
-	if( m_allRoutes.find( _id ) != m_allRoutes.end() ) {
-		if( m_unsettledRoutes.find( _id ) != m_unsettledRoutes.end() )
+	if( IsRouteExists( _id ) ) {
+		if( ! IsRouteSettled( _id ) )
 			throw std::logic_error( Messages::UnfinishedRouteExist );
 
 		else
 			throw std::logic_error( Messages::DuplicateRouteID );
-
 	}
 
 	m_allRoutes.insert(
@@ -68,20 +71,67 @@ void Controller::declareNewRoute( const RouteID _id ) {
 
 /*****************************************************************************/
 
-void Controller::settleRoute( const RouteID _id ) {
-	if( m_unsettledRoutes.find( _id ) == m_unsettledRoutes.end() ) {
-		if( m_allRoutes.find( _id ) != m_allRoutes.end() )
+void Controller::addRouteItem(
+		const RouteID _id,
+		const StationName & _arriveStation,
+		const TimeHM & _arriveTime,
+		const TimeHM & _departureTime
+)
+{
+	CheckRouteReadyForSettle( _id );
+
+	Route * pRoute = findRouteMutable( _id );
+
+	const Station * const pStation = findStation( _arriveStation );
+
+	if( ! pStation )
+		throw std::logic_error( Messages::UnknownStation );
+
+	pRoute->AddItem(
+			std::make_unique< TrainSchedItem > (
+					*pStation,
+			        _arriveTime,
+			        _departureTime
+			)
+	);
+}
+
+/*****************************************************************************/
+
+void Controller::CheckRouteReadyForSettle( const RouteID _id ) {
+	if( IsRouteSettled( _id ) ) {
+		if( IsRouteExists( _id ) )
 			throw std::logic_error( Messages::RouteAlreadySettled );
 
 		else
 			throw std::logic_error( Messages::RouteDoesntExist );
 	}
-
 }
 
 /*****************************************************************************/
 
-const Train * Controller::findTrain( const TrainID _id ) {
+void Controller::settleRoute( const RouteID _id ) {
+	CheckRouteReadyForSettle( _id );
+
+	if( findRoute( _id )->empty() )
+		throw std::logic_error( Messages::RouteIsEmpty );
+
+	m_unsettledRoutes.erase( _id );
+}
+
+/*****************************************************************************/
+
+void Controller::CheckRouteReady( const RouteID _id ) {
+	if( ! IsRouteSettled( _id ) )
+		throw std::logic_error( Messages::UsageOfUnfinishedRoute );
+
+	if( ! IsRouteExists( _id ) )
+		throw std::logic_error( Messages::UsageOfUnknownRoute );
+}
+
+/*****************************************************************************/
+
+Train * Controller::findTrainMutable( const TrainID _id ) {
 	auto it = std::find_if
 			(
 					m_allTrains.begin(),
@@ -91,12 +141,14 @@ const Train * Controller::findTrain( const TrainID _id ) {
 					}
 			);
 
-	return it->get();
+	// TODO: Выглядит совсем не красиво. Кроме того, дублируется в findStation
+	return ( it == m_allTrains.end() ) ?
+	       nullptr : it->get();
 }
 
 /*****************************************************************************/
 
-void Controller::addTrain( const TrainID _id, const int _nOfSeats, const RoutePtr _p ) {
+void Controller::addTrain( const TrainID _id, const int _nOfSeats, const ConstRoutePtr _p ) {
 	if( findTrain( _id ) )
 		throw std::logic_error( Messages::DuplicateTrainIDs );
 
@@ -107,23 +159,34 @@ void Controller::addTrain( const TrainID _id, const int _nOfSeats, const RoutePt
 
 /*****************************************************************************/
 
-void Controller::addTrain( const TrainID _id, const int _nOfSeats, const RouteID _currentRoute ) {
-	if( m_unsettledRoutes.find( _currentRoute ) != m_unsettledRoutes.end() )
-		throw std::logic_error( Messages::TrainOnUnfinishedRoute );
-
-	RoutePtr routePtr = findRoute( _currentRoute );
-
-	if( ! routePtr )
-		throw std::logic_error( Messages::TrainOnUnknownRoute );
-
-	addTrain( _id, _nOfSeats, routePtr );
-}
-
-/*****************************************************************************/
-
 void Controller::addTrain( const TrainID _id, const int _nOfSeats ) {
 	addTrain( _id, _nOfSeats, nullptr );
 }
 
 /*****************************************************************************/
 
+void Controller::addTrain( const TrainID _id, const int _nOfSeats, const RouteID _currentRoute ) {
+	CheckRouteReady( _currentRoute );
+
+	addTrain( _id, _nOfSeats, findRouteMutable( _currentRoute ) );
+}
+
+/*****************************************************************************/
+
+void Controller::setTrainRoute( const TrainID _train, RouteID _newRoute ) {
+	Train * const pTrain = findTrainMutable( _train );
+
+	CheckRouteReady( _newRoute );
+
+	pTrain->SetCurrentRoute( findRoute( _newRoute ) );
+}
+
+/*****************************************************************************/
+
+void Controller::setTrainNOfSeats( const TrainID _train, const int _newNOfSeats ) {
+	Train * const pTrain = findTrainMutable( _train );
+
+	pTrain->SetNOfSeats( _newNOfSeats );
+}
+
+/*****************************************************************************/

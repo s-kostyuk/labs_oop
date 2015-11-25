@@ -45,6 +45,8 @@ public:
 	ItemIteratorReverse rbegin();
 	ItemIteratorReverse rend();
 
+	bool empty() const;
+
 	/*-----------------------------------------------------------------*/
 
 	typedef std::unique_ptr< TrainSchedItem > UniqueRouteItem;
@@ -156,6 +158,12 @@ private:
 
 	/*-----------------------------------------------------------------*/
 };
+
+/*****************************************************************************/
+
+inline bool Route::empty() const {
+	return m_items.empty();
+}
 
 /*****************************************************************************/
 

@@ -15,7 +15,7 @@
 
 class Route;
 
-typedef const Route * RoutePtr;
+typedef const Route * ConstRoutePtr;
 
 /*****************************************************************************/
 
@@ -29,7 +29,7 @@ public:
 
 	Train() = delete;
 
-	Train( const int _id, const int _nOfSeats, RoutePtr _currRoute = nullptr );
+	Train( const int _id, const int _nOfSeats, ConstRoutePtr _currRoute = nullptr );
 
 	Train( const Train & ) = delete;
 	Train & operator = ( const Train & ) = delete;
@@ -38,14 +38,14 @@ public:
 
 	/*-----------------------------------------------------------------*/
 
-	int      GetID()           const;
-	int      GetNOfSeats()     const;
-	RoutePtr GetCurrentRoute() const;
+	int           GetID()           const;
+	int           GetNOfSeats()     const;
+	ConstRoutePtr GetCurrentRoute() const;
 
 	/*-----------------------------------------------------------------*/
 
 	void SetNOfSeats( const int _nOfSeats );
-	void SetCurrentRoute( RoutePtr const _currRoute );
+	void SetCurrentRoute( ConstRoutePtr const _currRoute );
 
 	/*-----------------------------------------------------------------*/
 
@@ -53,9 +53,9 @@ private:
 
 	/*-----------------------------------------------------------------*/
 
-	const int m_id;
-	int       m_nOfSeats;
-	RoutePtr  m_currRoute;
+	const int     m_id;
+	int           m_nOfSeats;
+	ConstRoutePtr m_currRoute;
 
 	/*-----------------------------------------------------------------*/
 
@@ -71,7 +71,7 @@ inline int Train::GetNOfSeats() const {
 	return m_nOfSeats;
 }
 
-inline RoutePtr Train::GetCurrentRoute() const {
+inline ConstRoutePtr Train::GetCurrentRoute() const {
 	return m_currRoute;
 }
 
@@ -81,7 +81,7 @@ inline void Train::SetNOfSeats( const int _nOfSeats ) {
 	m_nOfSeats = _nOfSeats;
 }
 
-inline void Train::SetCurrentRoute( RoutePtr const _currRoute ) {
+inline void Train::SetCurrentRoute( ConstRoutePtr const _currRoute ) {
 	m_currRoute = _currRoute;
 }
 

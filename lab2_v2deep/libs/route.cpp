@@ -43,13 +43,16 @@ void Route::CheckItem( UniqueRouteItem & _i ) {
 		throw std::logic_error( Messages::WrongRoutePointsOrder );
 
 	if( TrainSchedItem::IsOverlaps( *_i, **pLastItem ) )
-		throw std::logic_error( Messages::RouteItemWithWrongTime );
+		throw std::logic_error( Messages::RouteItemTimeIntersect );
 
 }
 
 /*****************************************************************************/
 
 TimeHM::TimeDiff Route::GetDuration() {
+	if( m_items.empty() )
+		return TimeHM::TimeDiff( 0 );
+
 	return TimeHM::GetDiff(
 			m_items.rbegin()->get()->GetArriveTime(), m_items.begin()->get()->GetArriveTime()
 	);

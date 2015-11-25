@@ -46,7 +46,7 @@ public:
 
 	void declareNewRoute( const RouteID _id );
 
-	bool addRouteItem(
+	void addRouteItem(
 			const RouteID _id,
 			const StationName & _arriveStation,
 			const TimeHM & _arriveTime,
@@ -78,10 +78,13 @@ public:
 	/*-----------------------------------------------------------------*/
 
 	const Station * findStation( const StationName & _name );
-
+	const Route * findRoute( const RouteID _id );
 	const Train * findTrain( const TrainID _id );
 
-	const Route * findRoute( const RouteID _id );
+	/*-----------------------------------------------------------------*/
+
+	bool IsRouteExists( const RouteID _id );
+	bool IsRouteSettled( const RouteID _id );
 
 	/*-----------------------------------------------------------------*/
 
@@ -111,15 +114,49 @@ private:
 
 	/*-----------------------------------------------------------------*/
 
+	void CheckRouteReadyForSettle( const RouteID _id );
+	void CheckRouteReady( const RouteID _id );
+
+	/*-----------------------------------------------------------------*/
+
+	Route * findRouteMutable( const RouteID _id );
+	Train * findTrainMutable( const TrainID _id );
+
+	/*-----------------------------------------------------------------*/
+
 	void addTrain(
 			const TrainID _id,
 			const int _nOfSeats,
-			const RoutePtr
+			const ConstRoutePtr
 	);
 
 	/*-----------------------------------------------------------------*/
 
 };
+
+/*****************************************************************************/
+
+inline const Route * Controller::findRoute( const RouteID _id ) {
+	return findRouteMutable( _id );
+}
+
+/*****************************************************************************/
+
+inline const Train * Controller::findTrain( const TrainID _id ) {
+	return findTrainMutable( _id );
+}
+
+/*****************************************************************************/
+
+inline bool Controller::IsRouteExists( const RouteID _id ) {
+	return m_allRoutes.find( _id ) != m_allRoutes.end();
+}
+
+/*****************************************************************************/
+
+inline bool Controller::IsRouteSettled( const RouteID _id ) {
+	return m_unsettledRoutes.find( _id ) == m_unsettledRoutes.end();
+}
 
 /*****************************************************************************/
 
