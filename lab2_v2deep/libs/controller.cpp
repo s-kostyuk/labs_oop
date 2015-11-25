@@ -8,7 +8,12 @@
 #include "messages.hpp"
 
 #include <algorithm>
-#include <stdexcept>
+
+/*****************************************************************************/
+
+const Route * Controller::findRoute( const RouteID _id ) {
+	return m_allRoutes.find( _id )->second.get();
+}
 
 /*****************************************************************************/
 
@@ -22,7 +27,9 @@ const Station * Controller::findStation( const StationName & _name ) {
 	        }
 	);
 
-	return it->get();
+	return ( it == m_allStations.end() ) ?
+	       nullptr :
+	       it->get();
 }
 
 /*****************************************************************************/
@@ -88,23 +95,35 @@ const Train * Controller::findTrain( const TrainID _id ) {
 }
 
 /*****************************************************************************/
-/*
-void Controller::addTrain( const TrainID _id, const int _nOfSeats, const RouteID _currentRoute ) {
-	if( findTrain( _id ) )
-		throw std::logic_error( Messages::DuplicateStationNames );
 
-	m_allStations.push_back(
-			std::make_unique< Train >(
-					_id, _nOfSeats, _currentRoute
-			)
+void Controller::addTrain( const TrainID _id, const int _nOfSeats, const RoutePtr _p ) {
+	if( findTrain( _id ) )
+		throw std::logic_error( Messages::DuplicateTrainIDs );
+
+	m_allTrains.push_back(
+			std::make_unique< Train >( _id, _nOfSeats, _p )
 	);
 }
-*/
+
 /*****************************************************************************/
-/*
+
+void Controller::addTrain( const TrainID _id, const int _nOfSeats, const RouteID _currentRoute ) {
+	if( m_unsettledRoutes.find( _currentRoute ) != m_unsettledRoutes.end() )
+		throw std::logic_error( Messages::TrainOnUnfinishedRoute );
+
+	RoutePtr routePtr = findRoute( _currentRoute );
+
+	if( ! routePtr )
+		throw std::logic_error( Messages::TrainOnUnknownRoute );
+
+	addTrain( _id, _nOfSeats, routePtr );
+}
+
+/*****************************************************************************/
+
 void Controller::addTrain( const TrainID _id, const int _nOfSeats ) {
 	addTrain( _id, _nOfSeats, nullptr );
 }
-*/
+
 /*****************************************************************************/
 

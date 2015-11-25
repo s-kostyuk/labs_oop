@@ -22,10 +22,16 @@ namespace Messages {
 
 	const char * const NegativeNumberOfSeats = "Number of seats can't be negative";
 
+	const char * const StationRepeatsSuccessively = "Unable to set next arrive station the same as previous station";
 	const char * const WrongRoutePointsOrder = "List of route points must be sorted by arrive time";
 	const char * const RouteItemWithWrongTime = "Train can't be simultaneously on different stations";
 
 	const char * const DuplicateStationNames = "Station with this name already exists";
+
+	const char * const DuplicateTrainIDs = "There is already train with the same ID";
+	const char * const TrainOnUnfinishedRoute = "Train can't follow unfinished route. "
+			"Please, settle route with this ID before usage";
+	const char * const TrainOnUnknownRoute = "Train can't follow non-existing route";
 
 	const char * const UnfinishedRouteExist = "There is alraeady route with the same ID but it's unfinished";
 	const char * const DuplicateRouteID = "There is already route with the same ID";

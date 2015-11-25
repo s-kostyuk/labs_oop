@@ -35,12 +35,12 @@ public:
 
 	/*-----------------------------------------------------------------*/
 
-	// Controller() = default;
+	Controller() = default;
 
 	Controller( const Controller & ) = delete;
 	Controller & operator = ( const Controller & ) = delete;
 
-	// ~Controller() = default;
+	~Controller() = default;
 
 	/*-----------------------------------------------------------------*/
 
@@ -62,6 +62,8 @@ public:
 			const int _nOfPlatforms
 	);
 
+	/*-----------------------------------------------------------------*/
+
 	void addTrain(
 			const TrainID _id,
 			const int _nOfSeats
@@ -78,6 +80,8 @@ public:
 	const Station * findStation( const StationName & _name );
 
 	const Train * findTrain( const TrainID _id );
+
+	const Route * findRoute( const RouteID _id );
 
 	/*-----------------------------------------------------------------*/
 
@@ -104,6 +108,14 @@ private:
 	std::unordered_map< RouteID, std::unique_ptr< Route > > m_allRoutes;
 
 	std::set< RouteID > m_unsettledRoutes;
+
+	/*-----------------------------------------------------------------*/
+
+	void addTrain(
+			const TrainID _id,
+			const int _nOfSeats,
+			const RoutePtr
+	);
 
 	/*-----------------------------------------------------------------*/
 

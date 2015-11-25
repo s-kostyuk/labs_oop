@@ -9,6 +9,7 @@
 
 #include <iomanip>
 #include <cassert>
+#include <stdexcept>
 
 /*****************************************************************************/
 

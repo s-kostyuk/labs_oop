@@ -36,6 +36,9 @@ void Route::CheckItem( UniqueRouteItem & _i ) {
 	if( pLastItem == m_items.rend() )
 		return;
 
+	if( (*pLastItem)->GetArriveStation() == _i->GetArriveStation() )
+		throw std::logic_error( Messages::StationRepeatsSuccessively );
+
 	if( *_i < **pLastItem )
 		throw std::logic_error( Messages::WrongRoutePointsOrder );
 
