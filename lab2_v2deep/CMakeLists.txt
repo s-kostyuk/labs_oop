@@ -20,6 +20,8 @@ set(SOURCE_FILES
         libs/train_sched_item.cpp
         libs/train_sched_item.hpp
         test.cpp
-        testslib.hpp libs/controller_prints.cpp)
+        testslib.hpp
+        libs/controller_prints.cpp
+    )
 
 add_executable(lab2_v2deep ${SOURCE_FILES})

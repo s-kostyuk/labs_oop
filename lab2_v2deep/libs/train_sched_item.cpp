@@ -23,7 +23,6 @@ TrainSchedItem::TrainSchedItem( const Station & _arriveStation, const TimeHM & _
 
 /*****************************************************************************/
 
-// TODO: Рассмотреть равенство по времени VS равенство по всем полям
 bool TrainSchedItem::operator == ( const TrainSchedItem & _item ) const {
 	return
 		m_arriveTime == _item.m_arriveTime
@@ -35,7 +34,6 @@ bool TrainSchedItem::operator == ( const TrainSchedItem & _item ) const {
 
 /*****************************************************************************/
 
-// TODO: Рассмотреть сравнение по времени VS сравнение по всем полям
 bool TrainSchedItem::operator < ( const TrainSchedItem & _item ) const {
 	if( m_arriveTime < _item.m_arriveTime )
 		return true;

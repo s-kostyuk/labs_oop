@@ -110,6 +110,9 @@ void Controller::printSlowestRoutes( std::ostream & _o, const long _nOfRoutes ) 
 
 /*****************************************************************************/
 
+
+/*****************************************************************************/
+
 // распечатать все пары станций, связанных более чем двумя маршрутами;
 void Controller::printMultipleConnectedStations( std::ostream & _o ) {
 	typedef std::pair< const StationName &, const StationName & > NamePair;
@@ -122,6 +125,9 @@ void Controller::printMultipleConnectedStations( std::ostream & _o ) {
 	for( auto sIt = m_allStations.begin(); sIt != m_allStations.end(); ++sIt ) {
 		// Перебор остальных станций
 		for( auto sIt2 = sIt; sIt2 != m_allStations.end(); ++sIt2 ) {
+
+			// TODO: Много копипасты
+
 			// Получаем итератор на маршрут, содержащий обе станции одновременно
 			auto rIt = findTwoStationsInRoutes( sIt, sIt2, m_allRoutes.begin() );
 
@@ -132,7 +138,14 @@ void Controller::printMultipleConnectedStations( std::ostream & _o ) {
 			// Иначе продолжаем поиски среди оставшихся маршрутов
 			rIt = findTwoStationsInRoutes( sIt, sIt2, rIt );
 
-			// Если мы найдем второй маршрут с такой парой станций - сохраняем пару
+			// Если такой маршрут не встретился - идем к след. станции в паре
+			if( rIt == m_allRoutes.end() )
+				continue;
+
+			// Иначе продолжаем поиски среди оставшихся маршрутов
+			rIt = findTwoStationsInRoutes( sIt, sIt2, rIt );
+
+			// Если мы найдем третий маршрут с такой парой станций - сохраняем пару
 			if( rIt != m_allRoutes.end() ) {
 				resultStations.push_back(
 						std::make_pair (
@@ -160,7 +173,47 @@ void Controller::printMultipleConnectedStations( std::ostream & _o ) {
 
 // распечатать станции, которые не связаны ни одним из маршрутов;
 void Controller::printNonConnectedStations( std::ostream & _o ) {
-	//FIXME
+	/* FIXME: Переписать, устранить дупликацию инициализации контейнера, циклов,
+	 * печати результатов с printMultipleConnectedStations
+	 */
+
+	typedef std::pair< const StationName &, const StationName & > NamePair;
+
+	std::vector< NamePair > resultStations;
+
+	RoutesContainer::const_iterator rIt;
+
+	// Перебор первых элементов пары
+	for( auto sIt = m_allStations.begin(); sIt != m_allStations.end(); ++sIt ) {
+		// Перебор остальных станций
+		for( auto sIt2 = sIt; sIt2 != m_allStations.end(); ++sIt2 ) {
+
+			// TODO: Много копипасты
+
+			// Получаем итератор на маршрут, содержащий обе станции одновременно
+			auto rIt = findTwoStationsInRoutes( sIt, sIt2, m_allRoutes.begin() );
+
+			// Если такой маршрут не встретился - запоминаем пару
+			if( rIt == m_allRoutes.end() )
+				resultStations.push_back(
+						std::make_pair (
+								sIt->get()->GetName(),
+								sIt2->get()->GetName()
+						)
+				);
+
+		} // Конец внутреннего цикла
+
+	} // Конец внешнего цикла
+
+	// Печатаем
+	std::for_each(
+			resultStations.begin(),
+			resultStations.end(),
+			[ & ] ( const NamePair & _pair ) {
+				_o << _pair.first << "\t" << _pair.second;
+			}
+	);
 }
 
 /*****************************************************************************/
