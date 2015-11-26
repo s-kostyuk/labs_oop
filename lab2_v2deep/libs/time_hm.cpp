@@ -82,3 +82,24 @@ TimeHM::TimeDiff TimeHM::GetDiff( const TimeHM & _t1, const TimeHM & _t2 ) {
 
 /*****************************************************************************/
 
+bool TimeHM::IsOverlaps( const TimeInterval & _t1, const TimeInterval & _t2 ) {
+	return  _t1.first < _t2.second
+	        &&
+			_t2.first < _t1.second;
+}
+
+/*****************************************************************************/
+
+TimeHM::TimeInterval TimeHM::GetOverlapInterval( const TimeInterval & _t1, const TimeInterval & _t2 ) {
+	if( ! IsOverlaps( _t1, _t2 ) )
+		return TimeInterval();
+
+	std::pair< TimeHM, TimeHM > result;
+
+	result.first  = ( _t1.first  < _t2.first  ) ? _t2.first  : _t1.first;
+	result.second = ( _t2.second < _t1.second ) ? _t2.second : _t1.second;
+
+	return std::move( result );
+}
+
+/*****************************************************************************/

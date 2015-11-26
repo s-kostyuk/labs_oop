@@ -54,10 +54,10 @@ bool TrainSchedItem::operator < ( const TrainSchedItem & _item ) const {
 /*****************************************************************************/
 
 bool TrainSchedItem::IsOverlaps( const TrainSchedItem & _item1, const TrainSchedItem & _item2 ) {
-	return  _item1.GetArriveTime() < _item2.GetDepartTime()
-	        &&
-	        _item2.GetArriveTime() < _item1.GetDepartTime();
-
+	return TimeHM::IsOverlaps(
+			{ _item1.GetArriveTime(), _item1.GetDepartTime() },
+			{ _item2.GetArriveTime(), _item2.GetDepartTime() }
+	);
 }
 
 /*****************************************************************************/

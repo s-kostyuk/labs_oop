@@ -26,6 +26,7 @@ public:
 	typedef char  Minute;
 	typedef short LongMinute;
 	typedef short LongHour;
+	typedef std::pair< TimeHM, TimeHM > TimeInterval;
 
 	/*-----------------------------------------------------------------*/
 
@@ -56,6 +57,12 @@ public:
 
 	LongMinute GetMinutesFromMidnight() const;
 	static TimeDiff GetDiff( const TimeHM & _t1, const TimeHM & _t2 );
+
+	/*-----------------------------------------------------------------*/
+
+	static bool IsOverlaps( const TimeInterval & _t1, const TimeInterval & _t2 );
+
+	TimeInterval GetOverlapInterval( const TimeInterval & _t1, const TimeInterval & _t2 );
 
 	/*-----------------------------------------------------------------*/
 
