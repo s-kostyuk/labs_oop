@@ -28,6 +28,13 @@ void CreateSampleRoute( Controller & _c, const RouteID _id ) {
 
 /*****************************************************************************/
 
+void CreateSampleSchedule( Controller & _c ) {
+	// FIXME: Заглушка
+	CreateSampleRoute( _c, 14 );
+}
+
+/*****************************************************************************/
+
 DECLARE_OOP_TEST( test_controller_default_constructor ) {
 	Controller c;
 }
@@ -440,6 +447,28 @@ DECLARE_OOP_TEST( test_train_uncorrect_sets ) {
 			c.setTrainRoute( trainId, 11 ),
 			Messages::RouteDoesntExist
 	);
+}
+
+/*****************************************************************************/
+
+// TODO: Реализовать тест test_print_busiest_stations
+DECLARE_OOP_TEST( test_print_busiest_stations ) {
+	Controller c;
+
+	CreateSampleSchedule( c );
+
+	c.printBusiestStations( std::cout );
+}
+
+/*****************************************************************************/
+
+// TODO: Реализовать тест test_print_slowest_routes
+DECLARE_OOP_TEST( test_print_slowest_routes ) {
+	Controller c;
+
+	CreateSampleSchedule( c );
+
+	c.printSlowestRoutes( std::cout );
 }
 
 /*****************************************************************************/

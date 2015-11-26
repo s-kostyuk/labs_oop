@@ -67,3 +67,15 @@ bool Route::HasStation( const Station & _s ) {
 }
 
 /*****************************************************************************/
+
+std::pair< const Station *, const Station * > Route::GetOutermostStations() {
+	if( m_items.empty() )
+		return std::pair< const Station *, const Station * >( nullptr, nullptr );
+
+	return std::pair< const Station *, const Station * >(
+			&( m_items.begin ()->get()->GetArriveStation() ),
+			&( m_items.rbegin()->get()->GetArriveStation() )
+	);
+}
+
+/*****************************************************************************/

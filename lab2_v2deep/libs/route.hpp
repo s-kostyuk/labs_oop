@@ -61,6 +61,8 @@ public:
 
 	TimeHM::TimeDiff GetDuration();
 
+	std::pair< const Station *, const Station * > GetOutermostStations();
+
 	/*-----------------------------------------------------------------*/
 
 private:

@@ -101,7 +101,7 @@ void Controller::addRouteItem(
 
 /*****************************************************************************/
 
-void Controller::CheckRouteReadyForSettle( const RouteID _id ) {
+void Controller::CheckRouteReadyForSettle( const RouteID _id ) const {
 	if( IsRouteSettled( _id ) ) {
 		if( IsRouteExists( _id ) )
 			throw std::logic_error( Messages::RouteAlreadySettled );
@@ -124,7 +124,7 @@ void Controller::settleRoute( const RouteID _id ) {
 
 /*****************************************************************************/
 
-void Controller::CheckRouteReady( const RouteID _id ) {
+void Controller::CheckRouteReady( const RouteID _id ) const {
 	if( ! IsRouteSettled( _id ) )
 		throw std::logic_error( Messages::UsageOfUnfinishedRoute );
 
@@ -212,4 +212,3 @@ void Controller::setTrainNOfSeats( const TrainID _train, const int _newNOfSeats 
 }
 
 /*****************************************************************************/
-
