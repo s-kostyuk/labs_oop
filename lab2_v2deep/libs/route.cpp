@@ -30,7 +30,7 @@ void Route::AddItem( UniqueRouteItem _it ) {
 
 /*****************************************************************************/
 
-void Route::CheckItem( UniqueRouteItem & _i ) {
+void Route::CheckItem( UniqueRouteItem & _i ) const {
 	auto pLastItem = m_items.rbegin();
 
 	if( pLastItem == m_items.rend() )
@@ -49,7 +49,7 @@ void Route::CheckItem( UniqueRouteItem & _i ) {
 
 /*****************************************************************************/
 
-TimeHM::TimeDiff Route::GetDuration() {
+TimeHM::TimeDiff Route::GetDuration() const {
 	if( m_items.empty() )
 		return TimeHM::TimeDiff( 0 );
 
@@ -60,7 +60,7 @@ TimeHM::TimeDiff Route::GetDuration() {
 
 /*****************************************************************************/
 
-bool Route::HasStation( const Station & _s ) {
+bool Route::HasStation( const Station & _s ) const {
 	auto it = m_usedStations.find( & _s );
 
 	return it != m_usedStations.end();
@@ -68,7 +68,7 @@ bool Route::HasStation( const Station & _s ) {
 
 /*****************************************************************************/
 
-std::pair< const Station *, const Station * > Route::GetOutermostStations() {
+std::pair< const Station *, const Station * > Route::GetOutermostStations() const {
 	if( m_items.empty() )
 		return std::pair< const Station *, const Station * >( nullptr, nullptr );
 

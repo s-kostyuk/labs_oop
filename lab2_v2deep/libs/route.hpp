@@ -30,7 +30,7 @@ public:
 
 	Route() = delete;
 
-	Route( const int _id );
+	explicit Route( const int _id );
 
 	Route( const Route & ) = delete;
 	Route & operator = ( const Route & ) = delete;
@@ -55,13 +55,13 @@ public:
 
 	/*-----------------------------------------------------------------*/
 
-	bool HasStation( const Station & _s );
+	bool HasStation( const Station & _s ) const;
 
 	/*-----------------------------------------------------------------*/
 
-	TimeHM::TimeDiff GetDuration();
+	TimeHM::TimeDiff GetDuration() const;
 
-	std::pair< const Station *, const Station * > GetOutermostStations();
+	std::pair< const Station *, const Station * > GetOutermostStations() const;
 
 	/*-----------------------------------------------------------------*/
 
@@ -75,7 +75,7 @@ private:
 
 	/*-----------------------------------------------------------------*/
 
-	void CheckItem( UniqueRouteItem & _i );
+	void CheckItem( UniqueRouteItem & _i ) const;
 
 	/*-----------------------------------------------------------------*/
 
