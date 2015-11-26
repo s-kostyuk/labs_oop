@@ -22,9 +22,10 @@ public:
 	/*-----------------------------------------------------------------*/
 
 	typedef int   TimeDiff;
-	typedef short Hour;
-	typedef short Minute;
-	typedef int   LongMinute;
+	typedef char  Hour;
+	typedef char  Minute;
+	typedef short LongMinute;
+	typedef short LongHour;
 
 	/*-----------------------------------------------------------------*/
 
@@ -36,15 +37,15 @@ public:
 
 	TimeHM();
 
-	TimeHM( Hour _h, Minute _m, Day _timeDay = Day::Today );
+	TimeHM( LongHour _h, LongMinute _m, Day _timeDay = Day::Today );
 
 	~TimeHM() = default;
 
 	/*-----------------------------------------------------------------*/
 
-	Hour   GetHour()   const { return m_hour;   }
-	Minute GetMinute() const { return m_minute; }
-	Day    GetDay()    const { return m_day;    }
+	LongHour   GetHour()   const { return m_hour;   }
+	LongMinute GetMinute() const { return m_minute; }
+	Day        GetDay()    const { return m_day;    }
 
 	/*-----------------------------------------------------------------*/
 
@@ -67,9 +68,9 @@ private:
 
 	/*-----------------------------------------------------------------*/
 
-	short m_hour;
-	short m_minute;
-	Day   m_day;
+	Hour   m_hour;
+	Minute m_minute;
+	Day    m_day;
 
 	/*-----------------------------------------------------------------*/
 

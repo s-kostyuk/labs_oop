@@ -17,7 +17,7 @@ TimeHM::TimeHM()
 		: m_hour( 0 ), m_minute( 0 ), m_day( Day::Today )
 { }
 
-TimeHM::TimeHM( short _h, short _m, Day _timeDay )
+TimeHM::TimeHM( LongHour _h, LongMinute _m, Day _timeDay )
 		: m_hour( _h ), m_minute( _m ), m_day( _timeDay )
 {
 	if( !IsValid() )
