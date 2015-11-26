@@ -93,6 +93,8 @@ public:
 			RouteID _newRoute
 	);
 
+	void unsetTrainRoute( const TrainID _train );
+
 	void setTrainNOfSeats(
 			const TrainID _train,
 			const int _newNOfSeats
@@ -121,6 +123,8 @@ private:
 
 	Route * findRouteMutable( const RouteID _id );
 	Train * findTrainMutable( const TrainID _id );
+
+	Train & resolveTrainMustable( const TrainID _id );
 
 	/*-----------------------------------------------------------------*/
 

@@ -32,6 +32,9 @@ void Controller::addStation( const StationName & _name, const int _nOfPlatforms 
 	if( findStation( _name ) )
 		throw std::logic_error( Messages::DuplicateStationNames );
 
+	/* TODO: Тут и еще в паре мест с make_unique ругается на первый аргумент:
+	 * "Parameter type mismatch: Expression must be rvalue"
+	 * Но при этом компилится замечательно */
 	m_allStations.push_back(
 			std::make_unique< Station >(
 					_name, _nOfPlatforms
@@ -54,7 +57,7 @@ Route * Controller::findRouteMutable( const RouteID _id ) {
 void Controller::declareNewRoute( const RouteID _id ) {
 	if( IsRouteExists( _id ) ) {
 		if( ! IsRouteSettled( _id ) )
-			throw std::logic_error( Messages::UnfinishedRouteExist );
+			throw std::logic_error( Messages::UnsettledRouteExist );
 
 		else
 			throw std::logic_error( Messages::DuplicateRouteID );
@@ -126,7 +129,7 @@ void Controller::CheckRouteReady( const RouteID _id ) {
 		throw std::logic_error( Messages::UsageOfUnfinishedRoute );
 
 	if( ! IsRouteExists( _id ) )
-		throw std::logic_error( Messages::UsageOfUnknownRoute );
+		throw std::logic_error( Messages::RouteDoesntExist );
 }
 
 /*****************************************************************************/
@@ -144,6 +147,17 @@ Train * Controller::findTrainMutable( const TrainID _id ) {
 	// TODO: Выглядит совсем не красиво. Кроме того, дублируется в findStation
 	return ( it == m_allTrains.end() ) ?
 	       nullptr : it->get();
+}
+
+/*****************************************************************************/
+
+Train & Controller::resolveTrainMustable( const TrainID _id ) {
+	Train * const pTrain = findTrainMutable( _id );
+
+	if( ! pTrain )
+		throw std::logic_error( Messages::UnknownTrain );
+
+	return *pTrain;
 }
 
 /*****************************************************************************/
@@ -174,19 +188,28 @@ void Controller::addTrain( const TrainID _id, const int _nOfSeats, const RouteID
 /*****************************************************************************/
 
 void Controller::setTrainRoute( const TrainID _train, RouteID _newRoute ) {
-	Train * const pTrain = findTrainMutable( _train );
+	Train & destTrain = resolveTrainMustable( _train );
 
 	CheckRouteReady( _newRoute );
 
-	pTrain->SetCurrentRoute( findRoute( _newRoute ) );
+	destTrain.SetCurrentRoute( findRoute( _newRoute ) );
+}
+
+/*****************************************************************************/
+
+void Controller::unsetTrainRoute( const TrainID _train ) {
+	Train & destTrain = resolveTrainMustable( _train );
+
+	destTrain.SetCurrentRoute( nullptr );
 }
 
 /*****************************************************************************/
 
 void Controller::setTrainNOfSeats( const TrainID _train, const int _newNOfSeats ) {
-	Train * const pTrain = findTrainMutable( _train );
+	Train & destTrain = resolveTrainMustable( _train );
 
-	pTrain->SetNOfSeats( _newNOfSeats );
+	destTrain.SetNOfSeats( _newNOfSeats );
 }
 
 /*****************************************************************************/
+

@@ -59,6 +59,9 @@ private:
 
 	/*-----------------------------------------------------------------*/
 
+	void CheckNOfSeats( const int _n );
+
+	/*-----------------------------------------------------------------*/
 };
 
 /*****************************************************************************/
@@ -78,6 +81,8 @@ inline ConstRoutePtr Train::GetCurrentRoute() const {
 /*****************************************************************************/
 
 inline void Train::SetNOfSeats( const int _nOfSeats ) {
+	CheckNOfSeats( _nOfSeats );
+
 	m_nOfSeats = _nOfSeats;
 }
 
