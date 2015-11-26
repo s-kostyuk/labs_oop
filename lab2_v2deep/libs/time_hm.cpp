@@ -20,7 +20,7 @@ TimeHM::TimeHM()
 TimeHM::TimeHM( LongHour _h, LongMinute _m, Day _timeDay )
 		: m_hour( _h ), m_minute( _m ), m_day( _timeDay )
 {
-	if( !IsValid() )
+	if( !IsValid( _h, _m ) )
 		throw std::logic_error( Messages::TimeIsInvalid );
 }
 

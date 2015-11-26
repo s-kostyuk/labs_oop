@@ -74,7 +74,8 @@ private:
 
 	/*-----------------------------------------------------------------*/
 
-	bool IsValid();
+	bool IsValid() const;
+	bool IsValid( LongHour _h, LongMinute _m ) const;
 
 	/*-----------------------------------------------------------------*/
 
@@ -86,10 +87,17 @@ private:
 /*****************************************************************************/
 
 inline bool
-TimeHM::IsValid() {
-	return m_hour   >= 0 && m_hour   < HOURS_IN_DAY
+TimeHM::IsValid( LongHour _h, LongMinute _m ) const {
+	return _h >= 0 && _h < HOURS_IN_DAY
 	       &&
-	       m_minute >= 0 && m_minute < MINUTES_IN_HOUR;
+	       _m >= 0 && _m < MINUTES_IN_HOUR;
+}
+
+/*****************************************************************************/
+
+inline bool
+TimeHM::IsValid() const {
+	return IsValid( m_hour, m_minute );
 }
 
 /*****************************************************************************/
