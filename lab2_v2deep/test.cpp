@@ -602,3 +602,115 @@ DECLARE_OOP_TEST( test_print_slowest_routes ) {
 }
 
 /*****************************************************************************/
+
+DECLARE_OOP_TEST( test_print_multiple_connected_stations ) {
+	Controller c;
+
+	CreateSampleSchedule( c );
+
+	std::stringstream ss;
+
+	c.printMultipleConnectedStations( ss );
+
+	assert( ss.str() == "\n"
+			                    "Kharkiv-Pas.\tPoltava-Kyivs'ka\n"
+			                    "Kharkiv-Pas.\tKyiv-Pas.\n"
+			                    "Poltava-Kyivs'ka\tKyiv-Pas.\n"
+			                    "Kyiv-Pas.\tSumy\n"
+			                    "Smorodyne\tPytivl\n"
+			                    "Smorodyne\tBakhmach-Pas.\n"
+			                    "Pytivl\tBakhmach-Pas." );
+
+}
+
+/*****************************************************************************/
+
+DECLARE_OOP_TEST( test_print_non_connected_stations ) {
+	Controller c;
+
+	CreateSampleSchedule( c );
+
+	std::stringstream ss;
+
+	c.printNonConnectedStations( ss );
+
+	assert( ss.str() == "\n"
+			                    "Kharkiv-Pas.\tSmorodyne\n"
+			                    "Kharkiv-Pas.\tPytivl\n"
+			                    "Kharkiv-Pas.\tKonotop-Pas.\n"
+			                    "Kharkiv-Pas.\tBakhmach-Pas.\n"
+			                    "Kharkiv-Pas.\tVorozhba-Pas.\n"
+			                    "Poltava-Kyivs'ka\tSmorodyne\n"
+			                    "Poltava-Kyivs'ka\tSumy\n"
+			                    "Poltava-Kyivs'ka\tPytivl\n"
+			                    "Poltava-Kyivs'ka\tKonotop-Pas.\n"
+			                    "Poltava-Kyivs'ka\tBakhmach-Pas.\n"
+			                    "Poltava-Kyivs'ka\tNizhyn\n"
+			                    "Poltava-Kyivs'ka\tVorozhba-Pas.\n"
+			                    "Mirgorod\tShepetivka-1\n"
+			                    "Mirgorod\tKorosten-Pz\n"
+			                    "Mirgorod\tNovohrad-Volyn-1\n"
+			                    "Mirgorod\tZdolbuniv-Pas.\n"
+			                    "Mirgorod\tL'viv\n"
+			                    "Mirgorod\tSmorodyne\n"
+			                    "Mirgorod\tSumy\n"
+			                    "Mirgorod\tPytivl\n"
+			                    "Mirgorod\tKonotop-Pas.\n"
+			                    "Mirgorod\tBakhmach-Pas.\n"
+			                    "Mirgorod\tNizhyn\n"
+			                    "Mirgorod\tVorozhba-Pas.\n"
+			                    "Darnytsia\tShepetivka-1\n"
+			                    "Darnytsia\tKorosten-Pz\n"
+			                    "Darnytsia\tNovohrad-Volyn-1\n"
+			                    "Darnytsia\tZdolbuniv-Pas.\n"
+			                    "Darnytsia\tL'viv\n"
+			                    "Darnytsia\tSmorodyne\n"
+			                    "Darnytsia\tSumy\n"
+			                    "Darnytsia\tPytivl\n"
+			                    "Darnytsia\tKonotop-Pas.\n"
+			                    "Darnytsia\tBakhmach-Pas.\n"
+			                    "Darnytsia\tNizhyn\n"
+			                    "Darnytsia\tVorozhba-Pas.\n"
+			                    "Shepetivka-1\tL'viv\n"
+			                    "Shepetivka-1\tSmorodyne\n"
+			                    "Shepetivka-1\tSumy\n"
+			                    "Shepetivka-1\tPytivl\n"
+			                    "Shepetivka-1\tKonotop-Pas.\n"
+			                    "Shepetivka-1\tBakhmach-Pas.\n"
+			                    "Shepetivka-1\tNizhyn\n"
+			                    "Shepetivka-1\tVorozhba-Pas.\n"
+			                    "Korosten-Pz\tL'viv\n"
+			                    "Korosten-Pz\tSmorodyne\n"
+			                    "Korosten-Pz\tSumy\n"
+			                    "Korosten-Pz\tPytivl\n"
+			                    "Korosten-Pz\tKonotop-Pas.\n"
+			                    "Korosten-Pz\tBakhmach-Pas.\n"
+			                    "Korosten-Pz\tNizhyn\n"
+			                    "Korosten-Pz\tVorozhba-Pas.\n"
+			                    "Novohrad-Volyn-1\tL'viv\n"
+			                    "Novohrad-Volyn-1\tSmorodyne\n"
+			                    "Novohrad-Volyn-1\tSumy\n"
+			                    "Novohrad-Volyn-1\tPytivl\n"
+			                    "Novohrad-Volyn-1\tKonotop-Pas.\n"
+			                    "Novohrad-Volyn-1\tBakhmach-Pas.\n"
+			                    "Novohrad-Volyn-1\tNizhyn\n"
+			                    "Novohrad-Volyn-1\tVorozhba-Pas.\n"
+			                    "Zdolbuniv-Pas.\tL'viv\n"
+			                    "Zdolbuniv-Pas.\tSmorodyne\n"
+			                    "Zdolbuniv-Pas.\tSumy\n"
+			                    "Zdolbuniv-Pas.\tPytivl\n"
+			                    "Zdolbuniv-Pas.\tKonotop-Pas.\n"
+			                    "Zdolbuniv-Pas.\tBakhmach-Pas.\n"
+			                    "Zdolbuniv-Pas.\tNizhyn\n"
+			                    "Zdolbuniv-Pas.\tVorozhba-Pas.\n"
+			                    "L'viv\tSmorodyne\n"
+			                    "L'viv\tSumy\n"
+			                    "L'viv\tPytivl\n"
+			                    "L'viv\tKonotop-Pas.\n"
+			                    "L'viv\tBakhmach-Pas.\n"
+			                    "L'viv\tNizhyn\n"
+			                    "L'viv\tVorozhba-Pas." );
+
+}
+
+/*****************************************************************************/
