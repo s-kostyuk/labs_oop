@@ -9,6 +9,8 @@
 
 #include "testslib.hpp"
 
+#include <sstream>
+
 /*****************************************************************************/
 
 void CreateSampleRoute( Controller & _c, const RouteID _id ) {
@@ -29,8 +31,122 @@ void CreateSampleRoute( Controller & _c, const RouteID _id ) {
 /*****************************************************************************/
 
 void CreateSampleSchedule( Controller & _c ) {
-	// FIXME: Заглушка
-	CreateSampleRoute( _c, 14 );
+	// К-во платформ от балды
+
+	_c.addStation( "Kharkiv-Pas.", 20 );
+	_c.addStation( "Poltava-Kyivs'ka", 8 );
+	_c.addStation( "Mirgorod", 7 );
+	_c.addStation( "Darnytsia", 10 );
+	_c.addStation( "Kyiv-Pas.", 20 );
+
+	_c.declareNewRoute( 725 );
+
+	_c.addRouteItem( 725, "Kharkiv-Pas.", { 07, 00 }, { 07, 23 } );
+	_c.addRouteItem( 725, "Poltava-Kyivs'ka", { 8, 57 }, { 8, 59 } );
+	_c.addRouteItem( 725, "Mirgorod", { 9, 50 }, {  9, 52 } );
+	_c.addRouteItem( 725, "Darnytsia", { 11, 46 }, { 11, 48 } );
+	_c.addRouteItem( 725, "Kyiv-Pas.", { 12, 01 }, { 13, 30 } );
+
+	_c.settleRoute( 725 );
+
+	assert( _c.findRoute( 725 )->GetDuration() == (4 * 60 + 38) );
+
+	_c.declareNewRoute( 113 );
+
+	_c.addStation( "Shepetivka-1", 8 );
+	_c.addStation( "Korosten-Pz", 7 );
+	_c.addStation( "Novohrad-Volyn-1", 10 );
+	_c.addStation( "Zdolbuniv-Pas.", 10 );
+
+	_c.addRouteItem( 113, "Kharkiv-Pas.", { 18, 00 }, { 19, 05 } );
+	_c.addRouteItem( 113, "Poltava-Kyivs'ka", { 21, 30 }, { 21, 32 } );
+	_c.addRouteItem( 113, "Kyiv-Pas.", { 00, 55, TimeHM::Day::NextDay }, { 01, 15, TimeHM::Day::NextDay } );
+	_c.addRouteItem( 113, "Korosten-Pz", { 02, 58, TimeHM::Day::NextDay }, { 03, 00, TimeHM::Day::NextDay } );
+	_c.addRouteItem( 113, "Novohrad-Volyn-1", { 03, 52, TimeHM::Day::NextDay }, { 03, 54, TimeHM::Day::NextDay } );
+	_c.addRouteItem( 113, "Shepetivka-1", { 04, 35, TimeHM::Day::NextDay }, { 04, 37, TimeHM::Day::NextDay } );
+	_c.addRouteItem( 113, "Zdolbuniv-Pas.", { 05, 27, TimeHM::Day::NextDay }, { 05, 57, TimeHM::Day::NextDay } );
+
+	_c.settleRoute( 113 );
+
+	_c.declareNewRoute( 723 );
+
+	_c.addRouteItem( 723, "Kharkiv-Pas.", { 13, 16 }, { 13, 16 } );
+	_c.addRouteItem( 723, "Poltava-Kyivs'ka", { 14, 51 }, { 14, 53 } );
+	_c.addRouteItem( 723, "Mirgorod", { 15, 42 }, { 15, 44 } );
+	_c.addRouteItem( 723, "Darnytsia", { 17, 38 }, { 17, 40 } );
+	_c.addRouteItem( 723, "Kyiv-Pas.", { 17, 53 }, { 17, 53 } );
+
+	_c.settleRoute( 723 );
+
+	_c.declareNewRoute( 112 );
+
+	_c.addStation( "L'viv", 18 );
+
+	_c.addRouteItem( 112, "Kyiv-Pas.", { 02, 07 }, { 02, 35 } );
+	_c.addRouteItem( 112, "L'viv", { 05, 07 }, { 05, 17 } );
+	_c.addRouteItem( 112, "Poltava-Kyivs'ka", { 07, 56 }, {  8, 01 } );
+	_c.addRouteItem( 112, "Kharkiv-Pas.", { 12, 21 }, { 12, 21 } );
+
+	_c.settleRoute( 112 );
+
+	_c.declareNewRoute( 128 );
+
+	_c.addStation( "Smorodyne", 2 );
+	_c.addStation( "Sumy", 8 );
+	_c.addStation( "Pytivl", 5 );
+	_c.addStation( "Konotop-Pas.", 3 );
+	_c.addStation( "Bakhmach-Pas.", 6 );
+	_c.addStation( "Nizhyn", 7 );
+	_c.addStation( "Vorozhba-Pas.", 7 );
+
+	_c.addRouteItem( 128, "Smorodyne", { 1, 27 }, { 1, 30 } );
+	_c.addRouteItem( 128, "Sumy", { 2, 30 }, { 2, 40 } );
+	_c.addRouteItem( 128, "Vorozhba-Pas.", { 3, 35 }, { 3, 57 } );
+	_c.addRouteItem( 128, "Pytivl", { 4, 30 }, { 4, 32 } );
+	_c.addRouteItem( 128, "Konotop-Pas.", { 5, 22 }, { 5, 27 } );
+	_c.addRouteItem( 128, "Bakhmach-Pas.", { 5, 52 }, { 06, 00 } );
+	_c.addRouteItem( 128, "Nizhyn", { 06, 55 }, { 07, 05 } );
+	_c.addRouteItem( 128, "Kyiv-Pas.", { 8, 40 }, { 9, 18 } );
+
+	_c.settleRoute( 128 );
+
+	// Random
+	_c.declareNewRoute( 511 );
+
+	_c.addRouteItem( 511, "Smorodyne", { 16, 30 }, { 16, 30 } );
+	_c.addRouteItem( 511, "Pytivl", { 17, 54 }, { 18, 00 } );
+	_c.addRouteItem( 511, "Bakhmach-Pas.", { 19, 00 }, { 19, 20 } );
+
+	_c.settleRoute( 511 );
+
+	// Random
+	_c.declareNewRoute( 652 );
+
+	_c.addRouteItem( 652, "Pytivl", { 14, 54 }, { 15, 00 } );
+	_c.addRouteItem( 652, "Smorodyne", { 16, 20 }, { 16, 40 } );
+	_c.addRouteItem( 652, "Bakhmach-Pas.", { 19, 00 }, { 19, 20 } );
+
+	_c.settleRoute( 652 );
+
+	// Random
+	_c.declareNewRoute( 775 );
+
+	_c.addRouteItem( 775, "Konotop-Pas.", { 10, 54 }, { 11, 00 } );
+	_c.addRouteItem( 775, "Sumy", { 13, 00 }, { 13, 20 } );
+	_c.addRouteItem( 775, "Smorodyne", { 16, 20 }, { 16, 40 } );
+	_c.addRouteItem( 775, "Kyiv-Pas.", { 19, 00 }, { 19, 20 } );
+
+	_c.settleRoute( 775 );
+
+	// Random
+	_c.declareNewRoute( 20 );
+
+	_c.addRouteItem( 20, "Nizhyn", { 17, 54 }, { 18, 00 } );
+	_c.addRouteItem( 20, "Sumy", { 19, 00 }, { 19, 20 } );
+	_c.addRouteItem( 20, "Kharkiv-Pas.", { 20, 20 }, { 20, 30 } );
+	_c.addRouteItem( 20, "Kyiv-Pas.", { 23, 59 }, { 23, 59 } );
+
+	_c.settleRoute( 20 );
 }
 
 /*****************************************************************************/
@@ -451,24 +567,38 @@ DECLARE_OOP_TEST( test_train_uncorrect_sets ) {
 
 /*****************************************************************************/
 
-// TODO: Реализовать тест test_print_busiest_stations
 DECLARE_OOP_TEST( test_print_busiest_stations ) {
 	Controller c;
 
 	CreateSampleSchedule( c );
 
-	c.printBusiestStations( std::cout );
+	std::stringstream ss;
+
+	c.printBusiestStations( ss );
+
+	assert( ss.str() == "\nKyiv-Pas.\t7\n"
+			                    "Kharkiv-Pas.\t5\n"
+			                    "Smorodyne\t4\n"
+			                    "Poltava-Kyivs'ka\t4\n"
+			                    "Bakhmach-Pas.\t3" );
 }
 
 /*****************************************************************************/
 
-// TODO: Реализовать тест test_print_slowest_routes
 DECLARE_OOP_TEST( test_print_slowest_routes ) {
 	Controller c;
 
 	CreateSampleSchedule( c );
 
-	c.printSlowestRoutes( std::cout );
+	std::stringstream ss;
+
+	c.printSlowestRoutes( ss );
+
+	assert( ss.str() == "\n113\tKharkiv-Pas.\tZdolbuniv-Pas.\t622\n"
+			                    "112\tKyiv-Pas.\tKharkiv-Pas.\t586\n"
+			                    "775\tKonotop-Pas.\tKyiv-Pas.\t480\n"
+			                    "128\tSmorodyne\tKyiv-Pas.\t430\n"
+			                    "20\tNizhyn\tKyiv-Pas.\t359" );
 }
 
 /*****************************************************************************/

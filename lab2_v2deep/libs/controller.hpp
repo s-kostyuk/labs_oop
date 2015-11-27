@@ -18,6 +18,7 @@
 #include <utility>
 #include <string>
 #include <unordered_map>
+#include <set>
 
 /*****************************************************************************/
 
@@ -140,17 +141,23 @@ private:
 
 	/*-----------------------------------------------------------------*/
 
-	const Controller::RoutesContainer::const_iterator findTwoStationsInRoutes(
-			const StationsContainer::iterator & _1st, const StationsContainer::iterator & _2nd,
-			const std::unordered_map< int, std::unique_ptr< Route>>::const_iterator & _startRoute ) const;
-
-	/*-----------------------------------------------------------------*/
-
 	void addTrain(
 			const TrainID _id,
 			const int _nOfSeats,
 			const ConstRoutePtr
 	);
+
+	/*-----------------------------------------------------------------*/
+
+	const Controller::RoutesContainer::const_iterator
+	findTwoStationsInRoutes(
+			const StationsContainer::iterator & _1st, const StationsContainer::iterator & _2nd,
+			const std::unordered_map< int, std::unique_ptr< Route>>::const_iterator & _startRoute
+	) const;
+
+	/*-----------------------------------------------------------------*/
+
+	bool IsStationOverflowed( const Station & _s );
 
 	/*-----------------------------------------------------------------*/
 

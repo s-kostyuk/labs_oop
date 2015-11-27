@@ -23,9 +23,11 @@ Route::Route( const int _id )
 void Route::AddItem( UniqueRouteItem _it ) {
 	CheckItem( _it );
 
-	m_usedStations.insert( & _it->GetArriveStation() );
+	const Station & arriveStation = _it->GetArriveStation();
 
 	m_items.push_back( std::move( _it ) );
+
+	m_itemsByStation.insert( std::make_pair( & arriveStation, m_items.rbegin()->get() ) );
 }
 
 /*****************************************************************************/
@@ -54,16 +56,41 @@ TimeHM::TimeDiff Route::GetDuration() const {
 		return TimeHM::TimeDiff( 0 );
 
 	return TimeHM::GetDiff(
-			m_items.rbegin()->get()->GetArriveTime(), m_items.begin()->get()->GetArriveTime()
+			m_items.rbegin()->get()->GetArriveTime(), m_items.begin()->get()->GetDepartTime()
 	);
 }
 
 /*****************************************************************************/
 
 bool Route::HasStation( const Station & _s ) const {
-	auto it = m_usedStations.find( & _s );
+	auto it = m_itemsByStation.find( & _s );
 
-	return it != m_usedStations.end();
+	return it != m_itemsByStation.end();
+}
+
+/*****************************************************************************/
+
+const TrainSchedItem * Route::TryGetNextItemByStation( const Station & _s, bool _fromScratch ) const {
+	typedef std::multimap< const Station *, const TrainSchedItem * >::const_iterator ItemsByStationIter;
+	static std::pair< ItemsByStationIter, ItemsByStationIter > itPair;
+
+	static const Station * pPrevStation = nullptr;
+	const Station * const pCurrStation = & _s;
+
+	static ItemsByStationIter it;
+
+	if( pPrevStation != pCurrStation || _fromScratch ) {
+		itPair = m_itemsByStation.equal_range( pCurrStation );
+		it = itPair.first;
+	}
+	else
+		if( it != itPair.second )
+			++it;
+
+	pPrevStation = pCurrStation;
+
+	return ( it == m_itemsByStation.end() ) ?
+	       nullptr : it->second;
 }
 
 /*****************************************************************************/

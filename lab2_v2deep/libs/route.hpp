@@ -10,7 +10,7 @@
 #include "train_sched_item.hpp"
 
 #include <vector>
-#include <set>
+#include <map>
 #include <memory>
 
 /*****************************************************************************/
@@ -57,6 +57,9 @@ public:
 
 	bool HasStation( const Station & _s ) const;
 
+	const TrainSchedItem *
+	TryGetNextItemByStation( const Station & _s, bool _fromScratch = true ) const;
+
 	/*-----------------------------------------------------------------*/
 
 	TimeHM::TimeDiff GetDuration() const;
@@ -71,7 +74,7 @@ private:
 
 	const int m_id;
 	std::vector< UniqueRouteItem > m_items;
-	std::set< const Station * > m_usedStations;
+	std::multimap< const Station *, const TrainSchedItem * > m_itemsByStation;
 
 	/*-----------------------------------------------------------------*/
 

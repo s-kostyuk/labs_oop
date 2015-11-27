@@ -218,10 +218,29 @@ void Controller::printNonConnectedStations( std::ostream & _o ) {
 
 /*****************************************************************************/
 
+bool Controller::IsStationOverflowed( const Station & _s ) {
+	// FIXME: Сделано на скорую руку, нужно переделать
+
+	int platformQuota = _s.GetNOfPlatfroms();
+
+	int currentPlatfromCounter = 0;
+
+	for( auto rtIt = m_allRoutes.begin(); rtIt != m_allRoutes.end(); ++rtIt ) {
+		
+
+	}
+}
+
+/*****************************************************************************/
+
 // распечатать станции, у которых в некоторое время суток не хватит свободных перронов для
 // приема всех запланированных маршрутов;
 void Controller::printOverloadedStations( std::ostream & _o ) {
-	//FIXME
+	// FIXME: Сделано на скорую руку, нужно переделать
+
+	for( auto stIt = m_allStations.begin(); stIt != m_allStations.end(); ++stIt )
+		if( IsStationOverflowed( **stIt ) )
+			_o << "\n" << stIt->get()->GetName();
 }
 
 /*****************************************************************************/
