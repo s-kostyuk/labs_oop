@@ -17,9 +17,15 @@ public:
 
 	/*-----------------------------------------------------------------*/
 
+	Element() = default;
 	virtual ~Element() = default;
 
 	virtual bool evaluate() const = 0;
+
+	/*-----------------------------------------------------------------*/
+
+	Element ( const Element & _e ) = delete;
+	Element & operator = ( const Element & _e ) = delete;
 
 	/*-----------------------------------------------------------------*/
 

@@ -13,7 +13,7 @@
 
 /*****************************************************************************/
 
-class BinaryElement : Element {
+class BinaryElement : public Element {
 
 	/*-----------------------------------------------------------------*/
 
@@ -27,12 +27,12 @@ public:
 
 	/*-----------------------------------------------------------------*/
 
+	BinaryElement( const Type _t, const Element * const _input1, const Element * const _input2 );
 	~BinaryElement() override = default;
 
 	/*-----------------------------------------------------------------*/
 
-	BinaryElement ( const BinaryElement & _p ) = delete;
-	BinaryElement & operator = ( const BinaryElement & _p ) = delete;
+	Type getType();
 
 	/*-----------------------------------------------------------------*/
 
@@ -52,6 +52,12 @@ private:
 	/*-----------------------------------------------------------------*/
 
 };
+
+/*****************************************************************************/
+
+inline BinaryElement::Type BinaryElement::getType() {
+	return m_type;
+}
 
 /*****************************************************************************/
 

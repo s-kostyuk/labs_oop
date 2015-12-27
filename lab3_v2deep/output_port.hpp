@@ -17,7 +17,7 @@ class Element;
 
 /*****************************************************************************/
 
-class OutputPort : Port {
+class OutputPort : public Port {
 
 	/*-----------------------------------------------------------------*/
 
@@ -25,19 +25,15 @@ public:
 
 	/*-----------------------------------------------------------------*/
 
-	OutputPort( std::string & _portName );
+	OutputPort( const std::string _portName );
 	~OutputPort() override = default;
-
-	/*-----------------------------------------------------------------*/
-
-	OutputPort ( const OutputPort & _p ) = delete;
-	OutputPort & operator = ( const OutputPort & _p ) = delete;
 
 	/*-----------------------------------------------------------------*/
 
 	bool getValue() const override;
 
-	void setTarget( const Element * _pTarget );
+	void setInput( const Element * _pTarget );
+	void unsetInput();
 
 	/*-----------------------------------------------------------------*/
 
@@ -53,15 +49,14 @@ private:
 
 /*****************************************************************************/
 
-inline OutputPort::OutputPort( std::string & _portName )
-		:   Port( _portName )
-		,   m_pTarget( nullptr )
-{ }
+inline void OutputPort::setInput( const Element * _pTarget ) {
+	m_pTarget = _pTarget;
+}
 
 /*****************************************************************************/
 
-inline void OutputPort::setTarget( const Element * _pTarget ) {
-	m_pTarget = _pTarget;
+inline void OutputPort::unsetInput() {
+	m_pTarget = nullptr;
 }
 
 /*****************************************************************************/

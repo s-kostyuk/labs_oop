@@ -13,7 +13,7 @@
 
 /*****************************************************************************/
 
-class UnaryElement : Element {
+class UnaryElement : public Element {
 
 	/*-----------------------------------------------------------------*/
 
@@ -27,13 +27,12 @@ public:
 
 	/*-----------------------------------------------------------------*/
 
-	UnaryElement( Type _t );
+	UnaryElement( const Type _t, const Element * const _input );
 	~UnaryElement() override = default;
 
 	/*-----------------------------------------------------------------*/
 
-	UnaryElement ( const UnaryElement & _p ) = delete;
-	UnaryElement & operator = ( const UnaryElement & _p ) = delete;
+	Type getType();
 
 	/*-----------------------------------------------------------------*/
 
@@ -55,9 +54,9 @@ private:
 
 /*****************************************************************************/
 
-UnaryElement::UnaryElement( Type _t )
-		:   m_type( _t )
-{ }
+inline UnaryElement::Type UnaryElement::getType() {
+	return m_type;
+}
 
 /*****************************************************************************/
 

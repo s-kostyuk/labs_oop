@@ -18,6 +18,13 @@ set(SOURCE_FILES
         input_port.hpp
         output_port.cpp
         output_port.hpp
-        messages.hpp)
+        messages.hpp
+        combinational_circuit.cpp
+        combinational_circuit.hpp
+        port.cpp
+        all_elements.hpp
+        all_ports.hpp
+        input_port.cpp
+    )
 
 add_executable(lab3_v2deep ${SOURCE_FILES})

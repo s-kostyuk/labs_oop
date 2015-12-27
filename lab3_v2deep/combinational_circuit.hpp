@@ -1,23 +1,28 @@
 //
-// Created by Sergey Kostyuk (http://git.io/vBvMH) on 26.12.15.
+// Created by Sergey Kostyuk (http://git.io/vBvMH) on 27.12.15.
 //
 
 /*****************************************************************************/
 
-#ifndef _INPUT_PORT_ELEMENT_HPP_
-#define _INPUT_PORT_ELEMENT_HPP_
+#ifndef _COMBINATIONAL_CIRCUIT_HPP_
+#define _COMBINATIONAL_CIRCUIT_HPP_
 
 /*****************************************************************************/
 
 #include "element.hpp"
+#include "port.hpp"
 
 /*****************************************************************************/
 
-class InputPort;
+#include <vector>
+#include <memory>
+#include <unordered_map>
+#include <string>
+#include <initializer_list>
 
 /*****************************************************************************/
 
-class InputPortElement : public Element {
+class CombinationalCircuit {
 
 	/*-----------------------------------------------------------------*/
 
@@ -25,13 +30,18 @@ public:
 
 	/*-----------------------------------------------------------------*/
 
-	InputPortElement( const InputPort & _input );
+	CombinationalCircuit(
+			std::initializer_list< Port *  > _allPorts,
+			std::initializer_list< Element * > _elements
+	);
 
-	~InputPortElement() override = default;
+	~CombinationalCircuit() = default;
 
 	/*-----------------------------------------------------------------*/
 
-	bool evaluate() const override;
+	void setValue( const std::string & _inputPortName, const bool _value );
+
+	bool getValue( const std::string & _portName ) const;
 
 	/*-----------------------------------------------------------------*/
 
@@ -39,7 +49,11 @@ private:
 
 	/*-----------------------------------------------------------------*/
 
-	const InputPort & m_input;
+	typedef std::unordered_map< std::string, std::unique_ptr< Port > > PortContainer;
+
+	PortContainer m_ports;
+
+	std::vector< std::unique_ptr< Element > > m_elements;
 
 	/*-----------------------------------------------------------------*/
 
@@ -47,4 +61,4 @@ private:
 
 /*****************************************************************************/
 
-#endif //_INPUT_PORT_ELEMENT_HPP_
+#endif //_COMBINATIONAL_CIRCUIT_HPP_

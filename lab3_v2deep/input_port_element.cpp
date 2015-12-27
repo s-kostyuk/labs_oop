@@ -10,6 +10,12 @@
 
 /*****************************************************************************/
 
+InputPortElement::InputPortElement( const InputPort & _input )
+		:   m_input( _input )
+{ }
+
+/*****************************************************************************/
+
 bool InputPortElement::evaluate() const {
 	return m_input.getValue();
 }

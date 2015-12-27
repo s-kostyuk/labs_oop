@@ -6,7 +6,24 @@
 
 #include "unary_element.hpp"
 
+#include "messages.hpp"
+
+#include <stdexcept>
 #include <assert.h>
+
+/*****************************************************************************/
+
+UnaryElement::UnaryElement( const Type _t, const Element * const _input )
+		:   m_type( _t )
+		,   m_input( _input )
+{
+
+	// TODO: В конструкторе выбирать реализацию evaluate в соответсвии с типом
+
+	if( ! m_input )
+		throw std::logic_error( Messages::WrongPointerToInputElement );
+
+}
 
 /*****************************************************************************/
 
