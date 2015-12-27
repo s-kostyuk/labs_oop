@@ -10,7 +10,7 @@
 
 /*****************************************************************************/
 
-OutputPort::OutputPort( const std::string _portName )
+OutputPort::OutputPort( const std::string & _portName )
 		:   Port( _portName )
 		,   m_pTarget( nullptr )
 { }

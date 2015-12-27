@@ -25,7 +25,7 @@ public:
 
 	/*-----------------------------------------------------------------*/
 
-	OutputPort( const std::string _portName );
+	OutputPort( const std::string & _portName );
 	~OutputPort() override = default;
 
 	/*-----------------------------------------------------------------*/
