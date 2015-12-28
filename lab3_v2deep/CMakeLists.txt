@@ -30,6 +30,6 @@ set(SOURCE_FILES
         tested_circuits.hpp
         #test_blocks.cpp
         test_circuit.cpp
-    )
+        controller.cpp controller.hpp)
 
 add_executable(lab3_v2deep ${SOURCE_FILES})

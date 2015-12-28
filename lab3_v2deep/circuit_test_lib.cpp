@@ -51,3 +51,13 @@ void TestBehaviour(
 }
 
 /*****************************************************************************/
+
+void GenerateTestFileForXOR( std::ostream & _o ) {
+
+	_o << "SET_INPUT a true" << "\n";
+	_o << "SET_INPUT b false" << "\n";
+	_o << "SHOW_PORT f" << std::endl;
+
+}
+
+/*****************************************************************************/

@@ -7,6 +7,7 @@
 #include "realization/combinational_circuit.hpp"
 #include "realization/all_ports.hpp"
 #include "realization/all_elements.hpp"
+#include "controller.hpp"
 
 /*****************************************************************************/
 
@@ -18,6 +19,8 @@
 #include "testslib.hpp"
 #include "realization/messages.hpp"
 #include <memory>
+#include <fstream>
+#include <sstream>
 
 /*****************************************************************************/
 
@@ -235,6 +238,28 @@ DECLARE_OOP_TEST( test_MX_behaviour ) {
 					{ { 1, 1, 0, 0, 0, 1 }, { 1 } },
 			}
 	);
+
+}
+
+/*****************************************************************************/
+
+DECLARE_OOP_TEST( test_execution_for_XOR ) {
+
+	Controller controller( CreateSingleXORCirc() );
+
+	std::ofstream oFile( "test.txt" );
+
+	GenerateTestFileForXOR( oFile );
+
+	oFile.close();
+
+	std::ifstream iFile( "test.txt" );
+
+	std::stringstream result;
+
+	controller.executeTestFile( iFile, result );
+
+	assert( result.str() == "Got value true on port \"f\"\n" );
 
 }
 

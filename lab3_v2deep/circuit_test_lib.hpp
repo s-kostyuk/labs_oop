@@ -17,6 +17,7 @@
 #include <cassert>
 #include <string>
 #include <initializer_list>
+#include <iostream>
 
 /*****************************************************************************/
 
@@ -35,6 +36,10 @@ void TestBehaviour(
 		const std::initializer_list< std::string > _outputPortNames,
 		const std::initializer_list< TruthTableRow > _values
 );
+
+/*****************************************************************************/
+
+void GenerateTestFileForXOR( std::ostream & _o );
 
 /*****************************************************************************/
 

@@ -25,6 +25,12 @@ namespace Messages {
 
 	const char * const NonInputPort = "Unable to process this operation for non-input port";
 
+	const char * const UnknownOperation = "Unknown operation was declared";
+	const char * const UnspecifiedPort = "Port was not specified";
+	const char * const UnspecifiedValue = "Value to set on port was not specified";
+	const char * const InvalidValue = "Value to set on port is invalid";
+	const char * const UnexpectedTextInLine = "There is unexpected text in the end of line";
+
 }
 
 /*****************************************************************************/
