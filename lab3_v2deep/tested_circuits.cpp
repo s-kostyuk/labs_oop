@@ -69,30 +69,47 @@ Create4to1MX() {
 	// Порты данных
 	std::array< InputPort *, 4 > D;
 
-	for( int i = 0; i < D.size(); ++ i ) {
+	for( unsigned int i = 0; i < D.size(); ++ i ) {
 		sprintf( nameBuf, "D%d", i );
 
 		D.at( i ) = new InputPort( nameBuf );
+	}
+
+	for( InputPort * p : D ) {
+		pCircut->addPort( std::unique_ptr< Port >( p ) );
 	}
 
 	// Порты управления
 	InputPort * A1 = new InputPort( "A1" );
 	InputPort * A2 = new InputPort( "A2" );
 
+	pCircut->addPort( std::unique_ptr< Port >( A1 ) );
+	pCircut->addPort( std::unique_ptr< Port >( A2 ) );
+
 	// Элементы для подключения портов данных
 	std::array< InputPortElement *, 4 > DProxy;
 
-	for( int i = 0; i < DProxy.size(); ++ i ) {
+	for( unsigned int i = 0; i < DProxy.size(); ++ i ) {
 		DProxy.at( i ) = new InputPortElement( * D.at( i ) );
+	}
+
+	for( InputPortElement * p : DProxy ) {
+		pCircut->addElement( std::unique_ptr< Element >( p ) );
 	}
 
 	// Элементы для подключения портов управления
 	InputPortElement * pA1 = new InputPortElement( * A1 );
 	InputPortElement * pA2 = new InputPortElement( * A2 );
 
+	pCircut->addElement( std::unique_ptr< Element >( pA1 ) );
+	pCircut->addElement( std::unique_ptr< Element >( pA2 ) );
+
 	// Инверторы
 	UnaryElement * pNotA1 = new UnaryElement( UnaryElement::Type::INVERTOR, pA1 );
 	UnaryElement * pNotA2 = new UnaryElement( UnaryElement::Type::INVERTOR, pA2 );
+
+	pCircut->addElement( std::unique_ptr< Element >( pNotA1 ) );
+	pCircut->addElement( std::unique_ptr< Element >( pNotA2 ) );
 
 	// Элементы И - первая линия, кобинация управляющих входов
 	BinaryElement * pNOT_A1_NOT_A2 = new BinaryElement(
@@ -128,6 +145,19 @@ Create4to1MX() {
 			BinaryElement::Type::AND, pA1_A2, DProxy.at( 3 )
 	);
 
+	// TODO: Может все-таки сделать констуктор с InitializerList< указатели > ???
+	pCircut->addElement( std::unique_ptr< Element >( pNOT_A1_NOT_A2 ) );
+	pCircut->addElement( std::unique_ptr< Element >( pNOT_A1_NOT_A2_D0 ) );
+
+	pCircut->addElement( std::unique_ptr< Element >( pNOT_A1_A2 ) );
+	pCircut->addElement( std::unique_ptr< Element >( pNOT_A1_A2_D1 ) );
+
+	pCircut->addElement( std::unique_ptr< Element >( pA1_NOT_A2 ) );
+	pCircut->addElement( std::unique_ptr< Element >( pA1_NOT_A2_D2 ) );
+
+	pCircut->addElement( std::unique_ptr< Element >( pA1_A2 ) );
+	pCircut->addElement( std::unique_ptr< Element >( pA1_A2_D3 ) );
+
 	// Элементы ИЛИ, первая линия
 	BinaryElement * pLeftOR = new BinaryElement(
 			BinaryElement::Type::OR, pNOT_A1_NOT_A2_D0, pNOT_A1_A2_D1
@@ -142,42 +172,13 @@ Create4to1MX() {
 			BinaryElement::Type::OR, pLeftOR, pRightOR
 	);
 
-	// Выход комбинационной схемы
-	OutputPort * pOutput = new OutputPort( "F" );
-	pOutput->setInput( pTopOR );
-
-	// TODO: Может все-таки сделать констуктор с InitializerList< указатели > ???
-
-	// Отправляем все в схему
-	for( InputPort * p : D ) {
-		pCircut->addPort( std::unique_ptr< Port >( p ) );
-	}
-
-	pCircut->addPort( std::unique_ptr< Port >( A1 ) );
-	pCircut->addPort( std::unique_ptr< Port >( A2 ) );
-
-	for( InputPortElement * p : DProxy ) {
-		pCircut->addElement( std::unique_ptr< Element >( p ) );
-	}
-
-	pCircut->addElement( std::unique_ptr< Element >( pA1 ) );
-	pCircut->addElement( std::unique_ptr< Element >( pA2 ) );
-
-	pCircut->addElement( std::unique_ptr< Element >( pNOT_A1_NOT_A2 ) );
-	pCircut->addElement( std::unique_ptr< Element >( pNOT_A1_NOT_A2_D0 ) );
-
-	pCircut->addElement( std::unique_ptr< Element >( pNOT_A1_A2 ) );
-	pCircut->addElement( std::unique_ptr< Element >( pNOT_A1_A2_D1 ) );
-
-	pCircut->addElement( std::unique_ptr< Element >( pA1_NOT_A2 ) );
-	pCircut->addElement( std::unique_ptr< Element >( pA1_NOT_A2_D2 ) );
-
-	pCircut->addElement( std::unique_ptr< Element >( pA1_A2 ) );
-	pCircut->addElement( std::unique_ptr< Element >( pA1_A2_D3 ) );
-
 	pCircut->addElement( std::unique_ptr< Element >( pLeftOR ) );
 	pCircut->addElement( std::unique_ptr< Element >( pRightOR ) );
 	pCircut->addElement( std::unique_ptr< Element >( pTopOR ) );
+
+	// Выход комбинационной схемы
+	OutputPort * pOutput = new OutputPort( "F" );
+	pOutput->setInput( pTopOR );
 
 	pCircut->addPort( std::unique_ptr< Port >( pOutput ) );
 

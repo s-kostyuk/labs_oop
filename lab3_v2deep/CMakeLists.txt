@@ -24,8 +24,12 @@ set(SOURCE_FILES
         all_elements.hpp
         all_ports.hpp
         input_port.cpp
-        test_blocks.cpp
-        #test_circuit.cpp
-        circuit_test_lib.cpp circuit_test_lib.hpp tested_circuits.cpp tested_circuits.hpp)
+        circuit_test_lib.cpp
+        circuit_test_lib.hpp
+        tested_circuits.cpp
+        tested_circuits.hpp
+        #test_blocks.cpp
+        test_circuit.cpp
+    )
 
 add_executable(lab3_v2deep ${SOURCE_FILES})

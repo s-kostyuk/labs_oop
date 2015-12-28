@@ -76,6 +76,8 @@ DECLARE_OOP_TEST( test_circuit_change_structure_after_finalization ) {
 
 	pCircuit->addElement( std::unique_ptr< Element >( pIPortProxy ) );
 
+	pCircuit->addPort( std::unique_ptr< Port >( pOutput ) );
+
 	pCircuit->finalize();
 
 	ASSERT_THROWS(
@@ -103,6 +105,8 @@ DECLARE_OOP_TEST( test_circuit_double_finalize ) {
 	pCircuit->addPort( std::unique_ptr< Port >( pInputPort ) );
 
 	pCircuit->addElement( std::unique_ptr< Element >( pIPortProxy ) );
+
+	pCircuit->addPort( std::unique_ptr< Port >( pOutput ) );
 
 	pCircuit->finalize();
 
