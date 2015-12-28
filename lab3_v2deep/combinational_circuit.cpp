@@ -14,21 +14,72 @@
 
 /*****************************************************************************/
 
-CombinationalCircuit::CombinationalCircuit(
-		std::initializer_list< Port * > _allPorts,
-        std::initializer_list< Element * > _elements )
-{
+CombinationalCircuit::CombinationalCircuit( )
+		:   m_isFinalized( false )
+{ }
 
-	for( Port * pPort : _allPorts ) {
+/*****************************************************************************/
 
-		m_ports.insert( std::make_pair(
-				pPort->getName(), std::unique_ptr< Port >( pPort )
-		) );
+void CombinationalCircuit::checkChangeAvailable() const {
 
-	}
+	if( m_isFinalized )
+		throw std::logic_error( Messages::ChangesInFinalizedCircuit );
 
-	for( Element * pElement : _elements )
-		m_elements.push_back( std::unique_ptr< Element >( pElement ) );
+}
+
+/*****************************************************************************/
+
+void CombinationalCircuit::checkIsCorrect() const {
+
+	if( m_ports.empty() )
+		throw std::logic_error( Messages::CircuitWithoutPorts );
+
+	if( m_elements.empty() )
+		throw std::logic_error( Messages::CircuitWithoutElements );
+
+
+	/* TODO: Сделать тут проверку схемы на целостность (этакий Trace()).
+	 * Проверить, все ли элементы схемы, упомянутые в добавленых элементах,
+	 * сохранены внутри схемы.
+	 */
+}
+
+/*****************************************************************************/
+
+void CombinationalCircuit::addPort( std::unique_ptr< Port > _p ) {
+
+	checkChangeAvailable();
+
+	if( ! _p )
+		throw std::logic_error( Messages::WrongPointerToPort );
+
+	m_ports.emplace( std::make_pair(_p->getName(), std::move( _p ) ) );
+
+}
+
+/*****************************************************************************/
+
+void CombinationalCircuit::addElement( std::unique_ptr< Element > _e ) {
+
+	checkChangeAvailable();
+
+	if( ! _e )
+		throw std::logic_error( Messages::WrongPointerToElement );
+
+	m_elements.push_back( std::move( _e ) );
+
+}
+
+/*****************************************************************************/
+
+void CombinationalCircuit::finalize() {
+
+	if( m_isFinalized )
+		throw std::logic_error( Messages::CircuitAlreadyFinalized );
+
+	checkIsCorrect();
+
+	m_isFinalized = true;
 
 }
 
@@ -47,9 +98,9 @@ bool CombinationalCircuit::getValue( const std::string & _portName ) const {
 
 /*****************************************************************************/
 
-void CombinationalCircuit::setValue( const std::string & _inputPortName, const bool _value ) {
+void CombinationalCircuit::setValue( const std::string & _inputPortName, const bool _value ) const {
 
-	PortContainer::iterator foundPort = m_ports.find( _inputPortName );
+	PortContainer::const_iterator foundPort = m_ports.find( _inputPortName );
 
 	if( foundPort == m_ports.end() )
 		throw std::logic_error( Messages::NonExistentPort );

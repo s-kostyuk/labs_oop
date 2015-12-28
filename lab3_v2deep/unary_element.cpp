@@ -21,7 +21,7 @@ UnaryElement::UnaryElement( const Type _t, const Element * const _input )
 	// TODO: В конструкторе выбирать реализацию evaluate в соответсвии с типом
 
 	if( ! m_input )
-		throw std::logic_error( Messages::WrongPointerToInputElement );
+		throw std::logic_error( Messages::WrongPointerToElement );
 
 }
 

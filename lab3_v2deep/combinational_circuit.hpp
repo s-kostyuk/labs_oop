@@ -18,7 +18,6 @@
 #include <memory>
 #include <unordered_map>
 #include <string>
-#include <initializer_list>
 
 /*****************************************************************************/
 
@@ -30,16 +29,20 @@ public:
 
 	/*-----------------------------------------------------------------*/
 
-	CombinationalCircuit(
-			std::initializer_list< Port *  > _allPorts,
-			std::initializer_list< Element * > _elements
-	);
+	CombinationalCircuit();
 
 	~CombinationalCircuit() = default;
 
 	/*-----------------------------------------------------------------*/
 
-	void setValue( const std::string & _inputPortName, const bool _value );
+	void addPort( std::unique_ptr< Port > _p );
+	void addElement( std::unique_ptr< Element > _e );
+
+	void finalize();
+
+	/*-----------------------------------------------------------------*/
+
+	void setValue( const std::string & _inputPortName, const bool _value ) const;
 
 	bool getValue( const std::string & _portName ) const;
 
@@ -54,6 +57,13 @@ private:
 	PortContainer m_ports;
 
 	std::vector< std::unique_ptr< Element > > m_elements;
+
+	bool m_isFinalized;
+
+	/*-----------------------------------------------------------------*/
+
+	void checkChangeAvailable() const;
+	void checkIsCorrect() const;
 
 	/*-----------------------------------------------------------------*/
 

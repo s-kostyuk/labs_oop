@@ -45,7 +45,7 @@ DECLARE_OOP_TEST( test_input_port_wrong_name ) {
 
 	ASSERT_THROWS(
 			InputPort p( "" ),
-	        Messages::WrongPortName
+			Messages::WrongPortName
 	);
 
 }
@@ -98,7 +98,7 @@ DECLARE_OOP_TEST( test_output_port_wrong_name ) {
 
 	ASSERT_THROWS(
 			OutputPort output( "" ),
-	        Messages::WrongPortName
+			Messages::WrongPortName
 	);
 
 }
@@ -164,8 +164,8 @@ DECLARE_OOP_TEST( test_invertor ) {
 DECLARE_OOP_TEST( test_unary_element_nullptr_input ) {
 
 	ASSERT_THROWS(
-		UnaryElement ue( UnaryElement::Type::INVERTOR, nullptr ),
-	    Messages::WrongPointerToInputElement
+			UnaryElement ue( UnaryElement::Type::INVERTOR, nullptr ),
+			Messages::WrongPointerToElement
 	);
 
 }
@@ -197,10 +197,10 @@ DECLARE_OOP_TEST( test_AND_element ) {
 	TestBinaryElements(
 			BinaryElement::Type::AND,
 			{
-					{ 0, 0, 0 }
-				,	{ 0, 1, 0 }
-				,	{ 1, 0, 0 }
-				,	{ 1, 1, 1 }
+					     { 0, 0, 0 }
+					,	{ 0, 1, 0 }
+					,	{ 1, 0, 0 }
+					,	{ 1, 1, 1 }
 			}
 	);
 
@@ -213,10 +213,10 @@ DECLARE_OOP_TEST( test_OR_element ) {
 	TestBinaryElements(
 			BinaryElement::Type::OR,
 			{
-				    { 0, 0, 0 }
-				,	{ 0, 1, 1 }
-				,	{ 1, 0, 1 }
-				,	{ 1, 1, 1 }
+					     { 0, 0, 0 }
+					,	{ 0, 1, 1 }
+					,	{ 1, 0, 1 }
+					,	{ 1, 1, 1 }
 			}
 	);
 
@@ -229,10 +229,10 @@ DECLARE_OOP_TEST( test_XOR_element ) {
 	TestBinaryElements(
 			BinaryElement::Type::XOR,
 			{
-				    { 0, 0, 0 }
-				,	{ 0, 1, 1 }
-				,	{ 1, 0, 1 }
-				,	{ 1, 1, 0 }
+					     { 0, 0, 0 }
+					,	{ 0, 1, 1 }
+					,	{ 1, 0, 1 }
+					,	{ 1, 1, 0 }
 			}
 	);
 

@@ -5,7 +5,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -Wextra")
 
 set(SOURCE_FILES
-        #test_blocks.cpp
         testslib.hpp
         element.hpp
         unary_element.cpp
@@ -25,7 +24,8 @@ set(SOURCE_FILES
         all_elements.hpp
         all_ports.hpp
         input_port.cpp
-        test_circuit.cpp
-    )
+        test_blocks.cpp
+        #test_circuit.cpp
+        circuit_test_lib.cpp circuit_test_lib.hpp tested_circuits.cpp tested_circuits.hpp)
 
 add_executable(lab3_v2deep ${SOURCE_FILES})

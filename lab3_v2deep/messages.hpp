@@ -13,8 +13,11 @@ namespace Messages {
 
 	const char * const WrongPortName = "Port name can't be empty";
 
-	const char * const WrongPointerToInputElement = "Unable to use nullptr as a pointer to input element";
+	const char * const WrongPointerToElement = "Unable to use nullptr as a pointer to element";
+	const char * const WrongPointerToPort = "Unable to use nullptr as a pointer to port";
 
+	const char * const ChangesInFinalizedCircuit = "Unable to change structute of the finalized circuit";
+	const char * const CircuitAlreadyFinalized = "Unable to finalize circuit twice";
 	const char * const CircuitWithoutElements = "Unable to create circuit without elements";
 	const char * const CircuitWithoutPorts = "Unable to create circuit without ports";
 

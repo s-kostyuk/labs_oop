@@ -10,74 +10,106 @@
 
 /*****************************************************************************/
 
+#include "circuit_test_lib.hpp"
+#include "tested_circuits.hpp"
+
+/*****************************************************************************/
+
 #include "testslib.hpp"
 #include "messages.hpp"
 #include <memory>
 
 /*****************************************************************************/
 
-typedef std::unique_ptr< CombinationalCircuit > PCombCirc;
-
-/*****************************************************************************/
-
-std::unique_ptr< CombinationalCircuit >
-CreateSingleXORCirc() {
-
-	InputPort inputAPort( "a" );
-	InputPort inputBPort( "b" );
-
-	InputPortElement aProxy( inputAPort );
-	InputPortElement bProxy( inputBPort );
-
-	BinaryElement element( BinaryElement::Type::XOR, &aProxy, &bProxy );
-
-	OutputPort output( "f" );
-
-	output.setInput( &element );
-
-	return std::unique_ptr< CombinationalCircuit >(
-			new CombinationalCircuit(
-				{ &inputAPort, &inputBPort, &output },
-				{ &element }
-			)
-	);
-
-}
-
-/*****************************************************************************/
-
-std::unique_ptr< CombinationalCircuit >
-Create4to1MX() {
-
-
-
-}
-
-/*****************************************************************************/
-
 DECLARE_OOP_TEST( test_XOR_circuit_creation ) {
 
-	InputPort inputAPort( "a" );
-	InputPort inputBPort( "b" );
+	CreateSingleXORCirc();
 
-	InputPortElement aProxy( inputAPort );
-	InputPortElement bProxy( inputBPort );
+}
 
-	BinaryElement element( BinaryElement::Type::XOR, &aProxy, &bProxy );
+/*****************************************************************************/
 
-	OutputPort output( "f" );
+DECLARE_OOP_TEST( test_circuit_create_without_ports ) {
 
-	output.setInput( &element );
+	std::unique_ptr< CombinationalCircuit > pCircuit
+			= std::make_unique< CombinationalCircuit >();
 
-	CombinationalCircuit circuit(
-			{ &inputAPort, &inputBPort, &output },
-			{ &element }
+	ASSERT_THROWS(
+			pCircuit->finalize(),
+			Messages::CircuitWithoutPorts
 	);
 
-	assert( circuit.getValue( "a" ) == inputAPort.getValue() );
-	assert( circuit.getValue( "b" ) == inputBPort.getValue() );
+}
 
-	assert( !circuit.getValue( "f" ) );
+/*****************************************************************************/
+
+DECLARE_OOP_TEST( test_circuit_create_without_elements ) {
+
+	std::unique_ptr< CombinationalCircuit > pCircuit
+			= std::make_unique< CombinationalCircuit >();
+
+	pCircuit->addPort( std::make_unique< InputPort >( "a" ) );
+
+	ASSERT_THROWS(
+			pCircuit->finalize(),
+			Messages::CircuitWithoutElements
+	);
+
+}
+
+/*****************************************************************************/
+
+DECLARE_OOP_TEST( test_circuit_change_structure_after_finalization ) {
+
+	std::unique_ptr< CombinationalCircuit > pCircuit
+			= std::make_unique< CombinationalCircuit >();
+
+	InputPort * pInputPort = new InputPort( "a" );
+
+	InputPortElement * pIPortProxy = new InputPortElement( *pInputPort );
+
+	OutputPort * pOutput = new OutputPort( "f" );
+
+	pOutput->setInput( pIPortProxy );
+
+	pCircuit->addPort( std::unique_ptr< Port >( pInputPort ) );
+
+	pCircuit->addElement( std::unique_ptr< Element >( pIPortProxy ) );
+
+	pCircuit->finalize();
+
+	ASSERT_THROWS(
+			pCircuit->addPort( std::make_unique< InputPort >( "b" ) ),
+			Messages::ChangesInFinalizedCircuit
+	);
+
+}
+
+/*****************************************************************************/
+
+DECLARE_OOP_TEST( test_circuit_double_finalize ) {
+
+	std::unique_ptr< CombinationalCircuit > pCircuit
+			= std::make_unique< CombinationalCircuit >();
+
+	InputPort * pInputPort = new InputPort( "a" );
+
+	InputPortElement * pIPortProxy = new InputPortElement( *pInputPort );
+
+	OutputPort * pOutput = new OutputPort( "f" );
+
+	pOutput->setInput( pIPortProxy );
+
+	pCircuit->addPort( std::unique_ptr< Port >( pInputPort ) );
+
+	pCircuit->addElement( std::unique_ptr< Element >( pIPortProxy ) );
+
+	pCircuit->finalize();
+
+	ASSERT_THROWS(
+			pCircuit->finalize();,
+			Messages::CircuitAlreadyFinalized
+	);
 
 }
 
@@ -85,19 +117,45 @@ DECLARE_OOP_TEST( test_XOR_circuit_creation ) {
 
 DECLARE_OOP_TEST( test_XOR_circuit_behaviour ) {
 
-	PCombCirc circuit = std::move( CreateSingleXORCirc() );
+	std::unique_ptr< CombinationalCircuit > pCircuit 
+			= CreateSingleXORCirc();
 
-	circuit->setValue( "a", true );
+	pCircuit->setValue( "a", false );
+	pCircuit->setValue( "b", false );
 
-	assert( circuit->getValue( "f" ) );
+	assert( ! pCircuit->getValue( "f" ) );
 
-	circuit->setValue( "b", true );
+	pCircuit->setValue( "a", true );
 
-	assert( ! circuit->getValue( "f" ) );
+	assert( pCircuit->getValue( "f" ) );
 
-	circuit->setValue( "a", false );
+	pCircuit->setValue( "b", true );
 
-	assert( circuit->getValue( "f" ) );
+	assert( ! pCircuit->getValue( "f" ) );
+
+	pCircuit->setValue( "a", false );
+
+	assert( pCircuit->getValue( "f" ) );
+
+}
+
+/*****************************************************************************/
+
+DECLARE_OOP_TEST( test_XOR_circuit_behaviour_2 ) {
+
+	std::unique_ptr< CombinationalCircuit > pCircuit
+			= CreateSingleXORCirc();
+
+	TestBehaviour(
+		*pCircuit,
+		{ "a", "b" }, { "f" },
+		{
+				{ { 0, 0 }, { 0 } }
+		    ,   { { 0, 1 }, { 1 } }
+			,	{ { 1, 0 }, { 1 } }
+			,	{ { 1, 1 }, { 0 } }
+		}
+	);
 
 }
 
@@ -105,10 +163,11 @@ DECLARE_OOP_TEST( test_XOR_circuit_behaviour ) {
 
 DECLARE_OOP_TEST( test_circuit_set_output_value ) {
 
-	PCombCirc circuit = std::move( CreateSingleXORCirc() );
+	std::unique_ptr< CombinationalCircuit > pCircuit
+			= CreateSingleXORCirc();
 
 	ASSERT_THROWS(
-			circuit->setValue( "f", true ),
+			pCircuit->setValue( "f", true ),
 			Messages::NonInputPort
 	);
 
@@ -118,10 +177,11 @@ DECLARE_OOP_TEST( test_circuit_set_output_value ) {
 
 DECLARE_OOP_TEST( test_circuit_set_value_on_invalid_port ) {
 
-	PCombCirc circuit = std::move( CreateSingleXORCirc() );
+	std::unique_ptr< CombinationalCircuit > pCircuit
+			= CreateSingleXORCirc();
 
 	ASSERT_THROWS(
-			circuit->setValue( "aaaaaaaaaa", true ),
+			pCircuit->setValue( "z", true ),
 			Messages::NonExistentPort
 	);
 
@@ -129,13 +189,47 @@ DECLARE_OOP_TEST( test_circuit_set_value_on_invalid_port ) {
 
 /*****************************************************************************/
 
-DECLARE_OOP_TEST( test_circuit_get_value_on_invalid_port ) {
+DECLARE_OOP_TEST( test_circuit_get_value_from_invalid_port ) {
 
-	PCombCirc circuit = std::move( CreateSingleXORCirc() );
+	std::unique_ptr< CombinationalCircuit > pCircuit
+			= CreateSingleXORCirc();
 
 	ASSERT_THROWS(
-			circuit->getValue( "aaaaaaaaaa" ),
+			pCircuit->getValue( "z" ),
 			Messages::NonExistentPort
+	);
+
+}
+
+/*****************************************************************************/
+
+DECLARE_OOP_TEST( test_MX_creation ) {
+
+	std::unique_ptr< CombinationalCircuit > pCircuit
+			= Create4to1MX();
+
+}
+
+/*****************************************************************************/
+
+DECLARE_OOP_TEST( test_MX_behaviour ) {
+
+	std::unique_ptr< CombinationalCircuit > pCircuit
+			= Create4to1MX();
+
+	TestBehaviour(
+			*pCircuit,
+			{ "A1", "A2", "D0", "D1", "D2", "D3" }, { "F" },
+			{
+					{ { 0, 0, 0, 0, 0, 0 }, { 0 } },
+					{ { 0, 0, 1, 0, 0, 0 }, { 1 } },
+					{ { 0, 1, 0, 0, 0, 0 }, { 0 } },
+					{ { 0, 1, 0, 1, 0, 0 }, { 1 } },
+					{ { 1, 0, 0, 0, 0, 0 }, { 0 } },
+					{ { 1, 0, 0, 0, 1, 0 }, { 1 } },
+					{ { 1, 1, 0, 0, 0, 0 }, { 0 } },
+					{ { 1, 1, 0, 0, 0, 1 }, { 1 } },
+			}
 	);
 
 }

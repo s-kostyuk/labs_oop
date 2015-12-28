@@ -22,7 +22,7 @@ BinaryElement::BinaryElement( const Type _t, const Element * const _input1, cons
 	// TODO: В конструкторе выбирать реализацию evaluate в соответсвии с типом
 
 	if( ! m_input1 || ! m_input2 )
-		throw std::logic_error( Messages::WrongPointerToInputElement );
+		throw std::logic_error( Messages::WrongPointerToElement );
 
 }
 
