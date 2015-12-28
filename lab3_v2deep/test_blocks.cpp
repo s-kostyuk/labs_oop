@@ -4,14 +4,14 @@
 
 /*****************************************************************************/
 
-#include "combinational_circuit.hpp"
-#include "all_ports.hpp"
-#include "all_elements.hpp"
+#include "realization/combinational_circuit.hpp"
+#include "realization/all_ports.hpp"
+#include "realization/all_elements.hpp"
 
 /*****************************************************************************/
 
 #include "testslib.hpp"
-#include "messages.hpp"
+#include "realization/messages.hpp"
 
 /*****************************************************************************/
 

@@ -5,8 +5,8 @@
 /*****************************************************************************/
 
 #include "tested_circuits.hpp"
-#include "all_ports.hpp"
-#include "all_elements.hpp"
+#include "realization/all_ports.hpp"
+#include "realization/all_elements.hpp"
 
 /*****************************************************************************/
 
