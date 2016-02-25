@@ -8,9 +8,9 @@
 
 /*****************************************************************************/
 
-#include "realization/all_ports.hpp"
-#include "realization/all_elements.hpp"
-#include "realization/messages.hpp"
+#include "implementation/all_ports.hpp"
+#include "implementation/all_elements.hpp"
+#include "implementation/messages.hpp"
 
 /*****************************************************************************/
 

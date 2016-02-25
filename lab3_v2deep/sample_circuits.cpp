@@ -4,9 +4,9 @@
 
 /*****************************************************************************/
 
-#include "tested_circuits.hpp"
-#include "realization/all_ports.hpp"
-#include "realization/all_elements.hpp"
+#include "sample_circuits.hpp"
+#include "implementation/all_ports.hpp"
+#include "implementation/all_elements.hpp"
 
 /*****************************************************************************/
 

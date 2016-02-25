@@ -4,20 +4,20 @@
 
 /*****************************************************************************/
 
-#include "realization/combinational_circuit.hpp"
-#include "realization/all_ports.hpp"
-#include "realization/all_elements.hpp"
+#include "implementation/combinational_circuit.hpp"
+#include "implementation/all_ports.hpp"
+#include "implementation/all_elements.hpp"
 #include "controller.hpp"
 
 /*****************************************************************************/
 
 #include "circuit_test_lib.hpp"
-#include "tested_circuits.hpp"
+#include "sample_circuits.hpp"
 
 /*****************************************************************************/
 
 #include "testslib.hpp"
-#include "realization/messages.hpp"
+#include "implementation/messages.hpp"
 #include <memory>
 #include <fstream>
 #include <sstream>

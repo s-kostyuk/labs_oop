@@ -4,14 +4,14 @@
 
 /*****************************************************************************/
 
-#include "realization/combinational_circuit.hpp"
-#include "realization/all_ports.hpp"
-#include "realization/all_elements.hpp"
+#include "implementation/combinational_circuit.hpp"
+#include "implementation/all_ports.hpp"
+#include "implementation/all_elements.hpp"
 
 /*****************************************************************************/
 
 #include "testslib.hpp"
-#include "realization/messages.hpp"
+#include "implementation/messages.hpp"
 
 /*****************************************************************************/
 
@@ -197,7 +197,7 @@ DECLARE_OOP_TEST( test_AND_element ) {
 	TestBinaryElements(
 			BinaryElement::Type::AND,
 			{
-					     { 0, 0, 0 }
+						{ 0, 0, 0 }
 					,	{ 0, 1, 0 }
 					,	{ 1, 0, 0 }
 					,	{ 1, 1, 1 }
@@ -213,7 +213,7 @@ DECLARE_OOP_TEST( test_OR_element ) {
 	TestBinaryElements(
 			BinaryElement::Type::OR,
 			{
-					     { 0, 0, 0 }
+						{ 0, 0, 0 }
 					,	{ 0, 1, 1 }
 					,	{ 1, 0, 1 }
 					,	{ 1, 1, 1 }
@@ -229,7 +229,7 @@ DECLARE_OOP_TEST( test_XOR_element ) {
 	TestBinaryElements(
 			BinaryElement::Type::XOR,
 			{
-					     { 0, 0, 0 }
+						{ 0, 0, 0 }
 					,	{ 0, 1, 1 }
 					,	{ 1, 0, 1 }
 					,	{ 1, 1, 0 }

@@ -9,7 +9,7 @@
 
 /*****************************************************************************/
 
-#include "realization/combinational_circuit.hpp"
+#include "implementation/combinational_circuit.hpp"
 
 /*****************************************************************************/
 
