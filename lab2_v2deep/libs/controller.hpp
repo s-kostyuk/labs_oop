@@ -137,7 +137,7 @@ private:
 	Route * findRouteMutable( const RouteID _id );
 	Train * findTrainMutable( const TrainID _id );
 
-	Train & resolveTrainMustable( const TrainID _id );
+	Train & resolveTrainMutable(const TrainID _id);
 
 	/*-----------------------------------------------------------------*/
 

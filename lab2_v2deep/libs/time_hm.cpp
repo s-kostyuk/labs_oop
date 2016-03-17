@@ -56,7 +56,7 @@ std::ostream & operator << ( std::ostream & _o, const TimeHM & _t ) {
 
 TimeHM::LongMinute TimeHM::GetMinutesFromMidnight() const {
 	return
-			( int )m_day * HOURS_IN_DAY * MINUTES_IN_HOUR
+			static_cast<LongMinute>(m_day) * HOURS_IN_DAY * MINUTES_IN_HOUR
 			+
 			m_hour * MINUTES_IN_HOUR
 			+
@@ -73,7 +73,7 @@ TimeHM::TimeDiff TimeHM::operator - ( const TimeHM & _t ) const {
 
 /*****************************************************************************/
 
-TimeHM::TimeDiff TimeHM::GetDiff( const TimeHM & _t1, const TimeHM & _t2 ) {
+TimeHM::TimeDiff TimeHM::GetAbsDiff( const TimeHM & _t1, const TimeHM & _t2 ) {
 	return
 			( _t1 < _t2 ) ?
 			( _t2 - _t1 ) :

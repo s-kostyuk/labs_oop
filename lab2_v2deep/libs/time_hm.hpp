@@ -56,7 +56,7 @@ public:
 	/*-----------------------------------------------------------------*/
 
 	LongMinute GetMinutesFromMidnight() const;
-	static TimeDiff GetDiff( const TimeHM & _t1, const TimeHM & _t2 );
+	static TimeDiff GetAbsDiff( const TimeHM & _t1, const TimeHM & _t2 );
 
 	/*-----------------------------------------------------------------*/
 

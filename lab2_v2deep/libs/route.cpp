@@ -55,8 +55,8 @@ TimeHM::TimeDiff Route::GetDuration() const {
 	if( m_items.empty() )
 		return TimeHM::TimeDiff( 0 );
 
-	return TimeHM::GetDiff(
-			m_items.rbegin()->get()->GetArriveTime(), m_items.begin()->get()->GetDepartTime()
+	return TimeHM::GetAbsDiff(
+		m_items.rbegin()->get()->GetArriveTime(), m_items.begin()->get()->GetDepartTime()
 	);
 }
 

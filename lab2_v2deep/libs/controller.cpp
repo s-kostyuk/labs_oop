@@ -32,9 +32,6 @@ void Controller::addStation( const StationName & _name, const int _nOfPlatforms 
 	if( findStation( _name ) )
 		throw std::logic_error( Messages::DuplicateStationNames );
 
-	/* TODO: Тут и еще в паре мест с make_unique ругается на первый аргумент:
-	 * "Parameter type mismatch: Expression must be rvalue"
-	 * Но при этом компилится замечательно */
 	m_allStations.push_back(
 			std::make_unique< Station >(
 					_name, _nOfPlatforms
@@ -151,7 +148,7 @@ Train * Controller::findTrainMutable( const TrainID _id ) {
 
 /*****************************************************************************/
 
-Train & Controller::resolveTrainMustable( const TrainID _id ) {
+Train & Controller::resolveTrainMutable( const TrainID _id ) {
 	Train * const pTrain = findTrainMutable( _id );
 
 	if( ! pTrain )
@@ -188,7 +185,7 @@ void Controller::addTrain( const TrainID _id, const int _nOfSeats, const RouteID
 /*****************************************************************************/
 
 void Controller::setTrainRoute( const TrainID _train, RouteID _newRoute ) {
-	Train & destTrain = resolveTrainMustable( _train );
+	Train & destTrain = resolveTrainMutable( _train );
 
 	CheckRouteReady( _newRoute );
 
@@ -198,7 +195,7 @@ void Controller::setTrainRoute( const TrainID _train, RouteID _newRoute ) {
 /*****************************************************************************/
 
 void Controller::unsetTrainRoute( const TrainID _train ) {
-	Train & destTrain = resolveTrainMustable( _train );
+	Train & destTrain = resolveTrainMutable( _train );
 
 	destTrain.SetCurrentRoute( nullptr );
 }
@@ -206,7 +203,7 @@ void Controller::unsetTrainRoute( const TrainID _train ) {
 /*****************************************************************************/
 
 void Controller::setTrainNOfSeats( const TrainID _train, const int _newNOfSeats ) {
-	Train & destTrain = resolveTrainMustable( _train );
+	Train & destTrain = resolveTrainMutable( _train );
 
 	destTrain.SetNOfSeats( _newNOfSeats );
 }

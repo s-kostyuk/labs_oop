@@ -224,6 +224,8 @@ void Controller::printNonConnectedStations( std::ostream & _o ) {
 bool Controller::IsStationOverflowed( const Station & _s ) {
 	// FIXME: Сделано на скорую руку, нужно переделать
 
+  	throw std::logic_error( "Not Implemented" );
+
 	int platformQuota = _s.GetNOfPlatfroms();
 
 	int currentPlatfromCounter = 0;
